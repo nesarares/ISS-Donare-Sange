@@ -9,23 +9,22 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="699.0" prefWidth="479.0" stylesheets="@../css/LoginStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donation.client.controllers.LoginController">
    <children>
       <StackPane prefHeight="541.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <AnchorPane layoutY="169.0" prefHeight="530.0" prefWidth="479.0">
          <children>
-            <JFXTextField layoutX="84.0" layoutY="230.0" prefHeight="32.0" prefWidth="257.0" promptText="Username" unFocusColor="#6e6c6c" AnchorPane.leftAnchor="84.0" AnchorPane.rightAnchor="50.0">
+            <JFXTextField fx:id="textFieldUsername" layoutX="84.0" layoutY="230.0" prefHeight="32.0" prefWidth="257.0" promptText="Username" unFocusColor="#6e6c6c" AnchorPane.leftAnchor="84.0" AnchorPane.rightAnchor="50.0">
                <font>
                   <Font name="Roboto" size="16.0" />
                </font>
             </JFXTextField>
-            <JFXPasswordField layoutX="85.0" layoutY="307.0" prefHeight="32.0" prefWidth="257.0" promptText="Password" unFocusColor="#6e6c6c" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="49.0">
+            <JFXPasswordField fx:id="textFieldPassword" layoutX="85.0" layoutY="307.0" prefHeight="32.0" prefWidth="257.0" promptText="Password" unFocusColor="#6e6c6c" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="49.0">
                <font>
                   <Font name="Roboto" size="16.0" />
                </font>
             </JFXPasswordField>
-            <JFXButton layoutX="135.0" layoutY="404.0" text="Login" textFill="#323232" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="135.0">
+            <JFXButton fx:id="buttonLogin" layoutX="135.0" layoutY="404.0" onAction="#loginHandler" text="Login" textFill="#323232" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="135.0">
                <font>
                   <Font size="18.0" />
                </font>
