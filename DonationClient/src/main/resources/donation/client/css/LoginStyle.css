@@ -20,9 +20,15 @@
     -fx-accent: #cb483b;
     -fx-focus-color: #cb483b;
     -fx-faint-focus-color: transparent;
+}
 
-    -fx-background-image: url("../images/login_background.jpg");
-    -fx-background-size: cover;
+.label {
+    -fx-font-family: 'Roboto Light';
+}
+
+.label.h1 {
+    -fx-font-size: 35px;
+    -fx-padding: 30px 80px;
 }
 
 .text-input, .text-input:focused {
@@ -37,17 +43,39 @@
     -fx-background-color: background-dark;
 }
 
-.jfx-text-field, .jfx-password-field {
+.jfx-text-field, .jfx-password-field, .jfx-text-area {
     -jfx-focus-color: -fx-accent;
     -jfx-label-float: true;
 }
 
-.jfx-text-field .text {
-    -fx-font-size: 14px;
+.jfx-text-field .text, .jfx-date-picker, .jfx-text-area, .jfx-text-field, .jfx-password-field {
+    -fx-font-size: 12px;
 }
 
 .jfx-text-field .glyph-icon {
     -glyph-size: 15px;
+}
+
+.jfx-check-box {
+    -jfx-checked-color: -fx-accent;
+}
+
+.jfx-date-picker {
+    -jfx-default-color: -fx-accent;
+}
+
+.button-back:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+}
+
+#LoginWindow {
+    -fx-background-image: url("../images/login_background.jpg");
+    -fx-background-size: cover;
+}
+
+#RegistrationWindow {
+    -fx-background-image: url("../images/signup_background.jpg");
+    -fx-background-size: cover;
 }
 
 #CloseButton {
