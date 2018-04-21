@@ -17,7 +17,8 @@ public class StartClient extends Application {
         primaryStage.setTitle("Donare de sange");
         primaryStage.getIcons().add(new Image("donation/client/icon.png"));
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/SampleView.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("./views/LoginView.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
