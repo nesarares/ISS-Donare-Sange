@@ -1,24 +1,34 @@
+package donation.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * 
  */
-public class BloodTransfusionCenter {
+@Entity
+@Table(name = "bloodTransfusionCenterProfile")
+public class BloodTransfusionCenterProfile implements Serializable {
 
     /**
      * Default constructor
      */
-    public BloodTransfusionCenter() {
+    public BloodTransfusionCenterProfile() {
     }
 
     /**
      * 
      */
+    @Column(name = "address")
     private String address;
 
     /**
      * 
      */
+    @Column(name = "idUser")
     private int idUser;
 
 

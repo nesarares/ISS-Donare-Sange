@@ -1,9 +1,18 @@
+package donation.model;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * 
  */
-public class Donation {
+@Entity
+@Table(name="donation")
+public class Donation  implements Serializable{
 
     /**
      * Default constructor
@@ -14,51 +23,64 @@ public class Donation {
     /**
      * 
      */
+    @Column(name="donationDate")
     private Date donationDate;
 
     /**
      * 
      */
+    @Column(name="HIVorAIDS")
     private boolean HIVorAIDS;
 
     /**
      * 
      */
+    @Column(name="hepatitis")
     private boolean hepatitis;
 
     /**
      * 
      */
+    @Column(name="syphilis")
     private boolean syphilis;
 
     /**
      * 
      */
+    @Column(name="HTLV")
     private boolean HTLV;
 
     /**
      * 
      */
+    @Column(name="levelALT")
     private int levelALT;
 
     /**
      * 
      */
+    @ManyToOne
+    @JoinColumn(name="donor")
     private User donor;
 
     /**
      * 
      */
+    @OneToMany(mappedBy = "bC", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SELECT)
     private List<BloodComponentQuantity> bloodComponents;
 
     /**
      * 
      */
+    @OneToOne
+    @JoinColumn(name="medicalQuestionnaire")
     private MedicalQuestionnaire medicalQuestionnaire;
 
     /**
      * 
      */
+    @Column(name="donationStatus")
     private DonationStatus donationStatus;
 
 

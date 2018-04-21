@@ -1,9 +1,17 @@
+package donation.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * 
  */
-public class DonorProfile {
+@Entity
+@Table(name="donorProfile")
+public class DonorProfile implements Serializable{
 
     /**
      * Default constructor
@@ -14,71 +22,85 @@ public class DonorProfile {
     /**
      * 
      */
+    @Column(name="firstName")
     private String firstName;
 
     /**
      * 
      */
+    @Column(name="lastName")
     private String lastName;
 
     /**
      * 
      */
+    @Column(name="birthDate")
     private Date birthDate;
 
     /**
      * 
      */
+    @Column(name="address")
     private String address;
 
     /**
      * 
      */
+    @Column(name="nationality")
     private String nationality;
 
     /**
      * 
      */
+    @Column(name="email")
     private String email;
 
     /**
      * 
      */
+    @Column(name="phone")
     private String phone;
 
     /**
      * 
      */
+    @Column(name="idUser")
     private int idUser;
 
     /**
      * 
      */
+    @Column(name="weight")
     private float weight;
 
     /**
      * 
      */
+    @Column(name="height")
     private int height;
 
     /**
      * 
      */
+    @Column(name="CNP")
     private String CNP;
 
     /**
      * 
      */
+    @Column(name="residence")
     private String residence;
 
     /**
      * 
      */
+    @Column(name="rhBloodGroup")
     private RhBloodGroup rhBloodGroup;
 
     /**
      * 
      */
+    @Column(name="aboBloodGroup")
     private ABOBloodGroup aboBloodGroup;
 
 

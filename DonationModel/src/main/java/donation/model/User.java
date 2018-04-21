@@ -1,9 +1,17 @@
-import java.util.*;
+package donation.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * 
  */
-public class User {
+@Entity
+@Table(name = "user")
+public class User implements Serializable{
 
     /**
      * Default constructor
@@ -14,21 +22,26 @@ public class User {
     /**
      * 
      */
+    @Id
+    @Column(name = "id")
     private int id;
 
     /**
      * 
      */
+    @Column(name = "username")
     private String username;
 
     /**
      * 
      */
+    @Column(name = "passHash")
     private String passHash;
 
     /**
      * 
      */
+    @Column(name = "type")
     private UserType type;
 
     public int getId() {

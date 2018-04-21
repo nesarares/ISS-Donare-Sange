@@ -1,9 +1,17 @@
+package donation.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * 
  */
-public class DoctorProfile {
+@Entity
+@Table(name="doctorProfile")
+public class DoctorProfile implements Serializable {
 
     /**
      * Default constructor
@@ -14,21 +22,25 @@ public class DoctorProfile {
     /**
      * 
      */
+    @Column(name="firstName")
     private String firstName;
 
     /**
      * 
      */
+    @Column(name="lastName")
     private String lastName;
 
     /**
      * 
      */
+    @Column(name="hospital")
     private String hospital;
 
     /**
      * 
      */
+    @Column(name="idUser")
     private int idUser;
 
 

@@ -1,8 +1,16 @@
+package donation.model;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
 import java.util.*;
 
 /**
  * 
  */
+@Entity
+@Table(name="bloodRequest")
 public class BloodRequest {
 
     /**
@@ -14,16 +22,22 @@ public class BloodRequest {
     /**
      * 
      */
+    @OneToMany(mappedBy = "bCQ", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SELECT)
     private List<BloodComponentQuantity> bloodComponentQuantities;
 
     /**
      * 
      */
+    @ManyToOne
+    @JoinColumn(name="sender")
     private User sender;
 
     /**
      * 
      */
+    @ManyToOne
+    @JoinColumn(name="receiver")
     private User receiver;
 
 

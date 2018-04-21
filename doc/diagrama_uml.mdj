@@ -620,7 +620,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "User",
+											"text": "donation.model.User",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -796,7 +796,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "-type: UserType",
+											"text": "-type: donation.model.UserType",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -998,7 +998,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "UserType",
+											"text": "donation.model.UserType",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -1996,7 +1996,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+addUser(user: User): void",
+											"text": "+addUser(user: donation.model.User): void",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -2025,7 +2025,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+updatePassword(user: User): void",
+											"text": "+updatePassword(user: donation.model.User): void",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -2054,7 +2054,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+getUser(username: String): User",
+											"text": "+getUser(username: String): donation.model.User",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -2083,7 +2083,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+getAllByType(type: UserType): List<User>",
+											"text": "+getAllByType(type: donation.model.UserType): List<donation.model.User>",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -2883,7 +2883,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+addUser(username: String, password: String, userType: UserType): void",
+											"text": "+addUser(username: String, password: String, userType: donation.model.UserType): void",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -2912,7 +2912,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+addUser(username: String, userType: UserType): void",
+											"text": "+addUser(username: String, userType: donation.model.UserType): void",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -3121,7 +3121,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "DonorProfile",
+											"text": "donation.model.DonorProfile",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -6054,7 +6054,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFElm6BOFNpegQ="
 					},
-					"name": "User",
+					"name": "donation.model.User",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -6217,7 +6217,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFElm6BOFNpegQ="
 					},
-					"name": "UserType",
+					"name": "donation.model.UserType",
 					"visibility": "public",
 					"isAbstract": false,
 					"isFinalSpecialization": false,
@@ -6455,7 +6455,7 @@
 									"visibility": "public",
 									"isStatic": false,
 									"isLeaf": false,
-									"type": "List<User>",
+									"type": "List<donation.model.User>",
 									"isReadOnly": false,
 									"isOrdered": false,
 									"isUnique": false,
@@ -7337,7 +7337,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFElm6BOFNpegQ="
 					},
-					"name": "DonorProfile",
+					"name": "donation.model.DonorProfile",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",

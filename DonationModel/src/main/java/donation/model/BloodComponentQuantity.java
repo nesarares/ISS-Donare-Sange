@@ -1,9 +1,15 @@
+package donation.model;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * 
  */
-public class BloodComponentQuantity {
+@Entity
+@Table(name="bloodComponentQuantity")
+public class BloodComponentQuantity implements Serializable {
 
     /**
      * Default constructor
@@ -14,31 +20,37 @@ public class BloodComponentQuantity {
     /**
      * 
      */
+    @Column(name="quantity")
     private int quantity;
 
     /**
      * 
      */
+    @Column(name="expirationDate")
     private Date expirationDate;
 
     /**
      * 
      */
+    @Column(name="bloodComponent")
     private BloodComponent bloodComponent;
 
     /**
      * 
      */
+    @Column(name="rhBloodGroup")
     private RhBloodGroup rhBloodGroup;
 
     /**
      * 
      */
+    @Column(name="aboBloodGroup")
     private ABOBloodGroup aboBloodGroup;
 
     /**
      * 
      */
+    @Column(name="bloodStatus")
     private BloodStatus bloodStatus;
 
 
