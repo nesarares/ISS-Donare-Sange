@@ -17,10 +17,8 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="744.0" prefWidth="525.0" stylesheets="@../css/LoginStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donation.client.controllers.LoginController">
-   <children>
       <StackPane prefHeight="541.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <AnchorPane id="LoginWindow" prefHeight="745.0" prefWidth="525.0">
-         <children>
             <JFXTextField fx:id="textFieldUsername" layoutX="84.0" layoutY="438.0" prefHeight="32.0" prefWidth="257.0" promptText="Username" unFocusColor="#6e6c6c" AnchorPane.leftAnchor="84.0" AnchorPane.rightAnchor="50.0">
                <font>
                   <Font name="Roboto" size="16.0" />
@@ -31,7 +29,7 @@
                   <Font name="Roboto" size="16.0" />
                </font>
             </JFXPasswordField>
-            <JFXButton fx:id="buttonLogin" layoutX="135.0" layoutY="612.0" text="Login" textFill="#323232" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="135.0">
+            <JFXButton layoutX="135.0" layoutY="612.0" onAction="#handleLogin" text="Login" textFill="#323232" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="135.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -39,93 +37,77 @@
             <JFXTextField editable="false" focusColor="#34478000" layoutX="85.0" layoutY="525.0" mouseTransparent="true" prefHeight="25.0" prefWidth="300.0" unFocusColor="#4d4d4d00" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="49.0" />
             <FontAwesomeIconView fill="#323232" glyphName="USER" layoutX="50.0" layoutY="468.0" size="25" wrappingWidth="12.0" />
             <FontAwesomeIconView fill="#323232" glyphName="KEY" layoutX="50.0" layoutY="540.0" size="25" wrappingWidth="12.0" />
-            <Hyperlink layoutX="159.0" layoutY="675.0" text="Want to donate? Create new account." />
-         </children>
+            <Hyperlink layoutX="159.0" layoutY="675.0" onAction="#handleRegistration" text="Want to donate? Create new account." />
       </AnchorPane>
-      <AnchorPane id="RegistrationWindow" prefHeight="745.0" prefWidth="525.0">
-         <children>
+      <AnchorPane id="RegistrationWindow" fx:id="anchorPaneRegistration" prefHeight="745.0" prefWidth="525.0">
             <Label alignment="CENTER_RIGHT" layoutY="-8.0" prefHeight="143.0" prefWidth="525.0" styleClass="h1" text="New Account" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
             <VBox layoutY="117.0" prefHeight="561.0" prefWidth="525.0" spacing="40.0" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="117.0">
-               <children>
                   <HBox spacing="30.0">
-                     <children>
-                        <JFXTextField prefHeight="32.0" prefWidth="260.0" promptText="First Name" unFocusColor="#6e6c6c">
+                        <JFXTextField fx:id="textFieldFirstName" prefHeight="32.0" prefWidth="260.0" promptText="First Name" unFocusColor="#6e6c6c">
                            <font>
                               <Font name="Roboto" size="16.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField prefHeight="32.0" prefWidth="257.0" promptText="Last Name" unFocusColor="#6e6c6c">
+                        <JFXTextField fx:id="textFieldLastName" prefHeight="32.0" prefWidth="257.0" promptText="Last Name" unFocusColor="#6e6c6c">
                            <font>
                               <Font name="Roboto" size="16.0" />
                            </font>
                         </JFXTextField>
-                     </children>
                   </HBox>
                   <HBox spacing="30.0">
-                     <children>
-                        <JFXTextField prefHeight="32.0" prefWidth="218.0" promptText="CNP" unFocusColor="#6e6c6c">
+                        <JFXTextField fx:id="textFieldCNP" prefHeight="32.0" prefWidth="218.0" promptText="CNP" unFocusColor="#6e6c6c">
                            <font>
                               <Font name="Roboto" size="16.0" />
                            </font>
                         </JFXTextField>
-                        <JFXDatePicker prefHeight="32.0" prefWidth="222.0" promptText="Birth Date" />
-                     </children>
+                        <JFXDatePicker fx:id="datePickerBirthDate" prefHeight="32.0" prefWidth="222.0" promptText="Birth Date" />
                   </HBox>
                   <HBox spacing="30.0">
-                     <children>
-                        <JFXTextField prefHeight="32.0" prefWidth="265.0" promptText="E-mail" unFocusColor="#6e6c6c">
+                        <JFXTextField fx:id="textFieldEmail" prefHeight="32.0" prefWidth="265.0" promptText="E-mail" unFocusColor="#6e6c6c">
                            <font>
                               <Font name="Roboto" size="16.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField prefHeight="32.0" prefWidth="265.0" promptText="Phone" unFocusColor="#6e6c6c">
+                        <JFXTextField fx:id="textFieldPhone" prefHeight="32.0" prefWidth="265.0" promptText="Phone" unFocusColor="#6e6c6c">
                            <font>
                               <Font name="Roboto" size="16.0" />
                            </font>
                         </JFXTextField>
-                     </children>
                   </HBox>
                   <HBox spacing="30.0">
-                     <children>
-                        <JFXTextField prefHeight="32.0" prefWidth="195.0" promptText="Weight (kg)" unFocusColor="#6e6c6c">
+                        <JFXTextField fx:id="textFieldWeight" prefHeight="32.0" prefWidth="195.0" promptText="Weight (kg)" unFocusColor="#6e6c6c">
                            <font>
                               <Font name="Roboto" size="16.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField prefHeight="32.0" prefWidth="192.0" promptText="Height (cm)" unFocusColor="#6e6c6c">
+                        <JFXTextField fx:id="textFieldHeight" prefHeight="32.0" prefWidth="192.0" promptText="Height (cm)" unFocusColor="#6e6c6c">
                            <font>
                               <Font name="Roboto" size="16.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField prefHeight="32.0" prefWidth="317.0" promptText="Nationality" unFocusColor="#6e6c6c">
+                        <JFXTextField fx:id="textFieldNationality" prefHeight="32.0" prefWidth="317.0" promptText="Nationality" unFocusColor="#6e6c6c">
                            <font>
                               <Font name="Roboto" size="16.0" />
                            </font>
                         </JFXTextField>
-                     </children>
                   </HBox>
-                  <JFXTextArea prefHeight="66.0" prefWidth="465.0" promptText="Home Address" />
+                  <JFXTextArea fx:id="textAreaHomeAddress" prefHeight="66.0" prefWidth="465.0" promptText="Home Address" />
                   <VBox>
-                     <children>
-                        <JFXTextArea prefHeight="66.0" prefWidth="465.0" promptText="Residence Address (From ID Card)" />
-                        <JFXCheckBox prefWidth="475.0" text="Same as home address">
+                        <JFXTextArea fx:id="textAreaResidenceAddress" prefHeight="66.0" prefWidth="465.0" promptText="Residence Address (From ID Card)" />
+                        <JFXCheckBox fx:id="checkBoxResidence" prefWidth="475.0" text="Same as home address">
                            <VBox.margin>
                               <Insets top="15.0" />
                            </VBox.margin>
                         </JFXCheckBox>
-                     </children>
                   </VBox>
-               </children>
                <padding>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </padding>
             </VBox>
             <JFXButton layoutX="307.0" layoutY="669.0" prefHeight="44.0" prefWidth="183.0" text="Sign Up" />
-            <JFXButton graphicTextGap="15.0" layoutX="35.0" layoutY="46.0" prefHeight="51.0" prefWidth="121.0" text="Back">
+            <JFXButton graphicTextGap="15.0" layoutX="35.0" layoutY="46.0" onAction="#handleBack" prefHeight="51.0" prefWidth="121.0" text="Back">
                <graphic>
                   <FontAwesomeIconView fill="WHITE" glyphName="ANGLE_LEFT" size="30" />
                </graphic></JFXButton>
-         </children>
       </AnchorPane>
-   </children>
 </AnchorPane>
