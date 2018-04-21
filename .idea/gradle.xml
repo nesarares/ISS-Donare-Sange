@@ -8,6 +8,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/DonationClient" />
+            <option value="$PROJECT_DIR$/DonationModel" />
+            <option value="$PROJECT_DIR$/DonationPersistence" />
+            <option value="$PROJECT_DIR$/DonationServer" />
+            <option value="$PROJECT_DIR$/DonationServices" />
           </set>
         </option>
         <option name="useAutoImport" value="true" />

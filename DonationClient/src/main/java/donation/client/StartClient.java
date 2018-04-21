@@ -1,17 +1,23 @@
+package donation.client;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class StartApplication extends Application {
+public class StartClient extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Donare de sange");
-        primaryStage.getIcons().add(new Image("icon.png"));
+//        ApplicationContext factory = new ClassPathXmlApplicationContext("classpath:spring-client.xml");
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("./SampleView.fxml"));
+        primaryStage.setTitle("Donare de sange");
+        primaryStage.getIcons().add(new Image("donation/client/icon.png"));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/SampleView.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root);

@@ -2,6 +2,21 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationClient/DonationClient.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationClient/DonationClient.iml" group="DonationClient" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationClient/DonationClient_main.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationClient/DonationClient_main.iml" group="DonationClient" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationClient/DonationClient_test.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationClient/DonationClient_test.iml" group="DonationClient" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationModel.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationModel.iml" group="DonationModel" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationModel/DonationModel_main.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationModel/DonationModel_main.iml" group="DonationModel" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationModel/DonationModel_test.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationModel/DonationModel_test.iml" group="DonationModel" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationPersistence.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationPersistence.iml" group="DonationPersistence" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationPersistence/DonationPersistence_main.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationPersistence/DonationPersistence_main.iml" group="DonationPersistence" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationPersistence/DonationPersistence_test.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationPersistence/DonationPersistence_test.iml" group="DonationPersistence" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationServer.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationServer.iml" group="DonationServer" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationServer/DonationServer_main.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationServer/DonationServer_main.iml" group="DonationServer" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationServer/DonationServer_test.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationServer/DonationServer_test.iml" group="DonationServer" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationServices.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationServices.iml" group="DonationServices" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationServices/DonationServices_main.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationServices/DonationServices_main.iml" group="DonationServices" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DonationServices/DonationServices_test.iml" filepath="$PROJECT_DIR$/.idea/modules/DonationServices/DonationServices_test.iml" group="DonationServices" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ISS-Donare-Sange.iml" filepath="$PROJECT_DIR$/.idea/modules/ISS-Donare-Sange.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ISS-Donare-Sange_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ISS-Donare-Sange_main.iml" group="ISS-Donare-Sange" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ISS-Donare-Sange_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ISS-Donare-Sange_test.iml" group="ISS-Donare-Sange" />

@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="608.0" prefWidth="968.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SampleController">
+<AnchorPane prefHeight="608.0" prefWidth="968.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donation.client.SampleController">
    <children>
       <Label alignment="CENTER" graphicTextGap="20.0" layoutX="217.0" layoutY="58.0" text="Donare de sange" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
@@ -23,7 +23,7 @@
          <graphic>
             <ImageView fitHeight="50.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@icon.png" />
+                  <Image url="@../icon.png" />
                </image>
             </ImageView>
          </graphic>

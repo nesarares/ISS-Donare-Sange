@@ -1,2 +1,7 @@
 rootProject.name = 'ISS-Donare-Sange'
+include 'DonationModel'
+include 'DonationClient'
+include 'DonationPersistence'
+include 'DonationServer'
+include 'DonationServices'
 
