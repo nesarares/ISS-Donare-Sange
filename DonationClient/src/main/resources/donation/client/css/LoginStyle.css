@@ -1,13 +1,13 @@
-.jfx-button {
+.jfx-button.btn {
     -fx-font-size: 20px;
-    -fx-background-color: rgba(97, 66, 35, 0.4);
-    -fx-background-radius: 30px;
+    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-background-radius: 5px;
     -fx-font-family: 'Roboto Light';
     -fx-padding: 10px;
     -fx-text-fill: white;
 }
 
-.jfx-button:hover {
+.jfx-button.btn:hover {
     -fx-background-color: rgba(0, 0, 0, 0.2);
 }
 
@@ -28,7 +28,10 @@
 
 .label.h1 {
     -fx-font-size: 35px;
-    -fx-padding: 30px 80px;
+    -fx-padding: 30px 80px 15px;
+    -fx-border-width: 1px;
+    -fx-border-insets: -1px -1px 0 -1px;
+    -fx-border-color: rgba(0, 0, 0, 0.2);
 }
 
 .text-input, .text-input:focused {
@@ -64,8 +67,13 @@
     -jfx-default-color: -fx-accent;
 }
 
-.button-back:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.3);
+.jfx-button.btn-back {
+    -fx-font-size: 15px;
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-background-radius: 5px;
+    -fx-font-family: 'Roboto Light';
+    -fx-padding: 3px;
+    -fx-text-fill: white;
 }
 
 #LoginWindow {

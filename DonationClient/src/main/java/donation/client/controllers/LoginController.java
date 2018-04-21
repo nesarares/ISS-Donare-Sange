@@ -1,6 +1,7 @@
 package donation.client.controllers;
 
 import com.jfoenix.controls.*;
+import donation.client.utils.Timer;
 import donation.client.utils.animations.BounceInLeftTransition;
 import donation.client.utils.animations.BounceOutLeftTransition;
 import javafx.event.ActionEvent;
@@ -55,7 +56,7 @@ public class LoginController implements Initializable {
     @FXML
     public void handleRegistration(ActionEvent actionEvent) {
         clearFields();
-        anchorPaneRegistration.setVisible(true);
+        Timer.setTimeout(() -> anchorPaneRegistration.setVisible(true), 100);
         new BounceInLeftTransition(anchorPaneRegistration).play();
     }
 
