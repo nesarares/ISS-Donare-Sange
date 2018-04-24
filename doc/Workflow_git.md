@@ -61,30 +61,36 @@ git commit -m "Mesaj despre modificari"
 
 Exemplu de mesaj de commit: "Added GUI for login component and registration form", "Fixed bug relating two same users logging in at the same time".
 
-6. **IMPORTANT - Treceti pe branchul parinte (de obicei master) pentru a face *merge***
+6. **Se face push la branch in repository**
+
+```git
+git push origin nume-branch
+```
+
+7. **IMPORTANT - Treceti pe branchul parinte (de obicei master) pentru a face *merge***
 
 ```git
 git checkout master
 ```
 
-7. **Se repeta pasul 1 pentru a aduce eventualele modificari**
+8. **Se repeta pasul 1 pentru a aduce eventualele modificari**
 
 ```git
 git fetch
 git pull origin master
 ```
 
-8. **Se face merge cu branchul pe care ati lucrat**
+9. **Se face merge cu branchul pe care ati lucrat**
 
 ```git
 git merge nume-branch
 ```
 
-9. **Se rezolva conflictele daca exista intre diferitele versiuni de cod (in caz ca s-a lucrat pe aceleasi fisiere si git-ul nu a reusit sa faca merge singur)** - Pentru a rezolva conflictele se foloseste IDE-ul - IntelliJ (daca exista - se va vedea in git bash la numele branchului ceva de genul "master|MERGING"). Puteti cauta pe google "Resolving conflicts in intellij idea" - https://www.jetbrains.com/help/idea/resolving-conflicts.html (exemplu de tutorial)
+10. **Se rezolva conflictele daca exista intre diferitele versiuni de cod (in caz ca s-a lucrat pe aceleasi fisiere si git-ul nu a reusit sa faca merge singur)** - Pentru a rezolva conflictele se foloseste IDE-ul - IntelliJ (daca exista - se va vedea in git bash la numele branchului ceva de genul "master|MERGING"). Puteti cauta pe google "Resolving conflicts in intellij idea" - https://www.jetbrains.com/help/idea/resolving-conflicts.html (exemplu de tutorial)
 
-10. **IMPORTANT - verificati codul sa functioneze cum trebuie dupa ce se rezolva conflictele si inainte de a face push**
+11. **IMPORTANT - verificati codul sa functioneze cum trebuie dupa ce se rezolva conflictele si inainte de a face push**
 
-11. **Daca totul functioneaza ok se pun in repository modificarile** - Daca faceti push la alt branch se inlocuieste "master" cu numele branchului respectiv
+12. **Daca totul functioneaza ok se pun in repository modificarile** - Daca faceti push la alt branch se inlocuieste "master" cu numele branchului respectiv
 
 ```git
 git push origin master
