@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+        <bean id="userRepository" class="donation.persistence.repository.MockUserRepository">
+
+        </bean>
+
+        <bean id="mainService" class="donation.server.MainServiceImpl">
+            <constructor-arg ref="userRepository"/>
+        </bean>
+
+        <bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+            <property name="serviceName" value="donationServer"/>
+            <property name="service" ref="mainService"/>
+            <property name="serviceInterface" value="donation.services.IMainService"/>
+            <property name="servicePort" value="1099"/>
+        </bean>
 
 </beans>

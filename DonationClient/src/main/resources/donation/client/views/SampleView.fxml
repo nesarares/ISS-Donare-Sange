@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane prefHeight="608.0" prefWidth="968.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donation.client.SampleController">
    <children>
@@ -27,6 +27,17 @@
                </image>
             </ImageView>
          </graphic>
+      </Label>
+      <Label fx:id="labelUsers" layoutX="14.0" layoutY="144.0" prefHeight="36.0" prefWidth="648.0" text="Useri conectati:">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="buttonLogout" layoutX="900.0" layoutY="14.0" text="Logout" />
+      <Label fx:id="labelUsername" layoutX="14.0" layoutY="244.0" prefHeight="36.0" prefWidth="267.0" text="UserName: ">
+         <font>
+            <Font size="25.0" />
+         </font>
       </Label>
    </children>
 </AnchorPane>

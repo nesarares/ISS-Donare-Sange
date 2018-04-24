@@ -19,6 +19,14 @@ public class User implements Serializable{
     public User() {
     }
 
+
+    public User(int id, String username, String passHash, UserType type) {
+        this.id = id;
+        this.username = username;
+        this.passHash = passHash;
+        this.type = type;
+    }
+
     /**
      * 
      */
@@ -44,7 +52,8 @@ public class User implements Serializable{
     @Column(name = "type")
     private UserType type;
 
-    public int getId() {
+    public int
+    getId() {
         return id;
     }
 
@@ -74,5 +83,10 @@ public class User implements Serializable{
 
     public void setType(UserType type) {
         this.type = type;
+    }
+
+    @Override
+    public  String toString(){
+        return  id + " " + username + " " + passHash+ " " + type;
     }
 }
