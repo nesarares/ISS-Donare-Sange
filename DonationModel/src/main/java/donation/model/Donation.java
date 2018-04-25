@@ -20,6 +20,10 @@ public class Donation  implements Serializable{
     public Donation() {
     }
 
+    @Id
+    @Column(name = "id")
+    private int ID;
+
     /**
      * 
      */
@@ -66,7 +70,7 @@ public class Donation  implements Serializable{
     /**
      * 
      */
-    @OneToMany(mappedBy = "bC", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "IDdonation", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Fetch(FetchMode.SELECT)
     private List<BloodComponentQuantity> bloodComponents;
 
@@ -83,6 +87,13 @@ public class Donation  implements Serializable{
     @Column(name="donationStatus")
     private DonationStatus donationStatus;
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 
     public Date getDonationDate() {
         return donationDate;

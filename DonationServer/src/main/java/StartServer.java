@@ -8,20 +8,28 @@ import donation.services.IMainService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.Optional;
+
 public class StartServer {
 
     public static void main(String[] args) {
 
         //ApplicationContext factory = new ClassPathXmlApplicationContext("classpath:spring-server.xml");
+        try {
+            Repository.add(User.class, new User(1, "ariadna", "passHash", UserType.Admin));
+            Optional<User> user = Repository.get(User.class, 1);
+            System.out.println(user);
+            if (user.isPresent()) {
+                Repository.update(User.class, user.get(), new User(1, "ariadna roman", "passHash", UserType.Admin));
+                System.out.println(Repository.getAll(User.class).size());
+                Repository.delete(User.class, user.get());
+                System.out.println(Repository.getAll(User.class).size());
+            }
 
-        int n = Repository.getAll(User.class).size();
-        System.out.println(n);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-//        IRepository<Integer,User> repository = new MockUserRepository();
-//
-//        IMainService service = new MainServiceImpl(repository);
-//
-//        service.getAllByType(UserType.Admin).forEach(System.out::println);
 
     }
 }

@@ -19,10 +19,14 @@ public class BloodRequest {
     public BloodRequest() {
     }
 
+    @Id
+    @Column(name = "id")
+    private int ID;
+
     /**
      * 
      */
-    @OneToMany(mappedBy = "bCQ", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "IDrequest", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Fetch(FetchMode.SELECT)
     private List<BloodComponentQuantity> bloodComponentQuantities;
 
@@ -47,6 +51,14 @@ public class BloodRequest {
 
     public void setBloodComponentQuantities(List<BloodComponentQuantity> bloodComponentQuantities) {
         this.bloodComponentQuantities = bloodComponentQuantities;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public User getSender() {

@@ -17,6 +17,16 @@ public class BloodComponentQuantity implements Serializable {
     public BloodComponentQuantity() {
     }
 
+    @Id
+    @Column(name = "id")
+    private int ID;
+
+    @Column(name = "idDonation")
+    private int IDdonation;
+
+    @Column(name = "idRequest")
+    private int IDrequest;
+
     /**
      * 
      */
@@ -53,6 +63,15 @@ public class BloodComponentQuantity implements Serializable {
     @Column(name="bloodStatus")
     private BloodStatus bloodStatus;
 
+
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 
     public int getQuantity() {
         return quantity;

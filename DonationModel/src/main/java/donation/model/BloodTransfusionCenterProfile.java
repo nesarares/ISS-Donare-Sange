@@ -2,6 +2,7 @@ package donation.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.*;
@@ -19,6 +20,10 @@ public class BloodTransfusionCenterProfile implements Serializable {
     public BloodTransfusionCenterProfile() {
     }
 
+    @Id
+    @Column(name = "id")
+    private int ID;
+
     /**
      * 
      */
@@ -31,6 +36,14 @@ public class BloodTransfusionCenterProfile implements Serializable {
     @Column(name = "idUser")
     private int idUser;
 
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 
     public String getAddress() {
         return address;

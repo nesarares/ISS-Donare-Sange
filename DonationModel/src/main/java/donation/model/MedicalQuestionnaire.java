@@ -2,6 +2,7 @@ package donation.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.*;
@@ -18,6 +19,10 @@ public class MedicalQuestionnaire implements Serializable {
      */
     public MedicalQuestionnaire() {
     }
+
+    @Id
+    @Column(name = "id")
+    private int ID;
 
     /**
      * 
@@ -253,6 +258,21 @@ public class MedicalQuestionnaire implements Serializable {
     @Column(name = "bloodPressure")
     private String bloodPressure;
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public boolean isDiabetisUlcerCancer() {
+        return diabetisUlcerCancer;
+    }
+
+    public void setDiabetisUlcerCancer(boolean diabetisUlcerCancer) {
+        this.diabetisUlcerCancer = diabetisUlcerCancer;
+    }
 
     public boolean isHealthy() {
         return healthy;

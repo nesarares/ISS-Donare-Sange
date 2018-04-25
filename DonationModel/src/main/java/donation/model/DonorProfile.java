@@ -2,6 +2,7 @@ package donation.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.*;
@@ -18,6 +19,10 @@ public class DonorProfile implements Serializable{
      */
     public DonorProfile() {
     }
+
+    @Id
+    @Column(name = "id")
+    private int ID;
 
     /**
      * 
@@ -103,6 +108,13 @@ public class DonorProfile implements Serializable{
     @Column(name="aboBloodGroup")
     private ABOBloodGroup aboBloodGroup;
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 
     public String getFirstName() {
         return firstName;

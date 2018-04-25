@@ -14,14 +14,14 @@ import java.util.function.Predicate;
 public class Repository {
     private static SessionFactory factory = new Configuration()
             .configure()
+            .addAnnotatedClass(User.class)
             .addAnnotatedClass(BloodComponentQuantity.class)
             .addAnnotatedClass(BloodRequest.class)
             .addAnnotatedClass(BloodTransfusionCenterProfile.class)
+            .addAnnotatedClass(MedicalQuestionnaire.class)
             .addAnnotatedClass(DoctorProfile.class)
             .addAnnotatedClass(Donation.class)
             .addAnnotatedClass(DonorProfile.class)
-            .addAnnotatedClass(MedicalQuestionnaire.class)
-            .addAnnotatedClass(User.class)
             .buildSessionFactory();
 
     public Repository() {
@@ -44,7 +44,7 @@ public class Repository {
         Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
-        T obj = session.get(classz,key);
+        T obj = session.get(classz, key);
         tx.commit();
 
         session.close();
@@ -79,7 +79,7 @@ public class Repository {
         Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
-        T obj = session.get(classz,object.hashCode());
+        T obj = session.get(classz, object.hashCode());
         tx.commit();
 
         session.close();
@@ -101,7 +101,7 @@ public class Repository {
     }
 
     public static <T> Optional<T> findObj(Class<T> classz, Predicate<T> predicate) {
-        List<T> storage  = getAll(classz);
+        List<T> storage = getAll(classz);
         for (T object : storage)
             if (predicate.test(object))
                 return Optional.of(object);
