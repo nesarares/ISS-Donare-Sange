@@ -1,7 +1,6 @@
 package donation.client.controllers;
 
 import com.jfoenix.controls.*;
-import donation.client.SampleController;
 import donation.client.utils.Timer;
 import donation.client.utils.animations.BounceInLeftTransition;
 import donation.client.utils.animations.BounceOutLeftTransition;
@@ -14,7 +13,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -99,11 +97,9 @@ public class LoginController implements Initializable {
         Parent mainView = null;
         Stage mainStage = new Stage();
         try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/SampleView.fxml"));
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/DonorView.fxml"));
             mainView = loader.load();
 
-//            SampleController controller = loader.getController();
 //            controllerRoot.addObserver(controller);
             DonorController controller = loader.getController();
 //            controllerRoot.addObserver(controller);
@@ -140,7 +136,8 @@ public class LoginController implements Initializable {
     public void loadLoginWindow(Parent show, Stage primaryStage) {
         mainStage = primaryStage;
         mainWindowView = show;
-        mainStage.setScene(new Scene(mainWindowView));
+        Scene scene = new Scene(mainWindowView);
+        mainStage.setScene(scene);
         mainStage.show();
     }
 

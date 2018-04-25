@@ -6,8 +6,51 @@
     -fx-faint-focus-color: transparent;
 }
 
+.jfx-button.btn {
+     -fx-font-size: 17px;
+     -fx-background-color: -fx-accent;
+     -fx-background-radius: 5px;
+     -fx-font-family: 'Saira SemiCondensed SemiBold';
+     -fx-padding: 5px;
+     -fx-text-fill: white;
+ }
+
+.jfx-button.btn:hover {
+    -fx-background-color: -fx-focus-color;
+}
+
+.text-input, .text-input:focused {
+    -fx-prompt-text-fill: #777777;
+}
+
+.jfx-rippler {
+    -jfx-rippler-fill: -fx-accent;
+}
+
+.jfx-text-field, .jfx-password-field, .jfx-text-area {
+    -jfx-focus-color: -fx-accent;
+    -jfx-label-float: true;
+}
+
+.jfx-text-field .text, .jfx-date-picker, .jfx-text-area, .jfx-text-field, .jfx-password-field {
+    -fx-font-size: 13px;
+}
+
+.jfx-text-field .glyph-icon {
+    -glyph-size: 15px;
+}
+
+.jfx-check-box {
+    -jfx-checked-color: -fx-accent;
+}
+
+.jfx-date-picker {
+    -jfx-default-color: -fx-accent;
+}
+
 .drawer {
     -fx-background-color: -fx-dark;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 6, 0, 2, 0);
 }
 
 .menu-button {
@@ -21,9 +64,10 @@
     -fx-cursor: hand;
 }
 
-.menu-button:hover {
+.menu-button:hover, .menu-button:disabled {
     -fx-background-color: -fx-accent;
     -fx-text-fill: white;
+    -fx-opacity: 1;
 }
 
 .menu-button StackPane Rectangle, .icon-red {
@@ -49,7 +93,84 @@
     -fx-padding: 40px;
 }
 
+/*****************************************/
+/*               CARD STYLING            */
+/*****************************************/
+
+.card {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 6, 0, 0, 2);
+}
+
+.card-header {
+    -fx-font-family: "Saira SemiCondensed Medium";
+    -fx-font-size: 20px;
+    -fx-background-color: -fx-focus-color;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.card-content {
+    -fx-background-color: white;
+    -fx-font-family: "Saira SemiCondensed SemiBold";
+    -fx-font-size: 70px;
+}
+
+.card-content-h2 {
+    -fx-font-size: 20px;
+    -fx-text-fill: -fx-focus-color;
+    -fx-font-family: "Saira SemiCondensed SemiBold";
+}
+
+.card-content-text {
+    -fx-font-size: 15px;
+    -fx-font-family: "Saira SemiCondensed Light";
+    -fx-padding: 0 0 15px 0;
+}
+
+.card-content-scroll {
+    -fx-background-color: white;
+    -fx-padding: 20px 35px 20px 20px;
+}
+
+.card-footer {
+    -fx-font-family: "Saira SemiCondensed Medium";
+    -fx-font-size: 20px;
+    -fx-background-color: -fx-focus-color;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.separator {
+    -fx-padding: 15px 0;
+}
+
+/*****************************************/
 /*        TABLE VIEW STYLING            */
+/*****************************************/
+.jfx-list-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-padding: 5px;
+}
+
+.jfx-list-cell, .jfx-list-cell:focused, .jfx-list-cell:selected, .jfx-list-cell:armed {
+    -fx-text-fill: black;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Open Sans';
+    -fx-padding: 30px;
+    -fx-background-color: transparent, white;
+    -fx-background-insets: 10px 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 3, 0, 0, 1);
+}
+
+.jfx-list-cell:empty {
+    -fx-background-color: transparent;
+}
+
+/*****************************************/
+/*        TABLE VIEW STYLING            */
+/*****************************************/
 
 .table-view {
     -fx-background-color: transparent;

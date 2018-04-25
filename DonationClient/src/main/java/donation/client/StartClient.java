@@ -19,7 +19,8 @@ public class StartClient extends Application {
 
         primaryStage.setTitle("Donare de sange");
         primaryStage.getIcons().add(new Image("donation/client/icon.png"));
-//        primaryStage.setOnCloseRequest((event) -> System.exit(0));
+        primaryStage.setOnCloseRequest((event) -> System.exit(0));
+        primaryStage.setResizable(false);
 
         IMainService service = (IMainService) factory.getBean("service");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/LoginView.fxml"));

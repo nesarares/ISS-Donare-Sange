@@ -1,5 +1,6 @@
 package donation.client.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXListView;
@@ -39,7 +40,9 @@ public class DonorController extends AbstractController {
     private AnchorPane drawerContent;
 
     @FXML
-    private AnchorPane donationHistoryPane, personalProfilePane, notificationsPane;
+    private AnchorPane homePane, donationHistoryPane, personalProfilePane, notificationsPane;
+    @FXML
+    private JFXButton buttonHome, buttonDonation, buttonProfile, buttonNotifications;
 
     @FXML
     private TableView<Donation> tableDonation;
@@ -47,6 +50,10 @@ public class DonorController extends AbstractController {
     @FXML
     private TableColumn<Donation, String> columnDate, columnHivoraids, columnHepatitis,
             columnSyphilis, columnHTLV, columnLevelalt;
+
+    @FXML
+    JFXListView<String> listNotifications;
+    private ObservableList<String> modelNotifications = FXCollections.observableArrayList("2018-03-18 - Au sosit noile analize.", "2018-02-26 - Este nevoie de sange!", "2018-02-03 - Au sosit noile analize.");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -56,6 +63,8 @@ public class DonorController extends AbstractController {
         drawerContent.setVisible(true);
 
         initTable();
+        initList();
+        toggleView(homePane, buttonHome);
     }
 
     private void initTable() {
@@ -67,6 +76,10 @@ public class DonorController extends AbstractController {
         columnSyphilis.setCellValueFactory(new PropertyValueFactory<>("levelALT"));
 
         tableDonation.setItems(modelDonation);
+    }
+
+    private void initList() {
+        listNotifications.setItems(modelNotifications);
     }
 
     @Override
@@ -87,8 +100,47 @@ public class DonorController extends AbstractController {
             menuHamburger.getStyleClass().add("hamburger-white");
         } else {
             drawer.toggle();
-            Timer.setTimeout(() -> drawer.setVisible(false), 800);
+            Timer.setTimeout(() -> drawer.setVisible(false), 400);
             menuHamburger.getStyleClass().remove("hamburger-white");
         }
+    }
+
+    private void toggleView(AnchorPane viewToShow, JFXButton buttonClicked) {
+        donationHistoryPane.setVisible(false);
+        homePane.setVisible(false);
+        notificationsPane.setVisible(false);
+        personalProfilePane.setVisible(false);
+
+        buttonDonation.setDisable(false);
+        buttonHome.setDisable(false);
+        buttonNotifications.setDisable(false);
+        buttonProfile.setDisable(false);
+
+        viewToShow.setVisible(true);
+        buttonClicked.setDisable(true);
+    }
+
+    @FXML
+    private void handleButtonHome(ActionEvent actionEvent) {
+        toggleView(homePane, buttonHome);
+        handleDrawer(null);
+    }
+
+    @FXML
+    private void handleButtonDonation(ActionEvent actionEvent) {
+        toggleView(donationHistoryPane, buttonDonation);
+        handleDrawer(null);
+    }
+
+    @FXML
+    private void handleButtonProfile(ActionEvent actionEvent) {
+        toggleView(personalProfilePane, buttonProfile);
+        handleDrawer(null);
+    }
+
+    @FXML
+    private void handleButtonNotifications(ActionEvent actionEvent) {
+        toggleView(notificationsPane, buttonNotifications);
+        handleDrawer(null);
     }
 }
