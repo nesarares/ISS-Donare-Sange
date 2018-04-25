@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public interface IRepository <ID,T> {
+public interface IRepository <T> {
 
     /**
      * @return the number of elements from repository
@@ -14,18 +14,18 @@ public interface IRepository <ID,T> {
 
     /**
      * @param entity (add the entity into repository)
-     * @throws Exception if @param already exists
+     * @throws RepositoryException if @param already exists
      */
 
-    void save(T entity) throws  Exception;
+    void save(T entity) throws  RepositoryException;
 
 
     /**
      * @param entity deletes the entity from repository
-     * @throws Exception if the object does not exist
+     * @throws RepositoryException if the object does not exist
      */
 
-    void delete(T entity) throws  Exception;
+    void delete(T entity) throws  RepositoryException;
 
 
     /**
@@ -34,14 +34,14 @@ public interface IRepository <ID,T> {
      * @return null if entity doesn't exist in repository
      */
 
-    T findById(ID entityId);
+    T findById(int entityId);
 
     /**
      * @param oldId the id of replaced entity
      * @param newEntity the new entity with the same ID as oldID
      */
 
-    void update(ID oldId,T newEntity);
+    void update(int oldId,T newEntity) throws RepositoryException;
 
 
     /**

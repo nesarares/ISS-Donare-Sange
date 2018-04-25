@@ -18,11 +18,11 @@ public class MainServiceImpl implements IMainService {
     //loginService
     //todo de inlocuit mock cu ale noastre
 
-    private IRepository <Integer,User> userRepository;
+    private IRepository <User> userRepository;
 
     private Map<String,IObserver> loggedUsers = new ConcurrentHashMap<>();
 
-    public MainServiceImpl(IRepository<Integer, User> userIRepository) {
+    public MainServiceImpl(IRepository<User> userIRepository) {
         this.userRepository = userIRepository;
     }
 

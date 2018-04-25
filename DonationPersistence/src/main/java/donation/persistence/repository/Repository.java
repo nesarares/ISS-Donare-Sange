@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -27,10 +28,7 @@ public class Repository {
     public Repository() {
     }
 
-    public static <T> void add(Class<T> classz, T obj) throws RepositoryException {
-//        if (exists(classz,obj))
-//            throw new RepositoryException("The object already exists!");
-
+    public static <T> void add(Class<T> classz, T obj)  {
         Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
@@ -54,10 +52,7 @@ public class Repository {
             return Optional.of(obj);
     }
 
-    public static <T> void delete(Class<T> classz, T obj) throws RepositoryException {
-//        if (!exists(classz,obj))
-//            throw new RepositoryException("The object does not exist!");
-
+    public static <T> void delete(Class<T> classz, T obj)  {
         Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
@@ -67,10 +62,7 @@ public class Repository {
         session.close();
     }
 
-    public static <T> void update(Class<T> classz, T oldObject, T newObject) throws RepositoryException {
-//        if (!exists(classz,oldObject))
-//            throw new RepositoryException("The object does not exist!");
-
+    public static <T> void update(Class<T> classz, T oldObject, T newObject)  {
         delete(classz, oldObject);
         add(classz, newObject);
     }
@@ -106,5 +98,14 @@ public class Repository {
             if (predicate.test(object))
                 return Optional.of(object);
         return Optional.empty();
+    }
+
+    public static <T> List<T> filterAll(Class<T> classz, Predicate<T> predicate) {
+        List<T> filtered = new ArrayList<>();
+        List<T> storage = getAll(classz);
+        for (T object : storage)
+            if (predicate.test(object))
+                filtered.add(object);
+        return filtered;
     }
 }
