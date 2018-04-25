@@ -14,27 +14,23 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class StartClient extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-       ApplicationContext factory = new ClassPathXmlApplicationContext("classpath:spring-client.xml");
+        ApplicationContext factory = new ClassPathXmlApplicationContext("classpath:spring-client.xml");
 
         primaryStage.setTitle("Donare de sange");
         primaryStage.getIcons().add(new Image("donation/client/icon.png"));
 
         IMainService service = (IMainService) factory.getBean("service");
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/LoginView.fxml"));
-
         Parent root = loader.load();
-
         LoginController ctrl = loader.getController();
-
         ctrl.setMainService(service);
-        ctrl.loadLoginWindow(root,primaryStage);
+        ctrl.loadLoginWindow(root, primaryStage);
 
-        //System.out.println(ctrl);
-
-        //Scene scene = new Scene(root);
-        //primaryStage.setScene(scene);
-        //primaryStage.show();
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/DonorView.fxml"));
+//        Parent root = loader.load();
+//        Scene scene = new Scene(root);
+//        primaryStage.setScene(scene);
+//        primaryStage.show();
     }
 
     public static void main(String[] args) {

@@ -13,7 +13,6 @@ public class MockUserRepository implements  IRepository<Integer,User> {
 
     private List<User> users = new ArrayList<>();
 
-
     private void populate(){
         users.add(new User(1,"user1","pass1", UserType.Admin));
         users.add(new User(2,"user2","pass2", UserType.Admin));

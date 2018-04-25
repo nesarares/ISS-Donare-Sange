@@ -15,7 +15,7 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
-public class SampleController implements Initializable , IObserver{
+public class SampleController implements Initializable, IObserver {
 
     @FXML
     private Label labelUsers;
@@ -34,13 +34,13 @@ public class SampleController implements Initializable , IObserver{
 
     private Stage stage;
 
-    public void setMainService(IMainService mainService,String userName,Stage stage) {
+    public void setMainService(IMainService mainService, String userName, Stage stage) {
         this.mainService = mainService;
-        labelUsername.setText("Username:" +  userName);
+        labelUsername.setText("Username:" + userName);
         this.userName = userName;
         this.stage = stage;
 
-        stage.setOnCloseRequest(ev->handleLogoutEvent(null));
+        stage.setOnCloseRequest(ev -> handleLogoutEvent(null));
     }
 
     public void setLoginController(LoginController loginController) {
@@ -48,9 +48,9 @@ public class SampleController implements Initializable , IObserver{
     }
 
 
-    private void handleLogoutEvent(ActionEvent e){
+    private void handleLogoutEvent(ActionEvent e) {
         System.out.println("Logging out...");
-        mainService.logout(userName,null);
+        mainService.logout(userName, null);
         loginController.showLoginWindow();
         stage.close();
     }
@@ -60,7 +60,6 @@ public class SampleController implements Initializable , IObserver{
         buttonLogout.setOnAction(this::handleLogoutEvent);
     }
 
-
     @Override
     public void addObserver(IObserver observer) throws RemoteException {
 
@@ -68,6 +67,6 @@ public class SampleController implements Initializable , IObserver{
 
     @Override
     public void testUpdate() throws RemoteException {
-        Platform.runLater(()->labelUsers.setText(labelUsers.getText() + " " + "+new user"));
+        Platform.runLater(() -> labelUsers.setText(labelUsers.getText() + " " + "+new user"));
     }
 }

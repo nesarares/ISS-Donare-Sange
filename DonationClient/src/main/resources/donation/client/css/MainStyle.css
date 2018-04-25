@@ -1,0 +1,179 @@
+.root {
+    -fx-dark: #2a2a2a;
+
+    -fx-accent: #e42e33;
+    -fx-focus-color: #bf2d30;
+    -fx-faint-focus-color: transparent;
+}
+
+.drawer {
+    -fx-background-color: -fx-dark;
+}
+
+.menu-button {
+    -fx-background-color: white;
+    -fx-padding: 0;
+    -fx-font-family: 'Saira SemiCondensed Regular';
+    -fx-font-size: 1.3em;
+    -fx-background-radius: 0;
+    -fx-graphic-text-gap: 20px;
+    -fx-alignment: top-left;
+    -fx-cursor: hand;
+}
+
+.menu-button:hover {
+    -fx-background-color: -fx-accent;
+    -fx-text-fill: white;
+}
+
+.menu-button StackPane Rectangle, .icon-red {
+    -fx-fill: -fx-accent;
+    -fx-stroke: -fx-accent;
+}
+
+.jfx-hamburger-icon {
+    -fx-cursor: hand;
+}
+
+.hamburger-white StackPane {
+    -fx-background-color: white;
+}
+
+.title {
+    -fx-font-family: "Saira SemiCondensed Medium";
+    -fx-font-size: 2em;
+    -fx-padding: 20px 0 0 0;
+}
+
+.center-pane {
+    -fx-padding: 40px;
+}
+
+/*        TABLE VIEW STYLING            */
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .cell {
+    -fx-alignment: center;
+    -fx-font-family: 'Open Sans';
+    -fx-font-size: 14px;
+}
+
+.table-view .column-header {
+    -fx-alignment: center;
+    -fx-font-family: 'Saira SemiCondensed Light';
+    -fx-font-size: 16px;
+    -fx-background-color: dimgray;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+}
+
+.table-view .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent black transparent;
+    -fx-border-width: 1.5;
+    -fx-size: 50;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: whitesmoke;
+}
+
+.table-view .column-header-background .label {
+    -fx-background-color: transparent;
+    -fx-font-weight:bold;
+    -fx-text-fill: black;
+}
+
+.table-view .table-column {
+    -fx-alignment:center;
+}
+
+.table-row-cell {
+    -fx-background-color: whitesmoke;
+    -fx-background-insets: 0.0, 0.0 0.0 0.0 0.0;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #ebebeb;
+}
+
+.table-row-cell:empty, .table-row-cell:empty:hover {
+    -fx-background-color: transparent;
+}
+
+.table-row-cell .text {
+    -fx-fill: black ;
+}
+
+.table-row-cell:hover .text ,
+.table-row-cell:selected .text,
+.table-row-cell:hover:selected .text,
+.table-row-cell:focused:selected .text {
+    -fx-fill: white ;
+}
+
+.table-row-cell:hover ,
+.table-row-cell:selected {
+    -fx-background-color:-fx-accent;
+}
+
+
+.table-view .scroll-bar:vertical .increment-arrow,
+.table-view .scroll-bar:vertical .decrement-arrow,
+.table-view .scroll-bar:vertical .increment-button,
+.table-view .scroll-bar:vertical .decrement-button,
+.table-view .scroll-bar:horizontal .increment-arrow,
+.table-view .scroll-bar:horizontal .decrement-arrow,
+.table-view .scroll-bar:horizontal .increment-button,
+.table-view .scroll-bar:horizontal .decrement-button {
+    -fx-padding: 0;
+}
+
+#NormalTable .scroll-bar:vertical .increment-arrow,
+#NormalTable .scroll-bar:vertical .decrement-arrow,
+#NormalTable .scroll-bar:vertical .increment-button,
+#NormalTable .scroll-bar:vertical .decrement-button,
+#NormalTable .scroll-bar:horizontal .increment-arrow,
+#NormalTable .scroll-bar:horizontal .decrement-arrow,
+#NormalTable .scroll-bar:horizontal .increment-button,
+#NormalTable .scroll-bar:horizontal .decrement-button {
+    -fx-padding: 0.25em;
+}
+
+#NormalTable .increment-button ,#NormalTable .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 2em;
+
+}
+
+#NormalTable .scroll-bar:horizontal .track,
+#NormalTable .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color:derive(gray,80%);
+
+    -fx-background-radius: 2em;
+    -fx-border-radius:2em;
+}
+
+#NormalTable .scroll-bar:horizontal .thumb,
+#NormalTable .scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+
+}
+
+.tabel-fara-butoane .table-row-cell {
+    -fx-cell-size: 40px;
+}

@@ -8,7 +8,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ControllerRoot extends UnicastRemoteObject implements Serializable,IObserver {
+public class ControllerRoot extends UnicastRemoteObject implements Serializable, IObserver {
 
     private List<IObserver> observers = new LinkedList<>();
 
@@ -16,18 +16,15 @@ public class ControllerRoot extends UnicastRemoteObject implements Serializable,
 
     }
 
-
-    public  void addObserver(IObserver observer) throws  RemoteException{
+    public void addObserver(IObserver observer) throws RemoteException {
         observers.add(observer);
         System.out.println(observers.size());
     }
 
     @Override
     public void testUpdate() throws RemoteException {
-
-        for(IObserver observer : observers){
+        for (IObserver observer : observers) {
             observer.testUpdate();
         }
-
     }
 }

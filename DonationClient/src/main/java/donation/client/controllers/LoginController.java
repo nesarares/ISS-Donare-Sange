@@ -24,31 +24,23 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
 
 //    private LoginService loginService;
-
-    private ControllerRoot controllerRoot ;
-
+    private ControllerRoot controllerRoot;
     private IMainService mainService;
-
 
     @FXML
     private JFXTextField textFieldUsername;
-
     @FXML
     private JFXPasswordField textFieldPassword;
     @FXML
     private AnchorPane anchorPaneRegistration;
-
     @FXML
     private JFXTextField textFieldFirstName, textFieldLastName, textFieldCNP,
             textFieldEmail, textFieldPhone, textFieldWeight,
             textFieldHeight, textFieldNationality;
-
     @FXML
     private JFXDatePicker datePickerBirthDate;
-
     @FXML
     private JFXTextArea textAreaHomeAddress, textAreaResidenceAddress;
-
     @FXML
     private JFXCheckBox checkBoxResidence;
 
@@ -56,13 +48,10 @@ public class LoginController implements Initializable {
 
     private Parent mainWindowView;
 
-    public LoginController()  {
+    public LoginController() {
         //todo functia logincontroler va fi elimnata la urma
         System.out.println("se apleeaza");
     }
-
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -74,12 +63,9 @@ public class LoginController implements Initializable {
         }
     }
 
-
-
     public void setMainService(IMainService mainService) {
         this.mainService = mainService;
     }
-
 
     private void clearFields() {
         textFieldFirstName.clear();
@@ -109,104 +95,56 @@ public class LoginController implements Initializable {
         trans.play();
     }
 
-    private void loadMainView(){
-
+    private void loadMainView() {
         Parent mainView = null;
-
         Stage mainStage = new Stage();
-
         try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/SampleView.fxml"));
-
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/SampleView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/DonorView.fxml"));
             mainView = loader.load();
 
-            SampleController controller = loader.getController();
-
-            controllerRoot.addObserver(controller);
+//            SampleController controller = loader.getController();
+//            controllerRoot.addObserver(controller);
+            DonorController controller = loader.getController();
+//            controllerRoot.addObserver(controller);
 
             Scene scene = new Scene(mainView);
-
             mainStage.setScene(scene);
-
             this.mainStage.hide();
-
             mainStage.show();
-
             controller.setLoginController(this);
-
-            controller.setMainService(mainService,textFieldUsername.getText(),mainStage);
-
-        }catch (Exception e) {
+            controller.setMainService(mainService, textFieldUsername.getText(), mainStage);
+        } catch (Exception e) {
             System.out.println("loadMainView->" + e.getMessage());
         }
-
-
     }
 
     @FXML
     private void handleLogin(ActionEvent actionEvent) {
-//        String username = this.textFieldUsername.getText();
-//        String password = this.textFieldPassword.getText();
-//        System.out.println(username);
-//        System.out.println(password);
-//        if (username.equals("") || password.equals("")) {
-//            Alert msg = new Alert(Alert.AlertType.WARNING);
-//            msg.setTitle("Something went wrong...");
-//            msg.setHeaderText("Both username and password fields must be filled");
-//            msg.showAndWait();
-//            return;
-//        }
-//        try {
-//            if (this.loginService.login(username, password), )) {
-//                Alert msg = new Alert(Alert.AlertType.WARNING);
-//                msg.setTitle("Success");
-//                msg.setHeaderText("Success");
-//                msg.showAndWait();
-//            }
-//        } catch (Exception ex) {
-//            Alert msg = new Alert(Alert.AlertType.WARNING);
-//            msg.setTitle("Something went wrong...");
-//            msg.setHeaderText(ex.getMessage());
-//            msg.setContentText(ex.getMessage());
-//            msg.showAndWait();
-//        }
-
         String username = textFieldUsername.getText();
         String password = textFieldPassword.getText();
 
         try {
-
             if (mainService.login(username, password, controllerRoot)) {
                 loadMainView();
                 return;
             }
-
-            Alert msg = new Alert(Alert.AlertType.INFORMATION,"Log in unsuccessfully");
+            Alert msg = new Alert(Alert.AlertType.INFORMATION, "Log in unsuccessfully");
             msg.showAndWait();
-
-        }catch (Exception e){
+        } catch (Exception e) {
             Alert msg = new Alert(Alert.AlertType.INFORMATION, e.getMessage());
             msg.showAndWait();
         }
     }
 
-
-    public  void loadLoginWindow(Parent show,Stage primaryStage){
+    public void loadLoginWindow(Parent show, Stage primaryStage) {
         mainStage = primaryStage;
-
         mainWindowView = show;
-
         mainStage.setScene(new Scene(mainWindowView));
-
         mainStage.show();
     }
 
-    public void showLoginWindow(){
+    public void showLoginWindow() {
         mainStage.show();
     }
-
-
-
-
 }
