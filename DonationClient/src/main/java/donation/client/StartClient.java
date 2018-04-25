@@ -3,6 +3,7 @@ package donation.client;
 import donation.client.controllers.LoginController;
 import donation.services.IMainService;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ public class StartClient extends Application {
 
         primaryStage.setTitle("Donare de sange");
         primaryStage.getIcons().add(new Image("donation/client/icon.png"));
+//        primaryStage.setOnCloseRequest((event) -> System.exit(0));
 
         IMainService service = (IMainService) factory.getBean("service");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/LoginView.fxml"));

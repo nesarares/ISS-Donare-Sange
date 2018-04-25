@@ -7,6 +7,7 @@ import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.octicons.OctIcon;
+import donation.client.utils.Timer;
 import donation.model.Donation;
 import donation.services.IMainService;
 import javafx.collections.FXCollections;
@@ -25,12 +26,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class DonorController implements Initializable {
-    private LoginController loginController;
-    private IMainService mainService;
-    private String username;
-    private Stage stageLogin;
-
+public class DonorController extends AbstractController {
     @FXML
     private Label labelNumeDonator;
 
@@ -73,26 +69,12 @@ public class DonorController implements Initializable {
         tableDonation.setItems(modelDonation);
     }
 
+    @Override
     public void setMainService(IMainService mainService, String username, Stage stageLogin) {
-        this.mainService = mainService;
-        this.username = username;
-        this.stageLogin = stageLogin;
+        super.setMainService(mainService, username, stageLogin);
 
         // TO DO: De inlocuit cu datele din profil (Nume Prenume)
         labelNumeDonator.setText(username);
-        stageLogin.setOnCloseRequest(ev -> handleLogoutEvent(null));
-    }
-
-    public void setLoginController(LoginController loginController) {
-        this.loginController = loginController;
-    }
-
-    @FXML
-    private void handleLogoutEvent(ActionEvent e) {
-        System.out.println("Logging out...");
-        mainService.logout(username, null);
-        loginController.showLoginWindow();
-        stageLogin.close();
     }
 
     @FXML
@@ -105,7 +87,7 @@ public class DonorController implements Initializable {
             menuHamburger.getStyleClass().add("hamburger-white");
         } else {
             drawer.toggle();
-            drawer.setVisible(false);
+            Timer.setTimeout(() -> drawer.setVisible(false), 800);
             menuHamburger.getStyleClass().remove("hamburger-white");
         }
     }
