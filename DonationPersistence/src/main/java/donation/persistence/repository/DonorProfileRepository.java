@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class DonorProfileRepository {
+public class DonorProfileRepository implements IRepository<DonorProfile>{
     public DonorProfileRepository() {
     }
 
