@@ -44,6 +44,16 @@ public class BloodRequest {
     @JoinColumn(name="receiver")
     private User receiver;
 
+    @Column(name = "bloodRequestStatus")
+    private BloodRequestStatus bloodRequestStatus;
+
+    public BloodRequestStatus getBloodRequestStatus() {
+        return bloodRequestStatus;
+    }
+
+    public void setBloodRequestStatus(BloodRequestStatus bloodRequestStatus) {
+        this.bloodRequestStatus = bloodRequestStatus;
+    }
 
     public List<BloodComponentQuantity> getBloodComponentQuantities() {
         return bloodComponentQuantities;

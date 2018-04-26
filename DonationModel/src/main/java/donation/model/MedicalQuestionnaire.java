@@ -258,6 +258,28 @@ public class MedicalQuestionnaire implements Serializable {
     @Column(name = "bloodPressure")
     private String bloodPressure;
 
+    @Column(name = "idUser")
+    private int idUser;
+
+    @Column(name = "registrationDate")
+    private Date date;
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public int getID() {
         return ID;
     }
