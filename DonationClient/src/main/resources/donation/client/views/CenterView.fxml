@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donation.client.controllers.CenterController">
+   <children>
+      <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane fx:id="homePane" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <top>
+                              <Label styleClass="title" text="Home" BorderPane.alignment="CENTER" />
+                           </top>
+                           <center>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <GridPane hgap="30.0" vgap="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" vgrow="NEVER" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                                       </rowConstraints>
+                                       <children>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="card">
+                                             <children>
+                                                <Label alignment="CENTER" prefHeight="70.0" prefWidth="345.0" styleClass="card-footer" text="Active blood requests" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                   <font>
+                                                      <Font name="Saira SemiCondensed Medium" size="22.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label alignment="CENTER" prefHeight="150.0" prefWidth="345.0" styleClass="card-content" text="1" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                          <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="card" GridPane.columnIndex="1">
+                                             <children>
+                                                <Label alignment="CENTER" prefHeight="70.0" prefWidth="345.0" styleClass="card-footer" text="Total donations so far" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                   <font>
+                                                      <Font name="Saira SemiCondensed Medium" size="22.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label alignment="CENTER" prefHeight="150.0" prefWidth="345.0" styleClass="card-content" text="172" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                          <AnchorPane prefWidth="200.0" styleClass="card" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                             <children>
+                                                <Label graphicTextGap="20.0" prefHeight="55.0" prefWidth="720.0" styleClass="card-header" text="Informations about donating" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <graphic>
+                                                      <FontAwesomeIconView fill="WHITE" glyphName="INFO_CIRCLE" size="30" />
+                                                   </graphic>
+                                                </Label>
+                                                <AnchorPane prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
+                                                   <children>
+                                                      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <content>
+                                                            <VBox prefHeight="200.0" style="-fx-background-color: white;" styleClass="card-content-scroll">
+                                                               <children>
+                                                                  <Label styleClass="card-content-h2" text="Before donating blood" />
+                                                                  <Separator prefWidth="200.0">
+                                                                     <VBox.margin>
+                                                                        <Insets />
+                                                                     </VBox.margin>
+                                                                  </Separator>
+                                                                  <Label alignment="TOP_LEFT" minHeight="115.0" styleClass="card-content-text" text="- Bring personal identification. We prefer ID that has your picture and full name.&#10;- Bring a list of all countries (and cities/areas) you have visited (with dates) in the past 12 months.&#10;- Wear a top with loose-fitting sleeves (preferably short sleeves) so that we can check your blood pressure and locate the best vein to use to collect your blood.&#10;" textAlignment="JUSTIFY" wrapText="true" />
+                                                                  <Label styleClass="card-content-h2" text="You can donate blood if" />
+                                                                  <Separator prefWidth="200.0" />
+                                                                  <Label alignment="TOP_LEFT" minHeight="240.0" styleClass="card-content-text" text="- You do not have a flu&#10;- You are not in the menstrual period&#10;- You have not suffered surgery in recent months&#10;- You are not in sickness retirement regardless of diagnosis&#10;- You have not consumed alcohol in the last 72 hours&#10;- You have not been vaccinated in the last two weeks&#10;- You are not undergoing birth control&#10;- You have blood pressure no greater than 180/100 mmHg&#10;- You have no allergies" textAlignment="JUSTIFY" wrapText="true" />
+                                                                  <Label styleClass="card-content-h2" text="Basic Qualifications" />
+                                                                  <Separator prefWidth="200.0" />
+                                                                  <Label alignment="TOP_LEFT" minHeight="140.0" styleClass="card-content-text" text="- Age: 16 or older for whole blood or apheresis donations (parental permission is required for all 16-year-old donors and 17-year-old donors.)&#10;- Weight: At least 55 kg for women and 60 kg for men&#10;- Health: General good health&#10;- Waiting period between donations: 72 days." textAlignment="JUSTIFY" wrapText="true" />
+                                                                  <Label styleClass="card-content-h2" text="We ask you not to donate if you" />
+                                                                  <Separator prefWidth="200.0" />
+                                                                  <Label alignment="TOP_LEFT" minHeight="340.0" styleClass="card-content-text" text="- Have cold or flu symptoms or do not feel well on the day of donation. &#10;- Have lived with a person with clinical hepatitis B or hepatitis C.&#10;- Have a history of cancer in the past year (except some skin or in situ cancers). &#10;- Had a blood transfusion, ear/skin piercing, accidental needle stick, or come in contact with someone else’s blood in the past 12 months. (Ear/skin piercing procedures may be acceptable depending on the technique used.) &#10;- Had malaria in the past or traveled to a malarial risk area in the past 12 months. &#10;- Are or have been pregnant in the past 6 weeks. &#10;- Have been treated for syphilis or gonorrhea in the past 12 months. &#10;- Have used a needle to inject drugs not prescribed for you (including steroids). &#10;- Are at risk for exposure to HIV, the virus that causes AIDS. &#10;- Tattoos may be acceptable if done at a regulated business in an approved state. Contact your local center for a list of approved states.&#10;" textAlignment="JUSTIFY" wrapText="true" />
+                                                                  <Label styleClass="card-content-h2" text="Quick tips" />
+                                                                  <Separator prefWidth="200.0" />
+                                                                  <Label alignment="TOP_LEFT" minHeight="65.0" styleClass="card-content-text" text="Diet: A well-balanced meal is recommended within four hours of donation.&#10;Hydrate: Being well-hydrated helps donors maintain blood volume and can prevent dizziness or fainting." textAlignment="JUSTIFY" wrapText="true" />
+                                                               </children>
+                                                            </VBox>
+                                                         </content>
+                                                      </ScrollPane>
+                                                   </children>
+                                                </AnchorPane>
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="questionnairePane" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <top>
+                              <Label styleClass="title" text="Add Questionnaire" BorderPane.alignment="CENTER" />
+                           </top>
+                           <center>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <GridPane hgap="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <VBox prefWidth="100.0" spacing="30.0">
+                                             <children>
+                                                <JFXTextField promptText="Search donor" />
+                                                <JFXListView VBox.vgrow="ALWAYS" />
+                                                <JFXButton prefHeight="38.0" prefWidth="1318.0" styleClass="btn" text="Submit" />
+                                             </children>
+                                          </VBox>
+                                          <ScrollPane fitToWidth="true" prefHeight="200.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1">
+                                             <content>
+                                                <GridPane hgap="30.0">
+                                                  <columnConstraints>
+                                                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                                  </columnConstraints>
+                                                  <rowConstraints>
+                                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                  </rowConstraints>
+                                                   <children>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                                                         <children>
+                                                            <JFXCheckBox text="Healthy" />
+                                                            <JFXCheckBox text="Inexplicable Fever" />
+                                                            <JFXCheckBox text="Vaccines" />
+                                                            <JFXCheckBox text="Sexual Partner HIV Hepatitis" />
+                                                            <JFXCheckBox text="Sexual Partner Sex Worker" />
+                                                            <JFXCheckBox text="Intravenous Drugs" />
+                                                            <JFXCheckBox text="Sexual Partner Changed" />
+                                                            <JFXCheckBox text="Tattoos" />
+                                                            <JFXCheckBox text="Pregnancy" />
+                                                            <JFXCheckBox text="Detention" />
+                                                            <JFXCheckBox text="Stroke" />
+                                                            <JFXCheckBox text="Convultions / Nervous Disease" />
+                                                            <JFXCheckBox text="STD" />
+                                                            <JFXCheckBox text="Been Refused / Delayed" />
+                                                            <JFXCheckBox text="Post Donation Attention" />
+                                                            <JFXTextField prefHeight="29.0" prefWidth="1102.0" promptText="No. of sexual partners" />
+                                                            <JFXTextField prefHeight="29.0" prefWidth="1102.0" promptText="Foreign location" />
+                                                            <JFXTextField prefHeight="29.0" prefWidth="1102.0" promptText="Foreign time" />
+                                                            <JFXTextField prefHeight="29.0" prefWidth="1102.0" promptText="Alcohol" />
+                                                            <JFXTextField prefHeight="29.0" prefWidth="1102.0" promptText="Alcohol quantity" />
+                                                         </children>
+                                                         <padding>
+                                                            <Insets bottom="10.0" />
+                                                         </padding>
+                                                      </VBox>
+                                                      <VBox prefHeight="459.0" prefWidth="187.0" spacing="20.0" GridPane.columnIndex="1">
+                                                         <children>
+                                                            <JFXCheckBox text="Unexpected weight loss" />
+                                                            <JFXCheckBox text="Dental Treatment" />
+                                                            <JFXCheckBox text="Drug Treatment" />
+                                                            <JFXCheckBox text="Sexual Partner Intravenous Drug" />
+                                                            <JFXCheckBox text="Multiple Sexual Partners" />
+                                                            <JFXCheckBox text="Sex Worker" />
+                                                            <JFXCheckBox text="Surgery" />
+                                                            <JFXCheckBox text="Recieved Blood" />
+                                                            <JFXCheckBox text="Born / Lived / Traveled Foreign" />
+                                                            <JFXCheckBox text="Hepatitis" />
+                                                            <JFXCheckBox text="Icterus / Tuberculosis / Reumatic Fever / Malaria" />
+                                                            <JFXCheckBox text="Heart Disease / High BP" />
+                                                            <JFXCheckBox text="Asthma" />
+                                                            <JFXCheckBox text="Diabetis / Ulcer Cancer" />
+                                                            <JFXCheckBox text="Smoker" />
+                                                            <JFXDatePicker prefHeight="29.0" prefWidth="791.0" promptText="Child birthday" />
+                                                            <JFXDatePicker prefHeight="29.0" prefWidth="791.0" promptText="Last menstruation" />
+                                                            <JFXDatePicker prefHeight="29.0" prefWidth="295.0" promptText="Last alcohol consumption" />
+                                                            <JFXTextField prefHeight="29.0" prefWidth="1102.0" promptText="Blood presure" />
+                                                         </children>
+                                                         <padding>
+                                                            <Insets right="10.0" />
+                                                         </padding>
+                                                      </VBox>
+                                                   </children>
+                                                </GridPane>
+                                             </content>
+                                          </ScrollPane>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="donationPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <top>
+                              <Label styleClass="title" text="Add Donation" BorderPane.alignment="CENTER" />
+                           </top>
+                           <center>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <GridPane hgap="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <VBox prefWidth="100.0" spacing="30.0">
+                                             <children>
+                                                <JFXTextField promptText="Search donor" />
+                                                <JFXListView VBox.vgrow="ALWAYS" />
+                                                <JFXButton prefHeight="38.0" prefWidth="1318.0" styleClass="btn" text="Submit" />
+                                             </children>
+                                          </VBox>
+                                          <ScrollPane fitToWidth="true" prefHeight="200.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1">
+                                             <content>
+                                                <VBox spacing="20.0">
+                                                   <children>
+                                                      <JFXDatePicker prefHeight="29.0" prefWidth="291.0" promptText="Donation date" />
+                                                      <JFXCheckBox text="HIV or AIDS" />
+                                                      <JFXCheckBox text="Hepatitis" />
+                                                      <JFXCheckBox text="Syphilis" />
+                                                      <JFXCheckBox text="HTLV" />
+                                                      <JFXTextField promptText="Level ALT" />
+                                                   </children>
+                                                </VBox>
+                                             </content>
+                                          </ScrollPane>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="stockPane" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <top>
+                              <Label styleClass="title" text="Blood Stock" BorderPane.alignment="CENTER" />
+                           </top>
+                           <center>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="requestsPane" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <top>
+                              <Label styleClass="title" text="Blood Requests" BorderPane.alignment="CENTER" />
+                           </top>
+                           <center>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="notificationsPane" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <top>
+                              <Label styleClass="title" text="Notifications" BorderPane.alignment="CENTER" />
+                           </top>
+                           <center>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <JFXListView fx:id="listNotifications" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+                  <JFXDrawer fx:id="drawer" defaultDrawerSize="240.0" prefHeight="600.0" prefWidth="240.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <AnchorPane fx:id="drawerContent" prefHeight="600.0" prefWidth="233.0" styleClass="drawer" AnchorPane.leftAnchor="-250.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="240.0" spacing="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <MaterialDesignIconView fill="WHITE" glyphName="ACCOUNT_CIRCLE" size="60">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </MaterialDesignIconView>
+                              <Label fx:id="labelCenterName" text="Nume Centru" textFill="WHITE">
+                                 <VBox.margin>
+                                    <Insets bottom="30.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="Saira SemiCondensed SemiBold" size="17.0" />
+                                 </font>
+                              </Label>
+                              <JFXButton fx:id="buttonHome" onAction="#handleButtonHome" prefHeight="17.0" prefWidth="284.0" styleClass="menu-button" text="Home">
+                                 <graphic>
+                                    <StackPane>
+                                       <children>
+                                          <Rectangle fill="#282828" height="45.0" stroke="#282828" strokeType="INSIDE" width="60.0" />
+                                          <FontAwesomeIconView fill="WHITE" glyphName="HOME" size="25" />
+                                       </children>
+                                    </StackPane>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </JFXButton>
+                              <JFXButton fx:id="buttonQuestionnaire" onAction="#handleButtonQuestionnaire" prefHeight="17.0" prefWidth="284.0" styleClass="menu-button" text="Add Questionnaire">
+                                 <graphic>
+                                    <StackPane>
+                                       <children>
+                                          <Rectangle fill="#282828" height="45.0" stroke="#282828" strokeType="INSIDE" width="60.0" />
+                                          <FontAwesomeIconView fill="WHITE" glyphName="FILE_TEXT" size="25" />
+                                       </children>
+                                    </StackPane>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </JFXButton>
+                              <JFXButton fx:id="buttonDonation" onAction="#handleButtonDonation" prefHeight="17.0" prefWidth="284.0" styleClass="menu-button" text="Add Donation">
+                                 <graphic>
+                                    <StackPane>
+                                       <children>
+                                          <Rectangle fill="#282828" height="45.0" stroke="#282828" strokeType="INSIDE" width="60.0" />
+                                          <FontAwesomeIconView fill="WHITE" glyphName="HOSPITAL_ALT" size="25" />
+                                       </children>
+                                    </StackPane>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </JFXButton>
+                              <JFXButton fx:id="buttonStock" alignment="TOP_LEFT" graphicTextGap="40.0" onAction="#handleButtonStock" prefHeight="17.0" prefWidth="284.0" styleClass="menu-button" text="Blood Stock">
+                                 <graphic>
+                                    <StackPane>
+                                       <children>
+                                          <Rectangle fill="#282828" height="45.0" stroke="#282828" strokeType="INSIDE" width="60.0" />
+                                          <FontAwesomeIconView fill="WHITE" glyphName="TINT" size="23" />
+                                       </children>
+                                    </StackPane>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </JFXButton>
+                              <JFXButton fx:id="buttonRequests" alignment="TOP_LEFT" graphicTextGap="40.0" onAction="#handleButtonRequests" prefHeight="17.0" prefWidth="284.0" styleClass="menu-button" text="Blood Requests">
+                                 <graphic>
+                                    <StackPane>
+                                       <children>
+                                          <Rectangle fill="#282828" height="45.0" stroke="#282828" strokeType="INSIDE" width="60.0" />
+                                          <FontAwesomeIconView fill="WHITE" glyphName="EXCHANGE" size="23" />
+                                       </children>
+                                    </StackPane>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </JFXButton>
+                              <JFXButton fx:id="buttonNotifications" alignment="TOP_LEFT" graphicTextGap="40.0" onAction="#handleButtonNotifications" prefHeight="17.0" prefWidth="284.0" styleClass="menu-button" text="Notifications">
+                                 <graphic>
+                                    <StackPane>
+                                       <children>
+                                          <Rectangle fill="#282828" height="45.0" stroke="#282828" strokeType="INSIDE" width="60.0" />
+                                          <FontAwesomeIconView fill="WHITE" glyphName="BELL" size="23" />
+                                       </children>
+                                    </StackPane>
+                                 </graphic>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </JFXButton>
+                           </children>
+                           <padding>
+                              <Insets top="30.0" />
+                           </padding>
+                        </VBox>
+                        <JFXButton onAction="#handleLogoutEvent" prefHeight="36.0" prefWidth="240.0" styleClass="menu-button" text="Logout" AnchorPane.bottomAnchor="0.0">
+                           <graphic>
+                              <StackPane>
+                                 <children>
+                                    <Rectangle fill="#282828" height="45.0" stroke="#282828" strokeType="INSIDE" width="60.0" />
+                                    <FontAwesomeIconView fill="WHITE" glyphName="SIGN_OUT" size="23" />
+                                 </children>
+                              </StackPane>
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </AnchorPane>
+                  <JFXHamburger fx:id="menuHamburger" layoutX="30.0" layoutY="26.0" onMousePressed="#handleDrawer" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXHamburger>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </children>
+   <stylesheets>
+      <URL value="@../css/MainStyle.css" />
+      <URL value="@../css/MainStyle.css" />
+   </stylesheets>
+</AnchorPane>

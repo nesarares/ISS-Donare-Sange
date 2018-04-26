@@ -68,7 +68,7 @@ public class MainServiceImpl implements IMainService {
 
         if(loggedUsers.get(username) == null)return;
 
-        System.out.println("user logged out" +  username);
+        System.out.println("User logged out " +  username);
         loggedUsers.remove(username);
 
         //todo view all conncted

@@ -3,6 +3,8 @@ import donation.model.User;
 import donation.model.UserType;
 import donation.persistence.repository.IRepository;
 import donation.persistence.repository.Repository;
+import donation.persistence.repository.RepositoryException;
+import donation.persistence.repository.UserRepository;
 import donation.server.MainServiceImpl;
 import donation.services.IMainService;
 import org.springframework.context.ApplicationContext;
@@ -16,7 +18,14 @@ public class StartServer {
     public static void main(String[] args) {
 
         ApplicationContext factory = new ClassPathXmlApplicationContext("classpath:spring-server.xml");
-
+//        UserRepository repository = new UserRepository();
+//        try {
+//            repository.save(new User(1, "donor", "donor", UserType.Donor));
+//            repository.save(new User(2, "center", "center", UserType.BloodTransfusionCenter));
+//            repository.save(new User(3, "doctor", "doctor", UserType.Doctor));
+//        } catch (RepositoryException e) {
+//            e.printStackTrace();
+//        }
 
     }
 }

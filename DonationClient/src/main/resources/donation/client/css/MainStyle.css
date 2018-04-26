@@ -1,0 +1,299 @@
+.root {
+    -fx-dark: #2a2a2a;
+
+    -fx-accent: #e42e33;
+    -fx-focus-color: #bf2d30;
+    -fx-faint-focus-color: transparent;
+}
+
+.jfx-button.btn {
+     -fx-font-size: 17px;
+     -fx-background-color: -fx-accent;
+     -fx-background-radius: 5px;
+     -fx-font-family: 'Saira SemiCondensed SemiBold';
+     -fx-padding: 5px;
+     -fx-text-fill: white;
+ }
+
+.jfx-button.btn:hover {
+    -fx-background-color: -fx-focus-color;
+}
+
+.text-input, .text-input:focused {
+    -fx-prompt-text-fill: #777777;
+}
+
+.jfx-rippler {
+    -jfx-rippler-fill: -fx-accent;
+}
+
+.jfx-text-field, .jfx-password-field, .jfx-text-area {
+    -jfx-focus-color: -fx-accent;
+    -jfx-label-float: true;
+}
+
+.jfx-text-field .text, .jfx-date-picker, .jfx-text-area, .jfx-text-field, .jfx-password-field {
+    -fx-font-size: 13px;
+}
+
+.jfx-text-field .glyph-icon {
+    -glyph-size: 15px;
+}
+
+.jfx-check-box {
+    -jfx-checked-color: -fx-accent;
+}
+
+.jfx-date-picker {
+    -jfx-default-color: -fx-accent;
+}
+
+.drawer {
+    -fx-background-color: -fx-dark;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 6, 0, 2, 0);
+}
+
+.menu-button {
+    -fx-background-color: white;
+    -fx-padding: 0;
+    -fx-font-family: 'Saira SemiCondensed Regular';
+    -fx-font-size: 1.3em;
+    -fx-background-radius: 0;
+    -fx-graphic-text-gap: 20px;
+    -fx-alignment: top-left;
+    -fx-cursor: hand;
+}
+
+.menu-button:hover, .menu-button:disabled {
+    -fx-background-color: -fx-accent;
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.menu-button StackPane Rectangle, .icon-red {
+    -fx-fill: -fx-accent;
+    -fx-stroke: -fx-accent;
+}
+
+.jfx-hamburger-icon {
+    -fx-cursor: hand;
+}
+
+.hamburger-white StackPane {
+    -fx-background-color: white;
+}
+
+.title {
+    -fx-font-family: "Saira SemiCondensed Medium";
+    -fx-font-size: 2em;
+    -fx-padding: 20px 0 0 0;
+}
+
+.center-pane {
+    -fx-padding: 40px;
+}
+
+/*****************************************/
+/*               CARD STYLING            */
+/*****************************************/
+
+.card {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 6, 0, 0, 2);
+}
+
+.card-header {
+    -fx-font-family: "Saira SemiCondensed Medium";
+    -fx-font-size: 20px;
+    -fx-background-color: -fx-focus-color;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.card-content {
+    -fx-background-color: white;
+    -fx-font-family: "Saira SemiCondensed SemiBold";
+    -fx-font-size: 70px;
+}
+
+.card-content-h2 {
+    -fx-font-size: 20px;
+    -fx-text-fill: -fx-focus-color;
+    -fx-font-family: "Saira SemiCondensed SemiBold";
+}
+
+.card-content-text {
+    -fx-font-size: 15px;
+    -fx-font-family: "Saira SemiCondensed Light";
+    -fx-padding: 0 0 15px 0;
+}
+
+.card-content-scroll {
+    -fx-background-color: white;
+    -fx-padding: 20px 35px 20px 20px;
+}
+
+.card-footer {
+    -fx-font-family: "Saira SemiCondensed Medium";
+    -fx-font-size: 20px;
+    -fx-background-color: -fx-focus-color;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.separator {
+    -fx-padding: 15px 0;
+}
+
+/*****************************************/
+/*        TABLE VIEW STYLING            */
+/*****************************************/
+.jfx-list-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-padding: 5px;
+}
+
+.jfx-list-cell, .jfx-list-cell:focused, .jfx-list-cell:selected, .jfx-list-cell:armed {
+    -fx-text-fill: black;
+    -fx-font-size: 16px;
+    -fx-font-family: 'Open Sans';
+    -fx-padding: 30px;
+    -fx-background-color: transparent, white;
+    -fx-background-insets: 10px 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 3, 0, 0, 1);
+}
+
+.jfx-list-cell:empty {
+    -fx-background-color: transparent;
+}
+
+/*****************************************/
+/*        TABLE VIEW STYLING            */
+/*****************************************/
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .cell {
+    -fx-alignment: center;
+    -fx-font-family: 'Open Sans';
+    -fx-font-size: 14px;
+}
+
+.table-view .column-header {
+    -fx-alignment: center;
+    -fx-font-family: 'Saira SemiCondensed Light';
+    -fx-font-size: 16px;
+    -fx-background-color: dimgray;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+}
+
+.table-view .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent black transparent;
+    -fx-border-width: 1.5;
+    -fx-size: 50;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: whitesmoke;
+}
+
+.table-view .column-header-background .label {
+    -fx-background-color: transparent;
+    -fx-font-weight:bold;
+    -fx-text-fill: black;
+}
+
+.table-view .table-column {
+    -fx-alignment:center;
+}
+
+.table-row-cell {
+    -fx-background-color: whitesmoke;
+    -fx-background-insets: 0.0, 0.0 0.0 0.0 0.0;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #ebebeb;
+}
+
+.table-row-cell:empty, .table-row-cell:empty:hover {
+    -fx-background-color: transparent;
+}
+
+.table-row-cell .text {
+    -fx-fill: black ;
+}
+
+.table-row-cell:hover .text ,
+.table-row-cell:selected .text,
+.table-row-cell:hover:selected .text,
+.table-row-cell:focused:selected .text {
+    -fx-fill: white ;
+}
+
+.table-row-cell:hover ,
+.table-row-cell:selected {
+    -fx-background-color:-fx-accent;
+}
+
+
+.table-view .scroll-bar:vertical .increment-arrow,
+.table-view .scroll-bar:vertical .decrement-arrow,
+.table-view .scroll-bar:vertical .increment-button,
+.table-view .scroll-bar:vertical .decrement-button,
+.table-view .scroll-bar:horizontal .increment-arrow,
+.table-view .scroll-bar:horizontal .decrement-arrow,
+.table-view .scroll-bar:horizontal .increment-button,
+.table-view .scroll-bar:horizontal .decrement-button {
+    -fx-padding: 0;
+}
+
+#NormalTable .scroll-bar:vertical .increment-arrow,
+#NormalTable .scroll-bar:vertical .decrement-arrow,
+#NormalTable .scroll-bar:vertical .increment-button,
+#NormalTable .scroll-bar:vertical .decrement-button,
+#NormalTable .scroll-bar:horizontal .increment-arrow,
+#NormalTable .scroll-bar:horizontal .decrement-arrow,
+#NormalTable .scroll-bar:horizontal .increment-button,
+#NormalTable .scroll-bar:horizontal .decrement-button {
+    -fx-padding: 0.25em;
+}
+
+#NormalTable .increment-button ,#NormalTable .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 2em;
+
+}
+
+#NormalTable .scroll-bar:horizontal .track,
+#NormalTable .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color:derive(gray,80%);
+
+    -fx-background-radius: 2em;
+    -fx-border-radius:2em;
+}
+
+#NormalTable .scroll-bar:horizontal .thumb,
+#NormalTable .scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+.tabel-fara-butoane .table-row-cell {
+    -fx-cell-size: 40px;
+}
