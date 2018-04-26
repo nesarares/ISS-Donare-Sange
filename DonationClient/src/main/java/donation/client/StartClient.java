@@ -30,7 +30,7 @@ public class StartClient extends Application {
         ctrl.setMainService(service);
         ctrl.loadLoginWindow(root, primaryStage);
 
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/CenterView.fxml"));
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/DoctorView.fxml"));
 //        Parent root = loader.load();
 //        Scene scene = new Scene(root);
 //        primaryStage.setScene(scene);

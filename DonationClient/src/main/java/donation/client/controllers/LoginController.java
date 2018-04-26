@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import donation.client.utils.Timer;
 import donation.client.utils.animations.BounceInLeftTransition;
 import donation.client.utils.animations.BounceOutLeftTransition;
+import donation.model.UserType;
 import donation.services.IMainService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -93,25 +94,37 @@ public class LoginController implements Initializable {
         trans.play();
     }
 
-    private void loadMainView() {
+    private void loadMainView(UserType userType) {
         Parent mainView = null;
         Stage mainStage = new Stage();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/DonorView.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            switch (userType) {
+                case Donor:
+                    loader.setLocation(getClass().getResource("../views/DonorView.fxml"));
+                    break;
+                case BloodTransfusionCenter:
+                    loader.setLocation(getClass().getResource("../views/CenterView.fxml"));
+                    break;
+                case Doctor:
+                    loader.setLocation(getClass().getResource("../views/DoctorView.fxml"));
+                    break;
+            }
             mainView = loader.load();
-
 //            controllerRoot.addObserver(controller);
-            DonorController controller = loader.getController();
+            AbstractController controller = loader.getController();
 //            controllerRoot.addObserver(controller);
 
             Scene scene = new Scene(mainView);
+            mainStage.setMinWidth(810);
+            mainStage.setMinHeight(620);
             mainStage.setScene(scene);
             this.mainStage.hide();
             mainStage.show();
             controller.setLoginController(this);
             controller.setMainService(mainService, textFieldUsername.getText(), mainStage);
         } catch (Exception e) {
-            System.out.println("loadMainView->" + e.getMessage());
+            System.out.println("loadMainView -> " + e.getMessage());
         }
     }
 
@@ -122,7 +135,7 @@ public class LoginController implements Initializable {
 
         try {
             if (mainService.login(username, password, controllerRoot)) {
-                loadMainView();
+                loadMainView(mainService.getUserType(username));
                 return;
             }
             Alert msg = new Alert(Alert.AlertType.INFORMATION, "Log in unsuccessfully");

@@ -44,4 +44,9 @@ public interface IServiceAuthentication {
      */
     void logout(String username, IObserver observer);
 
+    /**
+     * @param username
+     */
+    UserType getUserType(String username);
+
 }

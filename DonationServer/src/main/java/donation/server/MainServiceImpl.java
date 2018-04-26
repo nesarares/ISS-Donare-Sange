@@ -18,24 +18,24 @@ public class MainServiceImpl implements IMainService {
     //loginService
     //todo de inlocuit mock cu ale noastre
 
-    private IRepository <User> userRepository;
+    private IRepository<User> userRepository;
 
-    private Map<String,IObserver> loggedUsers = new ConcurrentHashMap<>();
+    private Map<String, IObserver> loggedUsers = new ConcurrentHashMap<>();
 
     public MainServiceImpl(IRepository<User> userIRepository) {
         this.userRepository = userIRepository;
     }
 
     @Override
-    public boolean login(String username, String password, IObserver observer) throws  Exception {
+    public boolean login(String username, String password, IObserver observer) throws Exception {
 
-        User user = userRepository.find(x->x.getUsername().equals(username));
+        User user = userRepository.find(x -> x.getUsername().equals(username));
 
-        if(user == null || !user.getPassHash().equals(password))return false;
+        if (user == null || !user.getPassHash().equals(password)) return false;
 
-        if(loggedUsers.get(username) != null)throw  new Exception("User is already connected :(");
+        if (loggedUsers.get(username) != null) throw new Exception("User is already connected :(");
 
-        loggedUsers.put(username,observer);
+        loggedUsers.put(username, observer);
 
         notifyAllObservers();
 
@@ -46,15 +46,16 @@ public class MainServiceImpl implements IMainService {
     public void addNewUser(String username, String password, UserType userType) throws Exception {
 
         //note am pus random pt test,in baza de date va fi autoincrement
-        User user = new User(new Random().nextInt(100),username,password,userType);
+        User user = new User(new Random().nextInt(100), username, password, userType);
 
-        if(userRepository.find(x->x.getUsername().equals(username)) != null)throw  new Exception("User already exists");
+        if (userRepository.find(x -> x.getUsername().equals(username)) != null)
+            throw new Exception("User already exists");
 
         userRepository.save(user);
     }
 
     @Override
-    public void addNewUser(String username, UserType userType) throws  Exception {
+    public void addNewUser(String username, UserType userType) throws Exception {
 
     }
 
@@ -66,17 +67,20 @@ public class MainServiceImpl implements IMainService {
     @Override
     public void logout(String username, IObserver observer) {
 
-        if(loggedUsers.get(username) == null)return;
+        if (loggedUsers.get(username) == null) return;
 
-        System.out.println("User logged out " +  username);
+        System.out.println("User logged out: " + username);
         loggedUsers.remove(username);
 
         //todo view all conncted
     }
 
-
-
-
+    @Override
+    public UserType getUserType(String username) {
+        User user = userRepository.find(x -> x.getUsername().equals(username));
+        if (user == null) return null;
+        return user.getType();
+    }
 
     @Override
     public void sendBloodRequest(BloodRequest request) {
@@ -132,12 +136,12 @@ public class MainServiceImpl implements IMainService {
 
     @Override
     public List<User> getAllByType(UserType type) {
-        return userRepository.getAllFiltered(x->x.getType().equals(type));
+        return userRepository.getAllFiltered(x -> x.getType().equals(type));
     }
 
-    private void  notifyAllObservers(){
+    private void notifyAllObservers() {
 
-        for(Map.Entry<String,IObserver> obs : loggedUsers.entrySet()){
+        for (Map.Entry<String, IObserver> obs : loggedUsers.entrySet()) {
             try {
                 obs.getValue().testUpdate();
             } catch (RemoteException e) {
