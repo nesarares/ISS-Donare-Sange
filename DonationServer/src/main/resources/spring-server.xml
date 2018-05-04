@@ -5,12 +5,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-        <bean id="userRepository" class="donation.persistence.repository.UserRepository">
+        <bean id="userRepository" class="donation.persistence.repository.UserRepository"/>
+        <bean id="donorProfileRepository" class="donation.persistence.repository.DonorProfileRepository"/>
 
-        </bean>
 
         <bean id="mainService" class="donation.server.MainServiceImpl">
             <constructor-arg ref="userRepository"/>
+            <constructor-arg ref="donorProfileRepository"/>
         </bean>
 
         <bean class="org.springframework.remoting.rmi.RmiServiceExporter">

@@ -35,6 +35,6 @@ public interface IServiceDonor {
      * @param username 
      * @param profile
      */
-     void updateProfile(String username, DonorProfile profile);
+     void updateProfile(String username, DonorProfile profile) throws Exception;
 
 }

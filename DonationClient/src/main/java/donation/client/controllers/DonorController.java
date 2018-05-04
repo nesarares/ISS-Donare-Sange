@@ -1,21 +1,20 @@
 package donation.client.controllers;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.octicons.OctIcon;
 import donation.client.utils.Timer;
 import donation.model.Donation;
+import donation.model.DonorProfile;
 import donation.services.IMainService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,6 +24,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.Date;
 import java.util.ResourceBundle;
 
 public class DonorController extends AbstractController {
@@ -38,6 +38,20 @@ public class DonorController extends AbstractController {
     private JFXDrawer drawer;
     @FXML
     private AnchorPane drawerContent;
+
+    @FXML
+    private JFXTextField textFieldFirstName, textFieldLastName, textFieldCNP,
+            textFieldEmail, textFieldPhone, textFieldWeight,
+            textFieldHeight, textFieldNationality;
+
+    @FXML
+    private  JFXDatePicker datePickerBirthDate;
+
+    @FXML
+    private JFXTextArea textAreaResidenceAddress,textAreaHomeAddress;
+
+    @FXML
+    private JFXCheckBox checkBoxResidenceAddress;
 
     @FXML
     private AnchorPane homePane, donationHistoryPane, personalProfilePane, notificationsPane;
@@ -87,6 +101,7 @@ public class DonorController extends AbstractController {
 
     @Override
     public void setMainService(IMainService mainService, String username, Stage stageLogin) {
+
         super.setMainService(mainService, username, stageLogin);
 
         // TO DO: De inlocuit cu datele din profil (Nume Prenume)
@@ -105,6 +120,39 @@ public class DonorController extends AbstractController {
             drawer.toggle();
             Timer.setTimeout(() -> drawer.setVisible(false), 400);
             menuHamburger.getStyleClass().remove("hamburger-white");
+        }
+    }
+
+    @FXML
+    private void handleUpdateDonorProfile(ActionEvent event){
+
+        DonorProfile donorProfile = new DonorProfile();
+
+        donorProfile.setFirstName(textFieldFirstName.getText());
+        donorProfile.setLastName(textFieldLastName.getText());
+        donorProfile.setCNP(textFieldCNP.getText());
+
+        donorProfile.setBirthDate(null);
+        if (datePickerBirthDate.getValue() != null) donorProfile.setBirthDate(Date.valueOf(datePickerBirthDate.getValue()));
+
+        donorProfile.setEmail(textFieldEmail.getText());
+        donorProfile.setPhone(textFieldPhone.getText());
+        donorProfile.setWeight(Float.parseFloat(textFieldWeight.getText().equals("") ? "0.0" : textFieldWeight.getText()));
+        donorProfile.setHeight(Integer.parseInt(textFieldHeight.getText().equals("") ? "0" : textFieldHeight.getText()));
+        donorProfile.setNationality(textFieldNationality.getText());
+        donorProfile.setAddress(textAreaHomeAddress.getText());
+        donorProfile.setResidence(textAreaHomeAddress.getText());
+
+        if(!checkBoxResidenceAddress.isSelected())donorProfile.setResidence(textAreaResidenceAddress.getText());
+
+
+
+        try {
+            getMainService().updateProfile(getUsername(),donorProfile);
+            //todo notificare observeri
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,e.getMessage());
+            alert.showAndWait();
         }
     }
 

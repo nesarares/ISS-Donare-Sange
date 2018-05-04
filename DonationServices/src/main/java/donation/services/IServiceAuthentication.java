@@ -1,5 +1,6 @@
 package donation.services;
 
+import donation.model.DonorProfile;
 import donation.utils.IObserver;
 import donation.model.UserType;
 
@@ -24,7 +25,7 @@ public interface IServiceAuthentication {
      * @param password 
      * @param userType
      */
-    void addNewUser(String username, String password, UserType userType) throws  Exception;
+    void addNewUser(String username, String password, UserType userType, DonorProfile donorProfile) throws  Exception;
 
     /**
      * @param username 

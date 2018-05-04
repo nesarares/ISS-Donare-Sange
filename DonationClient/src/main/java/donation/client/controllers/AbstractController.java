@@ -34,4 +34,12 @@ public abstract class AbstractController implements Initializable {
     public void setLoginController(LoginController loginController) {
         this.loginController = loginController;
     }
+
+    public IMainService getMainService() {
+        return mainService;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 }

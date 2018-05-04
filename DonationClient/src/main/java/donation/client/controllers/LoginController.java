@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import donation.client.utils.Timer;
 import donation.client.utils.animations.BounceInLeftTransition;
 import donation.client.utils.animations.BounceOutLeftTransition;
+import donation.model.DonorProfile;
 import donation.model.UserType;
 import donation.services.IMainService;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.sql.Date;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -35,7 +37,7 @@ public class LoginController implements Initializable {
     @FXML
     private JFXTextField textFieldFirstName, textFieldLastName, textFieldCNP,
             textFieldEmail, textFieldPhone, textFieldWeight,
-            textFieldHeight, textFieldNationality;
+            textFieldHeight, textFieldNationality, textFieldRegisterUsername, textFieldRegisterPassword;
     @FXML
     private JFXDatePicker datePickerBirthDate;
     @FXML
@@ -49,7 +51,6 @@ public class LoginController implements Initializable {
 
     public LoginController() {
         //todo functia logincontroler va fi elimnata la urma
-        System.out.println("se apleeaza");
     }
 
     @Override
@@ -78,6 +79,8 @@ public class LoginController implements Initializable {
         datePickerBirthDate.setValue(null);
         textAreaHomeAddress.clear();
         textAreaResidenceAddress.clear();
+        textFieldRegisterPassword.clear();
+        textFieldRegisterUsername.clear();
     }
 
     @FXML
@@ -127,6 +130,44 @@ public class LoginController implements Initializable {
             System.out.println("loadMainView -> " + e.getMessage());
         }
     }
+
+
+    @FXML
+    private void handleSignUp(ActionEvent actionEvent){
+
+        DonorProfile donorProfile = new DonorProfile();
+
+        donorProfile.setFirstName(textFieldFirstName.getText());
+        donorProfile.setLastName(textFieldLastName.getText());
+        donorProfile.setCNP(textFieldCNP.getText());
+
+        donorProfile.setBirthDate(null);
+        if (datePickerBirthDate.getValue() != null) donorProfile.setBirthDate(Date.valueOf(datePickerBirthDate.getValue()));
+
+        donorProfile.setEmail(textFieldEmail.getText());
+        donorProfile.setPhone(textFieldPhone.getText());
+        donorProfile.setWeight(Float.parseFloat(textFieldWeight.getText().equals("") ? "0.0" : textFieldWeight.getText()));
+        donorProfile.setHeight(Integer.parseInt(textFieldHeight.getText().equals("") ? "0" : textFieldHeight.getText()));
+
+
+        // TODO:  trebuie verificate weight si height sa nu aiba litere
+
+
+
+        donorProfile.setNationality(textFieldNationality.getText());
+        donorProfile.setAddress(textAreaHomeAddress.getText());
+        donorProfile.setResidence(donorProfile.getAddress());
+
+        if (checkBoxResidence.isSelected()) donorProfile.setResidence(textAreaHomeAddress.getText());
+
+        try {
+            mainService.addNewUser(textFieldRegisterUsername.getText(), textFieldRegisterPassword.getText(), UserType.Donor, donorProfile);
+        } catch (Exception e) {
+            Alert msg = new Alert(Alert.AlertType.INFORMATION,e.getMessage());
+            msg.showAndWait();
+        }
+    }
+
 
     @FXML
     private void handleLogin(ActionEvent actionEvent) {

@@ -68,6 +68,7 @@ public class Repository {
     }
 
     public static <T> boolean exists(Class<T> classz, T object) {
+
         Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
