@@ -19,9 +19,6 @@ import java.util.function.Predicate;
 
 public class MainServiceImpl implements IMainService {
 
-    //loginService
-    //todo de inlocuit mock cu ale noastre
-
     private IRepository<User> userRepository;
     private IRepository<DonorProfile> donorProfileRepository;
 
@@ -123,10 +120,9 @@ public class MainServiceImpl implements IMainService {
     }
 
     @Override
-    public DonorProfile getProfile() {
-
-        System.out.println("ba est");
-        return null;
+    public DonorProfile getProfile(String username) {
+        int idUser = userRepository.find(u -> u.getUsername().equals(username)).getId();
+        return donorProfileRepository.find(p -> p.getIdUser() == idUser);
     }
 
     @Override

@@ -24,7 +24,7 @@ public interface IServiceDonor {
     /**
      * @return
      */
-     DonorProfile getProfile();
+     DonorProfile getProfile(String username);
 
     /**
      * @return

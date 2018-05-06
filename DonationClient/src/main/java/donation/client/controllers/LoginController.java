@@ -1,6 +1,7 @@
 package donation.client.controllers;
 
 import com.jfoenix.controls.*;
+import donation.client.utils.GUIUtils;
 import donation.client.utils.Timer;
 import donation.client.utils.animations.BounceInLeftTransition;
 import donation.client.utils.animations.BounceOutLeftTransition;
@@ -15,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -24,9 +26,12 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-//    private LoginService loginService;
+    //    private LoginService loginService;
     private ControllerRoot controllerRoot;
     private IMainService mainService;
+
+    @FXML
+    private StackPane stackPaneContent;
 
     @FXML
     private JFXTextField textFieldUsername;
@@ -56,6 +61,10 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         anchorPaneRegistration.setVisible(false);
+        checkBoxResidence.setOnAction(ev -> {
+            if (checkBoxResidence.isSelected()) textAreaResidenceAddress.setDisable(true);
+            else textAreaResidenceAddress.setDisable(false);
+        });
         try {
             controllerRoot = new ControllerRoot();
         } catch (RemoteException e) {
@@ -81,6 +90,7 @@ public class LoginController implements Initializable {
         textAreaResidenceAddress.clear();
         textFieldRegisterPassword.clear();
         textFieldRegisterUsername.clear();
+        checkBoxResidence.setSelected(false);
     }
 
     @FXML
@@ -133,8 +143,7 @@ public class LoginController implements Initializable {
 
 
     @FXML
-    private void handleSignUp(ActionEvent actionEvent){
-
+    private void handleSignUp(ActionEvent actionEvent) {
         DonorProfile donorProfile = new DonorProfile();
 
         donorProfile.setFirstName(textFieldFirstName.getText());
@@ -142,32 +151,35 @@ public class LoginController implements Initializable {
         donorProfile.setCNP(textFieldCNP.getText());
 
         donorProfile.setBirthDate(null);
-        if (datePickerBirthDate.getValue() != null) donorProfile.setBirthDate(Date.valueOf(datePickerBirthDate.getValue()));
+        if (datePickerBirthDate.getValue() != null)
+            donorProfile.setBirthDate(Date.valueOf(datePickerBirthDate.getValue()));
 
         donorProfile.setEmail(textFieldEmail.getText());
         donorProfile.setPhone(textFieldPhone.getText());
-        donorProfile.setWeight(Float.parseFloat(textFieldWeight.getText().equals("") ? "0.0" : textFieldWeight.getText()));
-        donorProfile.setHeight(Integer.parseInt(textFieldHeight.getText().equals("") ? "0" : textFieldHeight.getText()));
 
-
-        // TODO:  trebuie verificate weight si height sa nu aiba litere
-
-
-
+        try {
+            donorProfile.setWeight(Float.parseFloat(textFieldWeight.getText().equals("") ? "0.0" : textFieldWeight.getText()));
+        } catch (NumberFormatException ex) {
+            donorProfile.setWeight(0);
+        }
+        try {
+            donorProfile.setHeight(Integer.parseInt(textFieldHeight.getText().equals("") ? "0" : textFieldHeight.getText()));
+        } catch (NumberFormatException ex) {
+            donorProfile.setHeight(0);
+        }
         donorProfile.setNationality(textFieldNationality.getText());
         donorProfile.setAddress(textAreaHomeAddress.getText());
         donorProfile.setResidence(donorProfile.getAddress());
-
         if (checkBoxResidence.isSelected()) donorProfile.setResidence(textAreaHomeAddress.getText());
 
         try {
             mainService.addNewUser(textFieldRegisterUsername.getText(), textFieldRegisterPassword.getText(), UserType.Donor, donorProfile);
+            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Success", "Account registered successfully!", stackPaneContent);
+            handleBack(null);
         } catch (Exception e) {
-            Alert msg = new Alert(Alert.AlertType.INFORMATION,e.getMessage());
-            msg.showAndWait();
+            GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Error", e.getMessage(), stackPaneContent);
         }
     }
-
 
     @FXML
     private void handleLogin(ActionEvent actionEvent) {
@@ -179,11 +191,9 @@ public class LoginController implements Initializable {
                 loadMainView(mainService.getUserType(username));
                 return;
             }
-            Alert msg = new Alert(Alert.AlertType.INFORMATION, "Log in unsuccessfully");
-            msg.showAndWait();
+            GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Unsuccessful", "Username or password are invalid", stackPaneContent);
         } catch (Exception e) {
-            Alert msg = new Alert(Alert.AlertType.INFORMATION, e.getMessage());
-            msg.showAndWait();
+            GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Unsuccessful", e.getMessage(), stackPaneContent);
         }
     }
 

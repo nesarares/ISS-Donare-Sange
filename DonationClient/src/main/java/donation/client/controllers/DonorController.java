@@ -5,6 +5,7 @@ import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.octicons.OctIcon;
+import donation.client.utils.GUIUtils;
 import donation.client.utils.Timer;
 import donation.model.Donation;
 import donation.model.DonorProfile;
@@ -21,13 +22,22 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 
 public class DonorController extends AbstractController {
+    private DonorProfile profile;
+
+    @FXML
+    private StackPane stackPaneContent;
+
     @FXML
     private Label labelNumeDonator;
 
@@ -45,10 +55,10 @@ public class DonorController extends AbstractController {
             textFieldHeight, textFieldNationality;
 
     @FXML
-    private  JFXDatePicker datePickerBirthDate;
+    private JFXDatePicker datePickerBirthDate;
 
     @FXML
-    private JFXTextArea textAreaResidenceAddress,textAreaHomeAddress;
+    private JFXTextArea textAreaResidenceAddress, textAreaHomeAddress;
 
     @FXML
     private JFXCheckBox checkBoxResidenceAddress;
@@ -81,6 +91,7 @@ public class DonorController extends AbstractController {
 
         initTable();
         initList();
+
         toggleView(homePane, buttonHome);
     }
 
@@ -99,13 +110,38 @@ public class DonorController extends AbstractController {
         listNotifications.setItems(modelNotifications);
     }
 
+    private void initProfile() {
+        checkBoxResidenceAddress.setOnAction(ev -> {
+            if (checkBoxResidenceAddress.isSelected()) textAreaResidenceAddress.setDisable(true);
+            else textAreaResidenceAddress.setDisable(false);
+        });
+
+        textAreaHomeAddress.setText(profile.getAddress());
+        textAreaResidenceAddress.setText(profile.getResidence());
+        textFieldCNP.setText(profile.getCNP());
+        textFieldEmail.setText(profile.getEmail());
+        textFieldFirstName.setText(profile.getFirstName());
+        textFieldHeight.setText(String.valueOf(profile.getHeight()));
+        textFieldLastName.setText(profile.getLastName());
+        textFieldNationality.setText(profile.getNationality());
+        textFieldPhone.setText(profile.getPhone());
+        textFieldWeight.setText(String.valueOf(profile.getWeight()));
+        datePickerBirthDate.setValue(profile.getBirthDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+
+        if (profile.getAddress().equals(profile.getResidence())) {
+            checkBoxResidenceAddress.setSelected(true);
+            textAreaResidenceAddress.setDisable(true);
+        }
+    }
+
     @Override
     public void setMainService(IMainService mainService, String username, Stage stageLogin) {
 
         super.setMainService(mainService, username, stageLogin);
 
-        // TO DO: De inlocuit cu datele din profil (Nume Prenume)
-        labelNumeDonator.setText(username);
+        profile = mainService.getProfile(username);
+        labelNumeDonator.setText(profile.getFirstName() + " " + profile.getLastName());
+        initProfile();
     }
 
     @FXML
@@ -124,7 +160,7 @@ public class DonorController extends AbstractController {
     }
 
     @FXML
-    private void handleUpdateDonorProfile(ActionEvent event){
+    private void handleUpdateDonorProfile(ActionEvent event) {
 
         DonorProfile donorProfile = new DonorProfile();
 
@@ -133,7 +169,8 @@ public class DonorController extends AbstractController {
         donorProfile.setCNP(textFieldCNP.getText());
 
         donorProfile.setBirthDate(null);
-        if (datePickerBirthDate.getValue() != null) donorProfile.setBirthDate(Date.valueOf(datePickerBirthDate.getValue()));
+        if (datePickerBirthDate.getValue() != null)
+            donorProfile.setBirthDate(Date.valueOf(datePickerBirthDate.getValue()));
 
         donorProfile.setEmail(textFieldEmail.getText());
         donorProfile.setPhone(textFieldPhone.getText());
@@ -143,16 +180,16 @@ public class DonorController extends AbstractController {
         donorProfile.setAddress(textAreaHomeAddress.getText());
         donorProfile.setResidence(textAreaHomeAddress.getText());
 
-        if(!checkBoxResidenceAddress.isSelected())donorProfile.setResidence(textAreaResidenceAddress.getText());
-
-
+        if (!checkBoxResidenceAddress.isSelected()) donorProfile.setResidence(textAreaResidenceAddress.getText());
 
         try {
-            getMainService().updateProfile(getUsername(),donorProfile);
+            getMainService().updateProfile(getUsername(), donorProfile);
+            profile = donorProfile;
+            labelNumeDonator.setText(profile.getFirstName() + " " + profile.getLastName());
             //todo notificare observeri
-        }catch (Exception e){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION,e.getMessage());
-            alert.showAndWait();
+            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Success", "Account profile modified successfully!", stackPaneContent);
+        } catch (Exception e) {
+            GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Error", e.getMessage(), stackPaneContent);
         }
     }
 
