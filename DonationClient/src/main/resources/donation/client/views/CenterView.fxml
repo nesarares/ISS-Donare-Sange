@@ -138,8 +138,8 @@
                                        <children>
                                           <VBox prefWidth="100.0" spacing="30.0">
                                              <children>
-                                                <JFXTextField promptText="Search donor" />
-                                                <JFXListView VBox.vgrow="ALWAYS" />
+                                                <JFXTextField fx:id="fieldSearchQuestionnaire" promptText="Search donor" />
+                                                <JFXListView fx:id="listQuestionnaireDonors" VBox.vgrow="ALWAYS" />
                                                 <JFXButton prefHeight="38.0" prefWidth="1318.0" styleClass="btn" text="Submit" />
                                              </children>
                                           </VBox>
@@ -239,8 +239,8 @@
                                        <children>
                                           <VBox prefWidth="100.0" spacing="30.0">
                                              <children>
-                                                <JFXTextField promptText="Search donor" />
-                                                <JFXListView VBox.vgrow="ALWAYS" />
+                                                <JFXTextField fx:id="fieldSearchDonation" promptText="Search donor" />
+                                                <JFXListView fx:id="listDonationDonors" VBox.vgrow="ALWAYS" />
                                                 <JFXButton prefHeight="38.0" prefWidth="1318.0" styleClass="btn" text="Submit" />
                                              </children>
                                           </VBox>
@@ -299,7 +299,7 @@
                            <center>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
                                  <children>
-                                    <JFXListView fx:id="listNotifications" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <JFXListView fx:id="listNotifications" styleClass="notif" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                            </center>

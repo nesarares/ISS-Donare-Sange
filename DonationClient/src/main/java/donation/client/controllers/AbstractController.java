@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public abstract class AbstractController implements Initializable {
     private LoginController loginController;
-    private IMainService mainService;
+    protected IMainService mainService;
     private String username;
     private Stage stageView;
 

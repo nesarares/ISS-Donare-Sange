@@ -147,14 +147,14 @@
 /*****************************************/
 /*        TABLE VIEW STYLING            */
 /*****************************************/
-.jfx-list-view {
+.notif {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-focus-color: transparent;
     -fx-padding: 5px;
 }
 
-.jfx-list-cell, .jfx-list-cell:focused, .jfx-list-cell:selected, .jfx-list-cell:armed {
+.notif .jfx-list-cell, .notif .jfx-list-cell:focused, .notif .jfx-list-cell:selected, .notif .jfx-list-cell:armed {
     -fx-text-fill: black;
     -fx-font-size: 16px;
     -fx-font-family: 'Open Sans';
@@ -164,7 +164,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 3, 0, 0, 1);
 }
 
-.jfx-list-cell:empty {
+.notif .jfx-list-cell:empty {
     -fx-background-color: transparent;
 }
 

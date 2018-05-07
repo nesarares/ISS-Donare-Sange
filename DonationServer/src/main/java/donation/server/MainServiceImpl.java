@@ -137,7 +137,7 @@ public class MainServiceImpl implements IMainService {
         int id = userRepository.find(u -> u.getUsername().equals(username)).getId();
         profile.setIdUser(id);
 
-        int oldProfileId = donorProfileRepository.find(d->d.getIdUser() == id).getID();
+        int oldProfileId = donorProfileRepository.find(d -> d.getIdUser() == id).getID();
         donorProfileRepository.update(oldProfileId, profile);
     }
 
@@ -164,6 +164,19 @@ public class MainServiceImpl implements IMainService {
     @Override
     public void updateDonation(String username, Donation donation) {
 
+    }
+
+    @Override
+    public List<DonorProfile> getDonorProfiles(String keyword) {
+        return donorProfileRepository.getAllFiltered(p ->
+                p.getFirstName()
+                    .concat(" ")
+                    .concat(p.getLastName())
+                    .concat(" ")
+                    .concat(p.getCNP())
+                    .toLowerCase()
+                    .contains(keyword.toLowerCase())
+        );
     }
 
     @Override

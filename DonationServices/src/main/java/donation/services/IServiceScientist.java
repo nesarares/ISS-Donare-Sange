@@ -2,6 +2,7 @@ package donation.services;
 
 import donation.model.BloodComponentQuantity;
 import donation.model.Donation;
+import donation.model.DonorProfile;
 import donation.model.MedicalQuestionnaire;
 
 import java.util.*;
@@ -39,5 +40,10 @@ public interface IServiceScientist {
      * @param donation
      */
      void updateDonation(String username, Donation donation);
+
+    /**
+     * @return
+     */
+     List<DonorProfile> getDonorProfiles(String keyword);
 
 }
