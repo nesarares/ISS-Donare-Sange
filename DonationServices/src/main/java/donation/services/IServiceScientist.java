@@ -16,7 +16,7 @@ public interface IServiceScientist {
     /**
      * @param questionnaire
      */
-    void addMedicalQuestionnaire(MedicalQuestionnaire questionnaire);
+    void addMedicalQuestionnaire(MedicalQuestionnaire questionnaire) throws  Exception;
 
     /**
      * @param bloodComponentFilter 
@@ -33,7 +33,7 @@ public interface IServiceScientist {
      * @param username 
      * @param donation
      */
-     void addDonation(String username, Donation donation);
+     void addDonation(String username, Donation donation) throws  Exception;
 
     /**
      * @param username 

@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class MedicalQuestionnaireRepository {
+public class MedicalQuestionnaireRepository implements  IRepository<MedicalQuestionnaire>{
+
     public MedicalQuestionnaireRepository() {
     }
 

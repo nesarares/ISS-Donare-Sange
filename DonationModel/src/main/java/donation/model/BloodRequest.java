@@ -21,6 +21,7 @@ public class BloodRequest {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
     /**

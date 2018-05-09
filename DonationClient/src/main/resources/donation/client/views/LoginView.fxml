@@ -31,7 +31,7 @@
                         <Font name="Roboto" size="16.0" />
                      </font>
                   </JFXPasswordField>
-                  <JFXButton layoutX="166.0" layoutY="528.0" onAction="#handleLogin" prefHeight="44.0" prefWidth="142.0" styleClass="btn" text="Login" textFill="#323232" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="165.0">
+                  <JFXButton fx:id="buttonLogin" layoutX="166.0" layoutY="528.0" onAction="#handleLogin" prefHeight="44.0" prefWidth="142.0" styleClass="btn" text="Login" textFill="#323232" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="165.0">
                      <font>
                         <Font size="18.0" />
                      </font>

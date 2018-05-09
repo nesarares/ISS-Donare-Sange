@@ -6,10 +6,12 @@ import donation.persistence.repository.Repository;
 import donation.persistence.repository.RepositoryException;
 import donation.persistence.repository.UserRepository;
 import donation.server.MainServiceImpl;
+import donation.server.utils.DayCounter;
 import donation.services.IMainService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.sql.Date;
 import java.util.Optional;
 import java.util.function.Predicate;
 

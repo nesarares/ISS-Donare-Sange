@@ -8,6 +8,7 @@ import donation.client.utils.animations.BounceOutLeftTransition;
 import donation.model.DonorProfile;
 import donation.model.UserType;
 import donation.services.IMainService;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +40,7 @@ public class LoginController implements Initializable {
     private JFXPasswordField textFieldPassword;
     @FXML
     private AnchorPane anchorPaneRegistration;
+
     @FXML
     private JFXTextField textFieldFirstName, textFieldLastName, textFieldCNP,
             textFieldEmail, textFieldPhone, textFieldWeight,
@@ -49,6 +51,9 @@ public class LoginController implements Initializable {
     private JFXTextArea textAreaHomeAddress, textAreaResidenceAddress;
     @FXML
     private JFXCheckBox checkBoxResidence;
+
+    @FXML
+    private JFXButton buttonLogin;
 
     private Stage mainStage;
 
@@ -108,37 +113,50 @@ public class LoginController implements Initializable {
     }
 
     private void loadMainView(UserType userType) {
-        Parent mainView = null;
-        Stage mainStage = new Stage();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            switch (userType) {
-                case Donor:
-                    loader.setLocation(getClass().getResource("../views/DonorView.fxml"));
-                    break;
-                case BloodTransfusionCenter:
-                    loader.setLocation(getClass().getResource("../views/CenterView.fxml"));
-                    break;
-                case Doctor:
-                    loader.setLocation(getClass().getResource("../views/DoctorView.fxml"));
-                    break;
-            }
-            mainView = loader.load();
-//            controllerRoot.addObserver(controller);
-            AbstractController controller = loader.getController();
-//            controllerRoot.addObserver(controller);
 
-            Scene scene = new Scene(mainView);
-            mainStage.setMinWidth(810);
-            mainStage.setMinHeight(620);
-            mainStage.setScene(scene);
-            this.mainStage.hide();
-            mainStage.show();
-            controller.setLoginController(this);
-            controller.setMainService(mainService, textFieldUsername.getText(), mainStage);
-        } catch (Exception e) {
-            System.out.println("loadMainView -> " + e.getMessage());
-        }
+        Platform.runLater(()-> {
+
+            Parent mainView = null;
+            Stage mainStage = new Stage();
+
+            try {
+                FXMLLoader loader = new FXMLLoader();
+
+                switch (userType) {
+                    case Donor:
+                        loader.setLocation(getClass().getResource("../views/DonorView.fxml"));
+                        break;
+                    case BloodTransfusionCenter:
+                        loader.setLocation(getClass().getResource("../views/CenterView.fxml"));
+                        break;
+                    case Doctor:
+                        loader.setLocation(getClass().getResource("../views/DoctorView.fxml"));
+                        break;
+                }
+
+                mainView = loader.load();
+
+                controllerRoot.removeObserver(null);
+                AbstractController controller = loader.getController();
+                controllerRoot.addObserver(controller);
+                controller.setControllerRoot(controllerRoot);
+
+                Scene scene = new Scene(mainView);
+                mainStage.setMinWidth(810);
+                mainStage.setMinHeight(620);
+                mainStage.setScene(scene);
+
+                this.mainStage.hide();
+                mainStage.show();
+
+                controller.setLoginController(this);
+                controller.setMainService(mainService, textFieldUsername.getText(), mainStage);
+
+            } catch (Exception e) {
+                System.out.println("loadMainView -> " + e.getMessage());
+            }
+
+        });
     }
 
 
@@ -186,15 +204,29 @@ public class LoginController implements Initializable {
         String username = textFieldUsername.getText();
         String password = textFieldPassword.getText();
 
-        try {
-            if (mainService.login(username, password, controllerRoot)) {
-                loadMainView(mainService.getUserType(username));
-                return;
-            }
-            GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Unsuccessful", "Username or password are invalid", stackPaneContent);
-        } catch (Exception e) {
-            GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Unsuccessful", e.getMessage(), stackPaneContent);
-        }
+
+        buttonLogin.setDisable(true);
+        textFieldUsername.setDisable(true);
+        textFieldPassword.setDisable(true);
+        new Thread(()->{
+            try {
+                    if (mainService.login(username, password, controllerRoot)) {
+                        loadMainView(mainService.getUserType(username));
+                        return;
+                    }
+                    Platform.runLater(()->GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Unsuccessful", "Username or password are invalid", stackPaneContent));
+                } catch (Exception e) {
+                    Platform.runLater(()->GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Unsuccessful", e.getMessage(), stackPaneContent));
+                }
+                finally {
+                    Platform.runLater(()->{
+                        buttonLogin.setDisable(false);
+                        textFieldUsername.setDisable(false);
+                        textFieldPassword.setDisable(false);
+                    });
+                }
+
+        }).start();
     }
 
     public void loadLoginWindow(Parent show, Stage primaryStage) {
@@ -205,7 +237,7 @@ public class LoginController implements Initializable {
         mainStage.show();
     }
 
-    public void showLoginWindow() {
+    void showLoginWindow() {
         mainStage.show();
     }
 }

@@ -19,6 +19,7 @@ public class BloodComponentQuantity implements Serializable {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
     @Column(name = "idDonation")

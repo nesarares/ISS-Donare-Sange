@@ -22,6 +22,7 @@ public class Donation  implements Serializable{
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
     /**

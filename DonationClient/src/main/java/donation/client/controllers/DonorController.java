@@ -10,6 +10,9 @@ import donation.client.utils.Timer;
 import donation.model.Donation;
 import donation.model.DonorProfile;
 import donation.services.IMainService;
+import donation.utils.IObserver;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,6 +29,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,6 +37,7 @@ import java.time.ZoneId;
 import java.util.ResourceBundle;
 
 public class DonorController extends AbstractController {
+
     private DonorProfile profile;
 
     @FXML
@@ -96,7 +101,7 @@ public class DonorController extends AbstractController {
     }
 
     private void initTable() {
-        columnDate.setCellValueFactory(new PropertyValueFactory<>("donationDate"));
+        columnDate.setCellValueFactory(date->new SimpleStringProperty(date.getValue().getDonationDate().toString().split(" ")[0]));
         columnHepatitis.setCellValueFactory(new PropertyValueFactory<>("HIVorAIDS"));
         columnHivoraids.setCellValueFactory(new PropertyValueFactory<>("hepatitis"));
         columnHTLV.setCellValueFactory(new PropertyValueFactory<>("syphilis"));
@@ -107,6 +112,12 @@ public class DonorController extends AbstractController {
     }
 
     private void initList() {
+
+        listNotifications.setOnMouseClicked(ev-> {
+            mainService.removeNotificationFromDonor(getUsername(), listNotifications.getSelectionModel().getSelectedItem());
+            modelNotifications.remove(listNotifications.getSelectionModel().getSelectedItem());
+        });
+
         listNotifications.setItems(modelNotifications);
     }
 
@@ -208,6 +219,13 @@ public class DonorController extends AbstractController {
         buttonClicked.setDisable(true);
     }
 
+
+    private void setDonationTableData(){
+        modelDonation.setAll(
+                mainService.getHistory(getUsername())
+        );
+    }
+
     @FXML
     private void handleButtonHome(ActionEvent actionEvent) {
         toggleView(homePane, buttonHome);
@@ -218,6 +236,7 @@ public class DonorController extends AbstractController {
     private void handleButtonDonation(ActionEvent actionEvent) {
         toggleView(donationHistoryPane, buttonDonation);
         handleDrawer(null);
+        setDonationTableData();
     }
 
     @FXML
@@ -230,5 +249,37 @@ public class DonorController extends AbstractController {
     private void handleButtonNotifications(ActionEvent actionEvent) {
         toggleView(notificationsPane, buttonNotifications);
         handleDrawer(null);
+    }
+
+    @Override
+    public void addObserver(IObserver observer) throws RemoteException {
+        throw new RemoteException("Not available");
+    }
+
+    @Override
+    public void removeObserver(IObserver observer) throws RemoteException {
+        throw  new RemoteException("Not available");
+    }
+
+    @Override
+    public void testUpdate() throws RemoteException {
+
+    }
+
+    @Override
+    public void notifyDonorAnalyseFinished(String username, String message) throws RemoteException {
+
+        System.out.println("Notified->" +  message);
+
+        Platform.runLater(()->{//todo @RaresNesa trebuie cumva formatat mesajul nu am mai avut timp
+            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION,"Message","You have new notifications",stackPaneContent);
+            modelNotifications.add(message);
+        });
+    }
+
+    @Override
+    public void notifyDonorUpdateHistory(String username) throws RemoteException {
+        //todo sa punem notificarile pe thread-uri separate in MainImpl @OnuEdy,@GeorgeMihali
+        Platform.runLater(this::setDonationTableData);
     }
 }

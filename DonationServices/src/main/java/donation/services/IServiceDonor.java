@@ -29,7 +29,7 @@ public interface IServiceDonor {
     /**
      * @return
      */
-     List<Donation> getHistory();
+     List<Donation> getHistory(String username);
 
     /**
      * @param username 
