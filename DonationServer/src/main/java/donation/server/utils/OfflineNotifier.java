@@ -2,20 +2,21 @@ package donation.server.utils;
 
 import donation.services.IMainService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class OfflineNotifier {
 
-    private HashMap <String,Vector<String> > undeliveredMessages = new HashMap<>();
+    private HashMap <String,Set<String>> undeliveredMessages = new HashMap<>();
     private final int REGISTERTIME = 1000;
 
-    public void sendUndeliveredMessages(String username, BiConsumer<String,String> consumer){
+    public synchronized void sendUndeliveredMessages(String username, BiConsumer<String,String> consumer){
+
+        undeliveredMessages.forEach((x,y)->{
+            System.out.println("Username: " + x + " Messages" + y.toString());
+        });
 
         if(undeliveredMessages.get(username).size() == 0)return;
 
@@ -37,15 +38,21 @@ public class OfflineNotifier {
     public synchronized  void addMessage(String username,String message){
 
         if(undeliveredMessages.get(username) == null){
-            Vector <String> vector = new Vector<>();vector.add(message);
-            undeliveredMessages.put(username,vector);
+            Set<String> set = new HashSet<>();
+            set.add(message);
+            undeliveredMessages.put(username,set);
             return;
         }
 
         undeliveredMessages.get(username).add(message);
     }
 
-    public boolean hasUndeliveredMessages(String username){
+    public synchronized boolean hasUndeliveredMessages(String username){
+
+        if(undeliveredMessages.get(username) != null){
+            System.out.println(username + " " + undeliveredMessages.get(username).size());
+        }
+
         return !(undeliveredMessages.get(username) == null || undeliveredMessages.get(username).isEmpty());
     }
 
@@ -53,11 +60,10 @@ public class OfflineNotifier {
 
         if(undeliveredMessages.get(username) == null || undeliveredMessages.get(username).size() == 0)return;
 
-        Vector <String> notificationsFromDonor = undeliveredMessages.get(username);
+        Set <String> notificationsFromDonor = undeliveredMessages.get(username);
 
         System.out.println("before->" + notificationsFromDonor);
-        Vector <String> notificationsToSend = new Vector<>(notificationsFromDonor.stream().filter(x->!x.equals(message)).collect(Collectors.toList()));
-
+        Set <String> notificationsToSend = new HashSet<>(notificationsFromDonor.stream().filter(x->!x.equals(message)).collect(Collectors.toList()));
         System.out.println("after->" + notificationsToSend);
 
         undeliveredMessages.put(username,notificationsToSend);

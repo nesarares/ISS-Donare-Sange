@@ -25,6 +25,11 @@ public class Donation  implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
+    @Column(name ="idTransfusionCenter")
+    private int idTransfusionCenter;
+
+
+
     /**
      * 
      */
@@ -174,5 +179,13 @@ public class Donation  implements Serializable{
 
     public void setDonationStatus(DonationStatus donationStatus) {
         this.donationStatus = donationStatus;
+    }
+
+    public int getIdTransfusionCenter() {
+        return idTransfusionCenter;
+    }
+
+    public void setIdTransfusionCenter(int idTransfusionCenter) {
+        this.idTransfusionCenter = idTransfusionCenter;
     }
 }

@@ -16,20 +16,11 @@ public abstract class AbstractController implements Initializable,IObserver {
 
     @FXML
     protected void handleLogoutEvent(ActionEvent e) {
-        System.out.println("Logging out...");
-
-
-        System.out.println("Observers before logout->" + controllerRoot.getObservers().size());
-
+        System.out.println(controllerRoot.getObservers().size());
         mainService.logout(username,null);
-
         controllerRoot.getObservers().clear();
-        System.out.println("Observers after logout->" + controllerRoot.getObservers().size());
         loginController.showLoginWindow();
-
         stageView.close();
-
-
     }
 
     public void setMainService(IMainService mainService, String username, Stage stageView) {
@@ -41,6 +32,10 @@ public abstract class AbstractController implements Initializable,IObserver {
             mainService.logout(username, null);
             System.exit(0);
         });
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setLoginController(LoginController loginController) {

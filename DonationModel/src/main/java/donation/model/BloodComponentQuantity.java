@@ -28,6 +28,7 @@ public class BloodComponentQuantity implements Serializable {
     @Column(name = "idRequest")
     private int IDrequest;
 
+
     /**
      * 
      */
@@ -65,6 +66,21 @@ public class BloodComponentQuantity implements Serializable {
     private BloodStatus bloodStatus;
 
 
+    public int getIDdonation() {
+        return IDdonation;
+    }
+
+    public void setIDdonation(int IDdonation) {
+        this.IDdonation = IDdonation;
+    }
+
+    public int getIDrequest() {
+        return IDrequest;
+    }
+
+    public void setIDrequest(int IDrequest) {
+        this.IDrequest = IDrequest;
+    }
 
     public int getID() {
         return ID;
@@ -121,4 +137,5 @@ public class BloodComponentQuantity implements Serializable {
     public void setBloodStatus(BloodStatus bloodStatus) {
         this.bloodStatus = bloodStatus;
     }
+
 }

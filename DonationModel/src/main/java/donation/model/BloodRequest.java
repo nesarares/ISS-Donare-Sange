@@ -27,9 +27,9 @@ public class BloodRequest {
     /**
      * 
      */
-    @OneToMany(mappedBy = "IDrequest", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @Fetch(FetchMode.SELECT)
-    private List<BloodComponentQuantity> bloodComponentQuantities;
+//    @OneToMany(mappedBy = "IDrequest", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @Fetch(FetchMode.SELECT)
+    //private List<BloodComponentQuantity> bloodComponentQuantities;
 
     /**
      * 
@@ -54,14 +54,6 @@ public class BloodRequest {
 
     public void setBloodRequestStatus(BloodRequestStatus bloodRequestStatus) {
         this.bloodRequestStatus = bloodRequestStatus;
-    }
-
-    public List<BloodComponentQuantity> getBloodComponentQuantities() {
-        return bloodComponentQuantities;
-    }
-
-    public void setBloodComponentQuantities(List<BloodComponentQuantity> bloodComponentQuantities) {
-        this.bloodComponentQuantities = bloodComponentQuantities;
     }
 
     public int getID() {

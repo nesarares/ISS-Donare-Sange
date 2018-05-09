@@ -33,6 +33,7 @@ import java.rmi.RemoteException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ResourceBundle;
 
@@ -60,6 +61,9 @@ public class DonorController extends AbstractController {
             textFieldHeight, textFieldNationality;
 
     @FXML
+    private Label labelDonationsSoFar, labelDaysLeftUntilNextDonation;
+
+    @FXML
     private JFXDatePicker datePickerBirthDate;
 
     @FXML
@@ -83,9 +87,9 @@ public class DonorController extends AbstractController {
     @FXML
     JFXListView<String> listNotifications;
     private ObservableList<String> modelNotifications = FXCollections.observableArrayList(
-            "2018-03-18 - The new analysis have arrived.",
-            "2018-02-26 - There is a blood alert!",
-            "2018-02-03 - The new analysis have arrived.");
+            "2018-03-18 - The new analysis have arrived. (Test)",
+            "2018-02-26 - There is a blood alert! (Test)",
+            "2018-02-03 - The new analysis have arrived. (Test)");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -93,6 +97,9 @@ public class DonorController extends AbstractController {
         burgerTask.setRate(-1);
         drawer.setSidePane(drawerContent);
         drawerContent.setVisible(true);
+
+        labelDonationsSoFar.setText("");
+        labelDaysLeftUntilNextDonation.setText("");
 
         initTable();
         initList();
@@ -102,11 +109,11 @@ public class DonorController extends AbstractController {
 
     private void initTable() {
         columnDate.setCellValueFactory(date->new SimpleStringProperty(date.getValue().getDonationDate().toString().split(" ")[0]));
-        columnHepatitis.setCellValueFactory(new PropertyValueFactory<>("HIVorAIDS"));
-        columnHivoraids.setCellValueFactory(new PropertyValueFactory<>("hepatitis"));
-        columnHTLV.setCellValueFactory(new PropertyValueFactory<>("syphilis"));
-        columnLevelalt.setCellValueFactory(new PropertyValueFactory<>("HTLV"));
-        columnSyphilis.setCellValueFactory(new PropertyValueFactory<>("levelALT"));
+        columnHepatitis.setCellValueFactory(new PropertyValueFactory<>("hepatitis"));
+        columnHivoraids.setCellValueFactory(new PropertyValueFactory<>("HIVorAIDS"));
+        columnHTLV.setCellValueFactory(new PropertyValueFactory<>("HTLV"));
+        columnLevelalt.setCellValueFactory(new PropertyValueFactory<>("levelALT"));
+        columnSyphilis.setCellValueFactory(new PropertyValueFactory<>("syphilis"));
 
         tableDonation.setItems(modelDonation);
     }
@@ -145,6 +152,18 @@ public class DonorController extends AbstractController {
         }
     }
 
+    private void updateLabels(){
+
+        new Thread(()->{
+            setDonationTableData();
+            Platform.runLater(  ()->{
+                labelDonationsSoFar.setText("" + modelDonation.size());
+                labelDaysLeftUntilNextDonation.setText(mainService.getDaysUntilNextDonationForDonor(getUsername(), Date.valueOf(LocalDate.now())) + "");
+            });
+        }).start();
+
+    }
+
     @Override
     public void setMainService(IMainService mainService, String username, Stage stageLogin) {
 
@@ -153,6 +172,7 @@ public class DonorController extends AbstractController {
         profile = mainService.getProfile(username);
         labelNumeDonator.setText(profile.getFirstName() + " " + profile.getLastName());
         initProfile();
+        updateLabels();
     }
 
     @FXML
@@ -280,6 +300,9 @@ public class DonorController extends AbstractController {
     @Override
     public void notifyDonorUpdateHistory(String username) throws RemoteException {
         //todo sa punem notificarile pe thread-uri separate in MainImpl @OnuEdy,@GeorgeMihali
-        Platform.runLater(this::setDonationTableData);
+        Platform.runLater(()->{
+            setDonationTableData();
+            updateLabels();
+        });
     }
 }

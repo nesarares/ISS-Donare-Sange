@@ -4,10 +4,7 @@ import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
 import donation.client.utils.GUIUtils;
 import donation.client.utils.Timer;
-import donation.model.Donation;
-import donation.model.DonationStatus;
-import donation.model.DonorProfile;
-import donation.model.MedicalQuestionnaire;
+import donation.model.*;
 import donation.services.IMainService;
 import donation.utils.IObserver;
 import javafx.collections.FXCollections;
@@ -84,6 +81,14 @@ import java.util.ResourceBundle;
     private JFXCheckBox checkBoxHIVOrAIDS,checkBoxHepatitisDonation,checkBoxSyphilis,checkBoxHTLV;
 
     @FXML
+    private JFXComboBox<ABOBloodGroup> comboBoxBloodGroup;
+    @FXML
+    private JFXComboBox<RhBloodGroup> comboBoxBloodRh;
+
+    @FXML
+    private Label labelTotalDonationsSoFar, labelActiveBloodRequest;
+
+    @FXML
     JFXListView<String> listNotifications;
     private ObservableList<String> modelNotifications = FXCollections.observableArrayList(
             "2018-03-18 - A new blood request arrived.",
@@ -100,8 +105,20 @@ import java.util.ResourceBundle;
         initListDonors();
         initListNotifications();
         initSearchFields();
+        initComboBoxes();
         toggleView(homePane, buttonHome);
     }
+
+    private void initLabels(){
+        labelTotalDonationsSoFar.setText(mainService.getAllDonationsForCenter(getUsername()) + "");
+        //todo de completat atunci cand apare un request de sange
+        labelActiveBloodRequest.setText("0");
+    }
+
+    private void initComboBoxes(){
+        comboBoxBloodGroup.getItems().addAll(ABOBloodGroup.values());
+        comboBoxBloodRh.getItems().addAll(RhBloodGroup.values())
+;    }
 
     private void initSearchFields() {
         fieldSearchDonation.textProperty().addListener(o -> handleSearchTextChanged(fieldSearchDonation));
@@ -128,7 +145,7 @@ import java.util.ResourceBundle;
     @Override
     public void setMainService(IMainService mainService, String username, Stage stageLogin) {
         super.setMainService(mainService, username, stageLogin);
-
+        initLabels();
         labelCenterName.setText(username);
     }
 
@@ -287,18 +304,21 @@ import java.util.ResourceBundle;
 
     private void buildDonation(Donation donation) throws  Exception{
 
-        if(datePickerDonationDate.getValue() == null)throw new Exception("You must enter a donation date!");
+        if(datePickerDonationDate.getValue() == null || datePickerDonationDate.getValue().compareTo(LocalDate.now()) > 0)throw new Exception("You must enter a valid donation date!");
 
         if(textFieldLevelALT.getText().equals(""))throw new Exception("You must specify the ALT level!");
 
         if(textFieldLevelALT.getText().equals(""))throw new Exception("The ALT level must be specified!");
+
+        if(comboBoxBloodRh.getValue() == null) throw new Exception("You must specify the Blood Group Rh!");
+
+        if(comboBoxBloodGroup.getValue() == null) throw new Exception("You must specify the Blood Group");
 
         donation.setHepatitis(checkBoxHepatitisDonation.isSelected());
         donation.setHIVorAIDS(checkBoxHIVOrAIDS.isSelected());
         donation.setSyphilis(checkBoxSyphilis.isSelected());
         donation.setHTLV(checkBoxHTLV.isSelected());
 
-        System.out.println(Date.valueOf(datePickerDonationDate.getValue()));
         donation.setDonationDate(Date.valueOf(datePickerDonationDate.getValue()));
 
         try {
@@ -311,7 +331,14 @@ import java.util.ResourceBundle;
 
         if(listDonationDonors.getSelectionModel().getSelectedItem() == null)throw new Exception("You must select a donor in order to continue!");
 
-        donation.setDonor(mainService.getUserById(listDonationDonors.getSelectionModel().getSelectedItem().getIdUser()));
+        User user = mainService.getUserById(listDonationDonors.getSelectionModel().getSelectedItem().getIdUser());
+        donation.setDonor(user);
+
+        DonorProfile donorProfile = mainService.getProfile(user.getUsername());
+        donorProfile.setAboBloodGroup(comboBoxBloodGroup.getValue());
+        donorProfile.setRhBloodGroup(comboBoxBloodRh.getValue());
+
+        mainService.updateProfile(user.getUsername(),donorProfile);
     }
 
     @FXML
@@ -322,6 +349,7 @@ import java.util.ResourceBundle;
         try {
             buildDonation(donation);
             mainService.addDonation(getUsername(),donation);
+            initLabels();
             GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION,"Success","Donation was added successfully!",stackPane);
         }catch (Exception e){
             GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION,"Error",e.getMessage(),stackPane);

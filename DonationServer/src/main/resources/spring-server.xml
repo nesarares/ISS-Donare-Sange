@@ -9,12 +9,14 @@
         <bean id="donorProfileRepository" class="donation.persistence.repository.DonorProfileRepository"/>
         <bean id ="medicalQuestionnaireRepository" class="donation.persistence.repository.MedicalQuestionnaireRepository"/>
         <bean id ="donationRepository" class="donation.persistence.repository.DonationRepository"/>
+        <bean id="bloodComponentQuantityRepository" class ="donation.persistence.repository.BloodComponentQuantityRepository"/>
 
         <bean id="mainService" class="donation.server.MainServiceImpl">
             <constructor-arg ref="userRepository"/>
             <constructor-arg ref="donorProfileRepository"/>
             <constructor-arg ref="medicalQuestionnaireRepository"/>
             <constructor-arg ref="donationRepository"/>
+            <constructor-arg ref="bloodComponentQuantityRepository"/>
         </bean>
 
         <bean class="org.springframework.remoting.rmi.RmiServiceExporter">

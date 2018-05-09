@@ -25,6 +25,8 @@ public class MainServiceImpl implements IMainService {
     private IRepository<DonorProfile> donorProfileRepository;
     private IRepository<MedicalQuestionnaire> medicalQuestionnaireRepository;
     private IRepository <Donation> donationRepository;
+    private IRepository<BloodComponentQuantity> bloodComponentQuantityRepository;
+
 
     private IValidator<User> userValidator = new ValidatorUser();
     private IValidator<DonorProfile> donorProfileValidator = new ValidatorDonorProfile();
@@ -33,12 +35,22 @@ public class MainServiceImpl implements IMainService {
 
     private OfflineNotifier notifier = new OfflineNotifier();
 
-    public MainServiceImpl(IRepository<User> userIRepository, IRepository<DonorProfile> donorProfileRepository,IRepository <MedicalQuestionnaire> medicalQuestionnaireRepository,IRepository <Donation> donationIRepository) {
+    private final int DAYS_UNTIL_NEXT_DONATION = 30;
+    private final int BLOOD_BAG_QUANTITY  = 450;
+    private final int BLOOD_COMPONENT_QUANTITY = BLOOD_BAG_QUANTITY / 3;
+
+
+    public MainServiceImpl(IRepository<User> userIRepository,
+                           IRepository<DonorProfile> donorProfileRepository,
+                           IRepository <MedicalQuestionnaire> medicalQuestionnaireRepository,
+                           IRepository <Donation> donationIRepository,
+                           IRepository<BloodComponentQuantity> bloodComponentQuantityRepository) {
 
         this.userRepository = userIRepository;
         this.donorProfileRepository = donorProfileRepository;
         this.medicalQuestionnaireRepository = medicalQuestionnaireRepository;
         this.donationRepository = donationIRepository;
+        this.bloodComponentQuantityRepository = bloodComponentQuantityRepository;
     }
 
     @Override
@@ -165,7 +177,6 @@ public class MainServiceImpl implements IMainService {
 
     }
 
-
     private MedicalQuestionnaire getLastQuestionnaire(int userId) throws  Exception{
 
         Optional <MedicalQuestionnaire> lastQuestionnaire =
@@ -197,8 +208,59 @@ public class MainServiceImpl implements IMainService {
         throw new Exception("The user could not donate because he have not passed the 30-days no donation period!");
     }
 
-    private void addDonationHelper(Donation donation) throws  Exception{
-        //todo getlast donation,verify if the number of days is bigger 30 add into database refresh the tables
+
+    private BloodComponentQuantity createBloodComponentQuantity(BloodComponent type, DonorProfile donorProfile, Donation donation){
+        BloodComponentQuantity bloodComponentQuantity = new BloodComponentQuantity();
+        bloodComponentQuantity.setBloodComponent(type);
+        bloodComponentQuantity.setAboBloodGroup(donorProfile.getAboBloodGroup());
+        bloodComponentQuantity.setRhBloodGroup(donorProfile.getRhBloodGroup());
+        bloodComponentQuantity.setBloodStatus(BloodStatus.Valid);
+        bloodComponentQuantity.setIDdonation(donation.getID());
+        bloodComponentQuantity.setIDrequest(0);
+
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(donation.getDonationDate());
+
+        switch(type){
+            case Plasma:
+                calendar.add(Calendar.DATE, 90);
+                break;
+            case Leukocytes:
+                calendar.add(Calendar.DATE, 5);
+                break;
+            case Thrombocytes:
+                calendar.add(Calendar.DATE, 42);
+                break;
+        }
+
+        System.out.println(calendar.getTime());
+        bloodComponentQuantity.setExpirationDate(calendar.getTime());
+        bloodComponentQuantity.setQuantity(BLOOD_COMPONENT_QUANTITY);
+
+        return bloodComponentQuantity;
+    }
+
+    private List<BloodComponentQuantity> createBloodComponents(Donation donation) throws Exception {
+
+        List<BloodComponentQuantity> components = new ArrayList<>();
+
+        User user = donation.getDonor();
+
+        DonorProfile donorProfile = donorProfileRepository.find(x -> x.getIdUser() == user.getId());
+
+        components.addAll(Arrays.asList(
+                createBloodComponentQuantity(BloodComponent.Leukocytes, donorProfile, donation),
+                createBloodComponentQuantity(BloodComponent.Plasma, donorProfile, donation),
+                createBloodComponentQuantity(BloodComponent.Thrombocytes, donorProfile, donation)
+        ));
+
+        for(BloodComponentQuantity bloodComponentQuantity : components) bloodComponentQuantityRepository.save(bloodComponentQuantity);
+
+        return components;
+    }
+
+    private void addDonationHelper(Donation donation, int centerId) throws  Exception{
 
         User donor = donation.getDonor();
         MedicalQuestionnaire recentUserQuestionnaire = getLastQuestionnaire(donor.getId());
@@ -208,8 +270,10 @@ public class MainServiceImpl implements IMainService {
         donation.setDonationStatus(DonationStatus.Classification);
         donation.setDonor(donor);
         donation.setMedicalQuestionnaire(recentUserQuestionnaire);
+        donation.setIdTransfusionCenter(centerId);
 
         donationRepository.save(donation);
+        donation.setBloodComponents(createBloodComponents(donation));
 
         notifyNewHistoryContent(donor.getUsername());
     }
@@ -221,19 +285,15 @@ public class MainServiceImpl implements IMainService {
         String errors = "";
 
         if(donation.isHepatitis())message += "Hepatitis ";
-
         if(donation.isHIVorAIDS())message += "HivOrAIDS ";
-
         if(donation.isSyphilis())message += "Syphilis";
-
         if(donation.isHTLV())message += "HTLV";
 
-        //todo add in database the donation
 
         if(!donation.isHTLV() && !donation.isHIVorAIDS() && !donation.isSyphilis() && !donation.isHepatitis()){
-
             try {
-                addDonationHelper(donation);
+                int centerId = userRepository.find(x -> x.getUsername().equals(centerEmployeeUsername)).getId();
+                addDonationHelper(donation, centerId);
             }catch (Exception e){
                 errors += e.getMessage();
 
@@ -286,6 +346,30 @@ public class MainServiceImpl implements IMainService {
         notifier.removeNotificationFromDonor(username,message);
     }
 
+    @Override
+    public int getDaysUntilNextDonationForDonor(String username, java.sql.Date currentDate) {
+        int userId = userRepository.find(x -> x.getUsername().equals(username)).getId();
+
+        Optional <Donation> lastDonationDate =
+                donationRepository.getAllFiltered(x->x.getDonor().getId() == userId)
+                        .stream()
+                        .sorted((x,y)->-x.getDonationDate().compareTo(y.getDonationDate()))
+                        .findFirst();
+
+        if(!lastDonationDate.isPresent())return 0;
+
+        Date lastDonation = java.sql.Date.valueOf(lastDonationDate.get().getDonationDate().toString().split(" ")[0]);
+
+        return DAYS_UNTIL_NEXT_DONATION - (int) (DayCounter.getDaysBetween(lastDonation.toString(),currentDate.toString()) <= 0 ? 0 : DayCounter.getDaysBetween(lastDonation.toString(),currentDate.toString()));
+
+    }
+
+    @Override
+    public int getAllDonationsForCenter(String username) {
+        int centerId = userRepository.find(x-> x.getUsername().equals(username)).getId();
+        return donationRepository.getAllFiltered(x->x.getIdTransfusionCenter() == centerId).size();
+    }
+
     private void notifyAllObservers() {
 
         for (Map.Entry<String, IObserver> obs : loggedUsers.entrySet()) {
@@ -316,6 +400,7 @@ public class MainServiceImpl implements IMainService {
         IObserver connectedClient  = loggedUsers.get(username);
 
         if(connectedClient == null){
+
             notifier.addMessage(username,content);
             System.out.println("MainServiceImpl -> Client cannot be notified(it will be later notified)! -> " + username);
             return;

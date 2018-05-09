@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
@@ -57,7 +58,7 @@
                                                       <Font name="Saira SemiCondensed Medium" size="22.0" />
                                                    </font>
                                                 </Label>
-                                                <Label alignment="CENTER" prefHeight="150.0" prefWidth="345.0" styleClass="card-content" text="1" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Label fx:id="labelActiveBloodRequest" alignment="CENTER" prefHeight="150.0" prefWidth="345.0" styleClass="card-content" text="1" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                           </AnchorPane>
                                           <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="card" GridPane.columnIndex="1">
@@ -67,7 +68,7 @@
                                                       <Font name="Saira SemiCondensed Medium" size="22.0" />
                                                    </font>
                                                 </Label>
-                                                <Label alignment="CENTER" prefHeight="150.0" prefWidth="345.0" styleClass="card-content" text="172" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Label fx:id="labelTotalDonationsSoFar" alignment="CENTER" prefHeight="150.0" prefWidth="345.0" styleClass="card-content" text="172" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                              </children>
                                           </AnchorPane>
                                           <AnchorPane prefWidth="200.0" styleClass="card" GridPane.columnSpan="2" GridPane.rowIndex="1">
@@ -156,90 +157,55 @@
                                                    <children>
                                                       <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                                                          <children>
-                                                            <JFXCheckBox fx:id="checkBoxHealthy" text="Healthy"/>
-                                                            <JFXCheckBox fx:id="checkBoxInexFever"
-                                                                         text="Inexplicable Fever"/>
-                                                            <JFXCheckBox fx:id="checkBoxVaccines" text="Vaccines"/>
-                                                            <JFXCheckBox fx:id="checkBoxSexPartHiv"
-                                                                         text="Sexual Partner HIV Hepatitis"/>
-                                                            <JFXCheckBox fx:id="checkBoxSexPartWorker"
-                                                                         text="Sexual Partner Sex Worker"/>
-                                                            <JFXCheckBox fx:id="checkBoxIntraDrugs"
-                                                                         text="Intravenous Drugs"/>
-                                                            <JFXCheckBox fx:id="checkBoxSexPartChanged"
-                                                                         text="Sexual Partner Changed"/>
-                                                            <JFXCheckBox fx:id="checkBoxTatoos" text="Tattoos"/>
-                                                            <JFXCheckBox fx:id="checkBoxPregnancy" text="Pregnancy"/>
-                                                            <JFXCheckBox fx:id="checkBoxDetention" text="Detention"/>
-                                                            <JFXCheckBox fx:id="checkBoxStroke" text="Stroke"/>
-                                                            <JFXCheckBox fx:id="checkBoxConvultions"
-                                                                         text="Convultions / Nervous Disease"/>
-                                                            <JFXCheckBox fx:id="checkBoxSTD" text="STD"/>
-                                                            <JFXCheckBox fx:id="checkBoxRefusedDelayed"
-                                                                         text="Been Refused / Delayed"/>
-                                                            <JFXCheckBox fx:id="checkBoxPostDonationAttention"
-                                                                         text="Post Donation Attention"/>
-                                                            <JFXTextField fx:id="textFieldNoSexualPart"
-                                                                          prefHeight="29.0" prefWidth="1102.0"
-                                                                          promptText="No. of sexual partners"/>
-                                                            <JFXTextField fx:id="textFieldForeignLocation"
-                                                                          prefHeight="29.0" prefWidth="1102.0"
-                                                                          promptText="Foreign location"/>
-                                                            <JFXTextField fx:id="textFieldForeignTime" prefHeight="29.0"
-                                                                          prefWidth="1102.0" promptText="Foreign time"/>
-                                                            <JFXTextField fx:id="textFieldAlcohol" prefHeight="29.0"
-                                                                          prefWidth="1102.0" promptText="Alcohol"/>
-                                                            <JFXTextField fx:id="textFieldAlcoholQuant"
-                                                                          prefHeight="29.0" prefWidth="1102.0"
-                                                                          promptText="Alcohol quantity"/>
+                                                            <JFXCheckBox fx:id="checkBoxHealthy" text="Healthy" />
+                                                            <JFXCheckBox fx:id="checkBoxInexFever" text="Inexplicable Fever" />
+                                                            <JFXCheckBox fx:id="checkBoxVaccines" text="Vaccines" />
+                                                            <JFXCheckBox fx:id="checkBoxSexPartHiv" text="Sexual Partner HIV Hepatitis" />
+                                                            <JFXCheckBox fx:id="checkBoxSexPartWorker" text="Sexual Partner Sex Worker" />
+                                                            <JFXCheckBox fx:id="checkBoxIntraDrugs" text="Intravenous Drugs" />
+                                                            <JFXCheckBox fx:id="checkBoxSexPartChanged" text="Sexual Partner Changed" />
+                                                            <JFXCheckBox fx:id="checkBoxTatoos" text="Tattoos" />
+                                                            <JFXCheckBox fx:id="checkBoxPregnancy" text="Pregnancy" />
+                                                            <JFXCheckBox fx:id="checkBoxDetention" text="Detention" />
+                                                            <JFXCheckBox fx:id="checkBoxStroke" text="Stroke" />
+                                                            <JFXCheckBox fx:id="checkBoxConvultions" text="Convultions / Nervous Disease" />
+                                                            <JFXCheckBox fx:id="checkBoxSTD" text="STD" />
+                                                            <JFXCheckBox fx:id="checkBoxRefusedDelayed" text="Been Refused / Delayed" />
+                                                            <JFXCheckBox fx:id="checkBoxPostDonationAttention" text="Post Donation Attention" />
+                                                            <JFXTextField fx:id="textFieldNoSexualPart" prefHeight="29.0" prefWidth="1102.0" promptText="No. of sexual partners" />
+                                                            <JFXTextField fx:id="textFieldForeignLocation" prefHeight="29.0" prefWidth="1102.0" promptText="Foreign location" />
+                                                            <JFXTextField fx:id="textFieldForeignTime" prefHeight="29.0" prefWidth="1102.0" promptText="Foreign time" />
+                                                            <JFXTextField fx:id="textFieldAlcohol" prefHeight="29.0" prefWidth="1102.0" promptText="Alcohol" />
+                                                            <JFXTextField fx:id="textFieldAlcoholQuant" prefHeight="29.0" prefWidth="1102.0" promptText="Alcohol quantity" />
                                                          </children>
                                                          <padding>
-                                                            <Insets bottom="10.0"/>
+                                                            <Insets bottom="10.0" />
                                                          </padding>
                                                       </VBox>
-                                                      <VBox prefHeight="459.0" prefWidth="187.0" spacing="20.0"
-                                                            GridPane.columnIndex="1">
+                                                      <VBox prefHeight="459.0" prefWidth="187.0" spacing="20.0" GridPane.columnIndex="1">
                                                          <children>
-                                                            <JFXCheckBox fx:id="checkBoxUnexpectedWeightLoss"
-                                                                         text="Unexpected weight loss"/>
-                                                            <JFXCheckBox fx:id="checkBoxDentalTreat"
-                                                                         text="Dental Treatment"/>
-                                                            <JFXCheckBox fx:id="checkBoxDrugTreat"
-                                                                         text="Drug Treatment"/>
-                                                            <JFXCheckBox fx:id="checkBoxSexPartIntraDrug"
-                                                                         text="Sexual Partner Intravenous Drug"/>
-                                                            <JFXCheckBox fx:id="checkBoxMultipleSexPart"
-                                                                         text="Multiple Sexual Partners"/>
-                                                            <JFXCheckBox fx:id="checkBoxSexWorker" text="Sex Worker"/>
-                                                            <JFXCheckBox fx:id="checkBoxSurgery" text="Surgery"/>
-                                                            <JFXCheckBox fx:id="checkBoxRecievedBlood"
-                                                                         text="Recieved Blood"/>
-                                                            <JFXCheckBox fx:id="checkBoxBLTForeign"
-                                                                         text="Born / Lived / Traveled Foreign"/>
-                                                            <JFXCheckBox fx:id="checkBoxHepatitis" text="Hepatitis"/>
-                                                            <JFXCheckBox fx:id="checkBoxITLMalaria"
-                                                                         text="Icterus / Tuberculosis / Reumatic Fever / Malaria"/>
-                                                            <JFXCheckBox fx:id="checkBoxHeartDisease"
-                                                                         text="Heart Disease / High BP"/>
-                                                            <JFXCheckBox fx:id="checkBoxAsthma" text="Asthma"/>
-                                                            <JFXCheckBox fx:id="checkBoxDiabetisUlcerus"
-                                                                         text="Diabetis / Ulcer Cancer"/>
-                                                            <JFXCheckBox fx:id="checkBoxSmoker" text="Smoker"/>
-                                                            <JFXDatePicker fx:id="datePickerChildBirthday"
-                                                                           prefHeight="29.0" prefWidth="791.0"
-                                                                           promptText="Child birthday"/>
-                                                            <JFXDatePicker fx:id="datePickerLastMenstruation"
-                                                                           prefHeight="29.0" prefWidth="791.0"
-                                                                           promptText="Last menstruation"/>
-                                                            <JFXDatePicker fx:id="datePickerLastAlcoholCons"
-                                                                           prefHeight="29.0" prefWidth="295.0"
-                                                                           promptText="Last alcohol consumption"/>
-                                                            <JFXTextField fx:id="textFieldBloodPreasure"
-                                                                          prefHeight="29.0" prefWidth="1102.0"
-                                                                          promptText="Blood presure"/>
+                                                            <JFXCheckBox fx:id="checkBoxUnexpectedWeightLoss" text="Unexpected weight loss" />
+                                                            <JFXCheckBox fx:id="checkBoxDentalTreat" text="Dental Treatment" />
+                                                            <JFXCheckBox fx:id="checkBoxDrugTreat" text="Drug Treatment" />
+                                                            <JFXCheckBox fx:id="checkBoxSexPartIntraDrug" text="Sexual Partner Intravenous Drug" />
+                                                            <JFXCheckBox fx:id="checkBoxMultipleSexPart" text="Multiple Sexual Partners" />
+                                                            <JFXCheckBox fx:id="checkBoxSexWorker" text="Sex Worker" />
+                                                            <JFXCheckBox fx:id="checkBoxSurgery" text="Surgery" />
+                                                            <JFXCheckBox fx:id="checkBoxRecievedBlood" text="Recieved Blood" />
+                                                            <JFXCheckBox fx:id="checkBoxBLTForeign" text="Born / Lived / Traveled Foreign" />
+                                                            <JFXCheckBox fx:id="checkBoxHepatitis" text="Hepatitis" />
+                                                            <JFXCheckBox fx:id="checkBoxITLMalaria" text="Icterus / Tuberculosis / Reumatic Fever / Malaria" />
+                                                            <JFXCheckBox fx:id="checkBoxHeartDisease" text="Heart Disease / High BP" />
+                                                            <JFXCheckBox fx:id="checkBoxAsthma" text="Asthma" />
+                                                            <JFXCheckBox fx:id="checkBoxDiabetisUlcerus" text="Diabetis / Ulcer Cancer" />
+                                                            <JFXCheckBox fx:id="checkBoxSmoker" text="Smoker" />
+                                                            <JFXDatePicker fx:id="datePickerChildBirthday" prefHeight="29.0" prefWidth="791.0" promptText="Child birthday" />
+                                                            <JFXDatePicker fx:id="datePickerLastMenstruation" prefHeight="29.0" prefWidth="791.0" promptText="Last menstruation" />
+                                                            <JFXDatePicker fx:id="datePickerLastAlcoholCons" prefHeight="29.0" prefWidth="295.0" promptText="Last alcohol consumption" />
+                                                            <JFXTextField fx:id="textFieldBloodPreasure" prefHeight="29.0" prefWidth="1102.0" promptText="Blood presure" />
                                                          </children>
                                                          <padding>
-                                                            <Insets right="10.0"/>
+                                                            <Insets right="10.0" />
                                                          </padding>
                                                       </VBox>
                                                    </children>
@@ -284,11 +250,17 @@
                                                 <VBox spacing="20.0">
                                                    <children>
                                                       <JFXDatePicker fx:id="datePickerDonationDate" prefHeight="29.0" prefWidth="291.0" promptText="Donation date" />
-                                                      <JFXCheckBox text="HIV or AIDS" fx:id="checkBoxHIVOrAIDS"/>
-                                                      <JFXCheckBox text="Hepatitis" fx:id="checkBoxHepatitisDonation"/>
-                                                      <JFXCheckBox text="Syphilis" fx:id="checkBoxSyphilis"/>
-                                                      <JFXCheckBox text="HTLV" fx:id="checkBoxHTLV"/>
-                                                      <JFXTextField promptText="Level ALT" fx:id="textFieldLevelALT" />
+                                                      <JFXCheckBox fx:id="checkBoxHIVOrAIDS" text="HIV or AIDS" />
+                                                      <JFXCheckBox fx:id="checkBoxHepatitisDonation" text="Hepatitis" />
+                                                      <JFXCheckBox fx:id="checkBoxSyphilis" text="Syphilis" />
+                                                      <JFXCheckBox fx:id="checkBoxHTLV" text="HTLV" />
+                                                      <JFXTextField fx:id="textFieldLevelALT" promptText="Level ALT" />
+                                                      <AnchorPane prefHeight="16.0" prefWidth="291.0">
+                                                         <children>
+                                                            <JFXComboBox fx:id="comboBoxBloodGroup" focusColor="#e42e33" labelFloat="true" promptText="Blood Group" AnchorPane.bottomAnchor="5.0" />
+                                                            <JFXComboBox fx:id="comboBoxBloodRh" focusColor="#e42e33" labelFloat="true" layoutX="169.0" layoutY="10.0" prefHeight="29.0" prefWidth="120.0" promptText="Blood Rh" AnchorPane.bottomAnchor="5.0" />
+                                                         </children>
+                                                      </AnchorPane>
                                                    </children>
                                                 </VBox>
                                              </content>

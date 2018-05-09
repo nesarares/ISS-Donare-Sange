@@ -27,12 +27,12 @@
     -jfx-rippler-fill: -fx-accent;
 }
 
-.jfx-text-field, .jfx-password-field, .jfx-text-area {
+.jfx-text-field, .jfx-combo-box .jfx-password-field, .jfx-text-area {
     -jfx-focus-color: -fx-accent;
     -jfx-label-float: true;
 }
 
-.jfx-text-field .text, .jfx-date-picker, .jfx-text-area, .jfx-text-field, .jfx-password-field {
+.jfx-text-field .text, .jfx-combo-box, .jfx-date-picker, .jfx-text-area, .jfx-text-field, .jfx-password-field {
     -fx-font-size: 13px;
 }
 
