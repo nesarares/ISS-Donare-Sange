@@ -1,9 +1,6 @@
 package donation.services;
 
-import donation.model.BloodComponentQuantity;
-import donation.model.Donation;
-import donation.model.DonorProfile;
-import donation.model.MedicalQuestionnaire;
+import donation.model.*;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -19,15 +16,9 @@ public interface IServiceScientist {
     void addMedicalQuestionnaire(MedicalQuestionnaire questionnaire) throws  Exception;
 
     /**
-     * @param bloodComponentFilter 
      * @return
      */
-    List<BloodComponentQuantity> getBloodStock(Predicate<BloodComponentQuantity> bloodComponentFilter);
-
-    /**
-     * 
-     */
-    void updateEnvoyedBloodBagStatus();
+    List<BloodComponentQuantity> getBloodStock(String center);
 
     /**
      * @param username 
@@ -42,8 +33,27 @@ public interface IServiceScientist {
      void updateDonation(String username, Donation donation);
 
     /**
+     *
+     * @param bloodBag
+     */
+     void updateBloodComponentQuantity(BloodComponentQuantity bloodBag) throws Exception;
+
+    /**
      * @return
      */
      List<DonorProfile> getDonorProfiles(String keyword);
+
+    /**
+     *
+     * @param username
+     * @return
+     */
+     BloodTransfusionCenterProfile getTransfusionCenterProfile(String username);
+
+    /**
+     *
+     * @return
+     */
+    List<BloodTransfusionCenterProfile> getAllTransfusionCenterProfiles();
 
 }

@@ -58,4 +58,9 @@ public class BloodTransfusionCenterProfile implements Serializable {
     public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
+
+    @Override
+    public String toString() {
+        return address;
+    }
 }

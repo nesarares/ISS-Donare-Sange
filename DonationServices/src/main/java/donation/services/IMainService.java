@@ -19,4 +19,6 @@ public interface IMainService extends  IServiceAuthentication,IServiceDoctor,ISe
     int getDaysUntilNextDonationForDonor(String username, Date currentDate);
 
     int getAllDonationsForCenter(String username);
+
+    int getNrNotifications(String username);
 }

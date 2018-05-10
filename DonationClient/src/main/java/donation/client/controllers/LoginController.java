@@ -153,7 +153,8 @@ public class LoginController implements Initializable {
                 controller.setMainService(mainService, textFieldUsername.getText(), mainStage);
 
             } catch (Exception e) {
-                System.out.println("loadMainView -> " + e.getMessage());
+                e.printStackTrace();
+//                System.out.println("loadMainView -> " + e.getMessage());
             }
 
         });

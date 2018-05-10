@@ -27,7 +27,7 @@
     -jfx-rippler-fill: -fx-accent;
 }
 
-.jfx-text-field, .jfx-combo-box .jfx-password-field, .jfx-text-area {
+.jfx-text-field, .jfx-combo-box .jfx-password-field, .jfx-text-area, .float {
     -jfx-focus-color: -fx-accent;
     -jfx-label-float: true;
 }
@@ -67,6 +67,15 @@
 .menu-button:hover, .menu-button:disabled {
     -fx-background-color: -fx-accent;
     -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.menu-button:hover .txt, .menu-button:disabled .txt {
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.menu-button:disabled .notif-badge {
     -fx-opacity: 1;
 }
 
@@ -166,6 +175,33 @@
 
 .notif .jfx-list-cell:empty {
     -fx-background-color: transparent;
+}
+
+.jfx-snackbar-content {
+    -fx-background-color: -fx-dark;
+    -fx-padding: 0 30px;
+    -fx-font-family: "Saira SemiCondensed SemiBold";
+    -fx-font-size: 1.2em;
+}
+.jfx-snackbar-toast {
+    -fx-text-fill: WHITE;
+}
+.jfx-snackbar-action {
+    -fx-text-fill: white;
+}
+
+.jfx-snackbar-content .jfx-button, .jfx-snackbar-action .jfx-button {
+    -fx-background-color: transparent;
+}
+
+.notif-badge {
+    -fx-background-color: #ffe502;
+    /*-fx-text-fill: white;*/
+    -fx-background-radius: 50%;
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+    -fx-font-family: "Saira SemiCondensed SemiBold";
+    -fx-padding: 2px;
 }
 
 /*****************************************/

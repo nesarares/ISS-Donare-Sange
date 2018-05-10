@@ -18,14 +18,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -45,7 +43,7 @@ public class DonorController extends AbstractController {
     private StackPane stackPaneContent;
 
     @FXML
-    private Label labelNumeDonator;
+    private Label labelNumeDonator, labelNrNotifications;
 
     @FXML
     private JFXHamburger menuHamburger;
@@ -81,15 +79,17 @@ public class DonorController extends AbstractController {
     private TableView<Donation> tableDonation;
     private ObservableList<Donation> modelDonation = FXCollections.observableArrayList();
     @FXML
-    private TableColumn<Donation, String> columnDate, columnHivoraids, columnHepatitis,
-            columnSyphilis, columnHTLV, columnLevelalt;
+    private TableColumn<Donation, String> columnDate, columnLevelalt;
+    @FXML
+    private TableColumn<Donation, Boolean> columnHivoraids, columnHepatitis,
+            columnSyphilis, columnHTLV;
 
     @FXML
     JFXListView<String> listNotifications;
-    private ObservableList<String> modelNotifications = FXCollections.observableArrayList(
-            "2018-03-18 - The new analysis have arrived. (Test)",
-            "2018-02-26 - There is a blood alert! (Test)",
-            "2018-02-03 - The new analysis have arrived. (Test)");
+    private ObservableList<String> modelNotifications = FXCollections.observableArrayList();
+//            "2018-03-18 - The new analysis have arrived. (Test)",
+//            "2018-02-26 - There is a blood alert! (Test)",
+//            "2018-02-03 - The new analysis have arrived. (Test)");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -108,12 +108,34 @@ public class DonorController extends AbstractController {
     }
 
     private void initTable() {
+        class MyCell extends TableCell<Donation, Boolean> {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item.toString());
+                    if (item) {
+                        setStyle("-fx-background-color: red; -fx-text-fill: white");
+                        setTextFill(Color.WHITE);
+                    }
+                }
+            }
+        }
+
         columnDate.setCellValueFactory(date->new SimpleStringProperty(date.getValue().getDonationDate().toString().split(" ")[0]));
         columnHepatitis.setCellValueFactory(new PropertyValueFactory<>("hepatitis"));
         columnHivoraids.setCellValueFactory(new PropertyValueFactory<>("HIVorAIDS"));
         columnHTLV.setCellValueFactory(new PropertyValueFactory<>("HTLV"));
         columnLevelalt.setCellValueFactory(new PropertyValueFactory<>("levelALT"));
         columnSyphilis.setCellValueFactory(new PropertyValueFactory<>("syphilis"));
+
+        columnHepatitis.setCellFactory(param -> new MyCell());
+        columnHivoraids.setCellFactory(param -> new MyCell());
+        columnHTLV.setCellFactory(param -> new MyCell());
+        columnSyphilis.setCellFactory(param -> new MyCell());
 
         tableDonation.setItems(modelDonation);
     }
@@ -177,6 +199,7 @@ public class DonorController extends AbstractController {
 
     @FXML
     private void handleDrawer(MouseEvent actionEvent) {
+        labelNrNotifications.setText(String.valueOf(mainService.getNrNotifications(username)));
         burgerTask.setRate(burgerTask.getRate() * -1);
         burgerTask.play();
         if (drawer.isClosed()) {
@@ -291,9 +314,11 @@ public class DonorController extends AbstractController {
 
         System.out.println("Notified->" +  message);
 
-        Platform.runLater(()->{//todo @RaresNesa trebuie cumva formatat mesajul nu am mai avut timp
-            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION,"Message","You have new notifications",stackPaneContent);
+        Platform.runLater(()->{
+            GUIUtils.showSnackBar("You have a new notification.", stackPaneContent);
             modelNotifications.add(message);
+            System.out.println("Nr notif: " + mainService.getNrNotifications(username));
+            labelNrNotifications.setText(String.valueOf(mainService.getNrNotifications(username)));
         });
     }
 

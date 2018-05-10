@@ -34,7 +34,7 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <AnchorPane fx:id="homePane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="homePane" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <top>
@@ -209,7 +209,7 @@
                         </BorderPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="notificationsPane" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="notificationsPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <top>
@@ -218,7 +218,20 @@
                            <center>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
                                  <children>
-                                    <JFXListView fx:id="listNotifications" styleClass="notif" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <JFXListView fx:id="listNotifications" styleClass="notif" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <placeholder>
+                                               <VBox alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <children>
+                                                     <FontAwesomeIconView fill="#868686" glyphName="ENVELOPE" size="100" />
+                                                     <Label text="You don't have any new &#10;notifications." textAlignment="CENTER">
+                                                        <font>
+                                                           <Font name="Saira SemiCondensed Light" size="27.0" />
+                                                        </font>
+                                                     </Label>
+                                                  </children>
+                                               </VBox>
+                                            </placeholder>
+                                    </JFXListView>
                                  </children>
                               </AnchorPane>
                            </center>
@@ -282,18 +295,32 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </JFXButton>
-                              <JFXButton fx:id="buttonNotifications" alignment="TOP_LEFT" graphicTextGap="40.0" onAction="#handleButtonNotifications" prefHeight="17.0" prefWidth="284.0" styleClass="menu-button" text="Notifications">
-                                 <graphic>
-                                    <StackPane>
-                                       <children>
-                                          <Rectangle fill="#282828" height="45.0" stroke="#282828" strokeType="INSIDE" width="60.0" />
-                                          <FontAwesomeIconView fill="WHITE" glyphName="BELL" size="23" />
-                                       </children>
-                                    </StackPane>
-                                 </graphic>
+                              <JFXButton fx:id="buttonNotifications" alignment="TOP_LEFT" graphicTextGap="40.0" onAction="#handleButtonNotifications" prefHeight="17.0" prefWidth="284.0" styleClass="menu-button" text=" ">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                                 <graphic>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="41.0">
+                                       <children>
+                                          <StackPane>
+                                             <children>
+                                                <Rectangle fill="#282828" height="45.0" stroke="#282828" strokeType="INSIDE" width="60.0" />
+                                                <FontAwesomeIconView fill="WHITE" glyphName="BELL" size="23">
+                                                   <StackPane.margin>
+                                                      <Insets />
+                                                   </StackPane.margin>
+                                                </FontAwesomeIconView>
+                                             </children>
+                                          </StackPane>
+                                          <Label styleClass="txt" text="Notifications">
+                                             <HBox.margin>
+                                                <Insets left="20.0" right="30.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <Label fx:id="labelNrNotifications" prefHeight="30.0" prefWidth="30.0" styleClass="notif-badge" text="0" />
+                                       </children>
+                                    </HBox>
+                                 </graphic>
                               </JFXButton>
                            </children>
                            <padding>

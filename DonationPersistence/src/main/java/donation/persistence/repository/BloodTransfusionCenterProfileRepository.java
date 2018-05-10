@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class BloodTransfusionCenterProfileRepository {
-    public BloodTransfusionCenterProfileRepository() {
-    }
-
+public class BloodTransfusionCenterProfileRepository implements IRepository<BloodTransfusionCenterProfile> {
     public int size() {
         return Repository.getAll(BloodTransfusionCenterProfile.class).size();
     }
@@ -32,9 +29,9 @@ public class BloodTransfusionCenterProfileRepository {
     }
 
     public void update(int oldId, BloodTransfusionCenterProfile newEntity) throws RepositoryException {
-        Optional<BloodTransfusionCenterProfile> bloodTransfusionCenterProfile = Repository.get(BloodTransfusionCenterProfile.class, oldId);
-        if (bloodTransfusionCenterProfile.isPresent())
-            Repository.update(BloodTransfusionCenterProfile.class, bloodTransfusionCenterProfile.get(), newEntity);
+        Optional<BloodTransfusionCenterProfile> bloodComponentQuantity = Repository.get(BloodTransfusionCenterProfile.class, oldId);
+        if (bloodComponentQuantity.isPresent())
+            Repository.update(BloodTransfusionCenterProfile.class, bloodComponentQuantity.get(), newEntity);
         else
             throw new RepositoryException("You cannot update an object that doesn't exist.");
     }

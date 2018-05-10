@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public abstract class AbstractController implements Initializable,IObserver {
     private LoginController loginController;
     protected IMainService mainService;
-    private String username;
+    protected String username;
     private Stage stageView;
     private ControllerRoot controllerRoot;
 

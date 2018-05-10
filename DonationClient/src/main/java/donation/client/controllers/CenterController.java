@@ -11,26 +11,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
-import javax.xml.crypto.Data;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.security.AllPermission;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
-    public class CenterController extends AbstractController {
+public class CenterController extends AbstractController {
 
     @FXML
     private StackPane stackPane;
@@ -61,24 +59,24 @@ import java.util.ResourceBundle;
 
     @FXML
     private JFXTextField textFieldNoSexualPart, textFieldForeignLocation, textFieldForeignTime,
-            textFieldAlcohol, textFieldAlcoholQuant, textFieldBloodPreasure,textFieldLevelALT;
+            textFieldAlcohol, textFieldAlcoholQuant, textFieldBloodPreasure, textFieldLevelALT;
 
     @FXML
-    private JFXDatePicker datePickerChildBirthday, datePickerLastMenstruation, datePickerLastAlcoholCons,datePickerDonationDate;
+    private JFXDatePicker datePickerChildBirthday, datePickerLastMenstruation, datePickerLastAlcoholCons, datePickerDonationDate;
 
 
     @FXML
-    private  JFXCheckBox checkBoxHealthy, checkBoxInexFever,checkBoxVaccines,checkBoxSexPartHiv,
-            checkBoxSexPartWorker,checkBoxIntraDrugs,checkBoxSexPartChanged,checkBoxTatoos,checkBoxPregnancy,
-            checkBoxDetention, checkBoxStroke,checkBoxConvultions,checkBoxSTD,checkBoxRefusedDelayed,
+    private JFXCheckBox checkBoxHealthy, checkBoxInexFever, checkBoxVaccines, checkBoxSexPartHiv,
+            checkBoxSexPartWorker, checkBoxIntraDrugs, checkBoxSexPartChanged, checkBoxTatoos, checkBoxPregnancy,
+            checkBoxDetention, checkBoxStroke, checkBoxConvultions, checkBoxSTD, checkBoxRefusedDelayed,
             checkBoxPostDonationAttention, checkBoxUnexpectedWeightLoss, checkBoxDentalTreat,
-            checkBoxDrugTreat, checkBoxSexPartIntraDrug,checkBoxMultipleSexPart,checkBoxSexWorker,
+            checkBoxDrugTreat, checkBoxSexPartIntraDrug, checkBoxMultipleSexPart, checkBoxSexWorker,
             checkBoxSurgery, checkBoxRecievedBlood, checkBoxBLTForeign, checkBoxHepatitis,
             checkBoxITLMalaria, checkBoxHeartDisease, checkBoxAsthma, checkBoxDiabetisUlcerus,
             checkBoxSmoker;
 
     @FXML
-    private JFXCheckBox checkBoxHIVOrAIDS,checkBoxHepatitisDonation,checkBoxSyphilis,checkBoxHTLV;
+    private JFXCheckBox checkBoxHIVOrAIDS, checkBoxHepatitisDonation, checkBoxSyphilis, checkBoxHTLV;
 
     @FXML
     private JFXComboBox<ABOBloodGroup> comboBoxBloodGroup;
@@ -86,7 +84,19 @@ import java.util.ResourceBundle;
     private JFXComboBox<RhBloodGroup> comboBoxBloodRh;
 
     @FXML
+    private JFXComboBox<BloodTransfusionCenterProfile> comboBoxCenter;
+    @FXML
+    private GridPane paneSendBloodBag;
+
+    @FXML
     private Label labelTotalDonationsSoFar, labelActiveBloodRequest;
+
+    @FXML
+    private TableView<BloodComponentQuantity> tableBloodStock;
+    private ObservableList<BloodComponentQuantity> modelBloodStock = FXCollections.observableArrayList();
+    @FXML
+    private TableColumn<BloodComponentQuantity, String> columnType, columnGroup, columnRh,
+            columnQuantity, columnExpDate, columnStatus;
 
     @FXML
     JFXListView<String> listNotifications;
@@ -105,20 +115,48 @@ import java.util.ResourceBundle;
         initListDonors();
         initListNotifications();
         initSearchFields();
-        initComboBoxes();
+        initTableBloodStock();
         toggleView(homePane, buttonHome);
     }
 
-    private void initLabels(){
+    private void initTableBloodStock() {
+        columnType.setCellValueFactory(new PropertyValueFactory<>("bloodComponent"));
+        columnGroup.setCellValueFactory(new PropertyValueFactory<>("aboBloodGroup"));
+        columnQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        columnRh.setCellValueFactory(new PropertyValueFactory<>("rhBloodGroup"));
+        columnStatus.setCellValueFactory(new PropertyValueFactory<>("bloodStatus"));
+        columnExpDate.setCellValueFactory(new PropertyValueFactory<>("expirationDate"));
+
+        tableBloodStock.getSelectionModel().selectedItemProperty().addListener((o, n, m) ->
+                paneSendBloodBag.setDisable(
+                        tableBloodStock.getSelectionModel().getSelectedItem() == null ||
+                                tableBloodStock.getSelectionModel().getSelectedItem().getBloodStatus() == BloodStatus.NotValid
+                )
+        );
+        tableBloodStock.setItems(modelBloodStock);
+    }
+
+    private void setModelBloodStock() {
+        modelBloodStock.setAll(mainService.getBloodStock(username));
+    }
+
+    private void initLabels() {
         labelTotalDonationsSoFar.setText(mainService.getAllDonationsForCenter(getUsername()) + "");
         //todo de completat atunci cand apare un request de sange
         labelActiveBloodRequest.setText("0");
     }
 
-    private void initComboBoxes(){
+    private void initComboBoxes() {
         comboBoxBloodGroup.getItems().addAll(ABOBloodGroup.values());
-        comboBoxBloodRh.getItems().addAll(RhBloodGroup.values())
-;    }
+        comboBoxBloodRh.getItems().addAll(RhBloodGroup.values());
+
+        List<BloodTransfusionCenterProfile> centers = mainService
+                .getAllTransfusionCenterProfiles()
+                .stream()
+                .filter(p -> p.getID() != mainService.getTransfusionCenterProfile(username).getID())
+                .collect(Collectors.toList());
+        comboBoxCenter.getItems().addAll(centers);
+    }
 
     private void initSearchFields() {
         fieldSearchDonation.textProperty().addListener(o -> handleSearchTextChanged(fieldSearchDonation));
@@ -146,6 +184,7 @@ import java.util.ResourceBundle;
     public void setMainService(IMainService mainService, String username, Stage stageLogin) {
         super.setMainService(mainService, username, stageLogin);
         initLabels();
+        initComboBoxes();
         labelCenterName.setText(username);
     }
 
@@ -196,8 +235,6 @@ import java.util.ResourceBundle;
         else initListDonors("");
     }
 
-
-
     @FXML
     private void handleButtonHome(ActionEvent actionEvent) {
         toggleView(homePane, buttonHome);
@@ -221,6 +258,7 @@ import java.util.ResourceBundle;
     @FXML
     private void handleButtonStock(ActionEvent actionEvent) {
         toggleView(stockPane, buttonStock);
+        setModelBloodStock();
         handleDrawer(null);
     }
 
@@ -236,8 +274,7 @@ import java.util.ResourceBundle;
         handleDrawer(null);
     }
 
-
-    private void buildMedicalQuestionnaire(MedicalQuestionnaire questionnaire,DonorProfile donorProfile) throws  Exception{
+    private void buildMedicalQuestionnaire(MedicalQuestionnaire questionnaire, DonorProfile donorProfile) throws Exception {
 
         // First column
         questionnaire.setHealthy(checkBoxHealthy.isSelected());
@@ -295,24 +332,25 @@ import java.util.ResourceBundle;
         if (datePickerLastAlcoholCons.getValue() != null)
             questionnaire.setLastAlcoholConsume(Date.valueOf(datePickerLastAlcoholCons.getValue()));
 
-        if (textFieldBloodPreasure.getText().equals("")) throw  new Exception("You must enter the blood pressure!");
+        if (textFieldBloodPreasure.getText().equals("")) throw new Exception("You must enter the blood pressure!");
 
         questionnaire.setBloodPressure(textFieldBloodPreasure.getText());
         questionnaire.setIdUser(donorProfile.getIdUser());
         questionnaire.setDate(Date.valueOf(LocalDate.now()));
     }
 
-    private void buildDonation(Donation donation) throws  Exception{
+    private void buildDonation(Donation donation) throws Exception {
 
-        if(datePickerDonationDate.getValue() == null || datePickerDonationDate.getValue().compareTo(LocalDate.now()) > 0)throw new Exception("You must enter a valid donation date!");
+        if (datePickerDonationDate.getValue() == null || datePickerDonationDate.getValue().compareTo(LocalDate.now()) > 0)
+            throw new Exception("You must enter a valid donation date!");
 
-        if(textFieldLevelALT.getText().equals(""))throw new Exception("You must specify the ALT level!");
+        if (textFieldLevelALT.getText().equals("")) throw new Exception("You must specify the ALT level!");
 
-        if(textFieldLevelALT.getText().equals(""))throw new Exception("The ALT level must be specified!");
+        if (textFieldLevelALT.getText().equals("")) throw new Exception("The ALT level must be specified!");
 
-        if(comboBoxBloodRh.getValue() == null) throw new Exception("You must specify the Blood Group Rh!");
+        if (comboBoxBloodRh.getValue() == null) throw new Exception("You must specify the Blood Group Rh!");
 
-        if(comboBoxBloodGroup.getValue() == null) throw new Exception("You must specify the Blood Group");
+        if (comboBoxBloodGroup.getValue() == null) throw new Exception("You must specify the Blood Group");
 
         donation.setHepatitis(checkBoxHepatitisDonation.isSelected());
         donation.setHIVorAIDS(checkBoxHIVOrAIDS.isSelected());
@@ -323,13 +361,14 @@ import java.util.ResourceBundle;
 
         try {
             donation.setLevelALT(Integer.parseInt(textFieldLevelALT.getText()));
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("You must enter an name in ALT field");
         }
 
         donation.setDonationStatus(DonationStatus.Taking);
 
-        if(listDonationDonors.getSelectionModel().getSelectedItem() == null)throw new Exception("You must select a donor in order to continue!");
+        if (listDonationDonors.getSelectionModel().getSelectedItem() == null)
+            throw new Exception("You must select a donor in order to continue!");
 
         User user = mainService.getUserById(listDonationDonors.getSelectionModel().getSelectedItem().getIdUser());
         donation.setDonor(user);
@@ -338,55 +377,68 @@ import java.util.ResourceBundle;
         donorProfile.setAboBloodGroup(comboBoxBloodGroup.getValue());
         donorProfile.setRhBloodGroup(comboBoxBloodRh.getValue());
 
-        mainService.updateProfile(user.getUsername(),donorProfile);
+        mainService.updateProfile(user.getUsername(), donorProfile);
     }
 
     @FXML
-    private void handleButtonSubmitDonation(ActionEvent event){
+    private void handleButtonSubmitDonation(ActionEvent event) {
 
         Donation donation = new Donation();
 
         try {
             buildDonation(donation);
-            mainService.addDonation(getUsername(),donation);
+            mainService.addDonation(getUsername(), donation);
             initLabels();
-            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION,"Success","Donation was added successfully!",stackPane);
-        }catch (Exception e){
-            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION,"Error",e.getMessage(),stackPane);
+            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Success", "Donation was added successfully!", stackPane);
+        } catch (Exception e) {
+            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Error", e.getMessage(), stackPane);
         }
 
     }
 
     @FXML
-    private void handleButtonSubmitQuestionnaire(ActionEvent actionEvent){
+    private void handleButtonSubmitQuestionnaire(ActionEvent actionEvent) {
 
         MedicalQuestionnaire questionnaire = new MedicalQuestionnaire();
 
         DonorProfile donorProfile = listQuestionnaireDonors.getSelectionModel().getSelectedItem();
 
-        if(donorProfile == null){
-            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION,"Error","You must select a donor!",stackPane);
+        if (donorProfile == null) {
+            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Error", "You must select a donor!", stackPane);
             return;
         }
 
 
         try {
-            buildMedicalQuestionnaire(questionnaire,donorProfile);
+            buildMedicalQuestionnaire(questionnaire, donorProfile);
             mainService.addMedicalQuestionnaire(questionnaire);
-            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION,"Success","Questionnaire was added successfully",stackPane);
-        }catch (Exception e){
-            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION,"Error",e.getMessage(),stackPane);
+            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Success", "Questionnaire was added successfully", stackPane);
+        } catch (Exception e) {
+            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Error", e.getMessage(), stackPane);
+        }
+    }
+
+    @FXML
+    private void handleButtonSendBloodBag(ActionEvent actionEvent) {
+        try {
+            BloodComponentQuantity bloodBag = tableBloodStock.getSelectionModel().getSelectedItem();
+            bloodBag.setIDTransfusionCenter(comboBoxCenter.getSelectionModel().getSelectedItem().getIdUser());
+            mainService.updateBloodComponentQuantity(bloodBag);
+            handleButtonStock(null);
+            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Success", "Blood bag was sent succesfully!", stackPane);
+        } catch (Exception e) {
+            GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Error", "Could not send blood bag to center. \n" + e.getMessage(), stackPane);
         }
     }
 
     @Override
     public void addObserver(IObserver observer) throws RemoteException {
-        throw new  RemoteException("Not available");
+        throw new RemoteException("Not available");
     }
 
     @Override
     public void removeObserver(IObserver observer) throws RemoteException {
-        throw  new RemoteException("Not available");
+        throw new RemoteException("Not available");
     }
 
     @Override
@@ -400,8 +452,7 @@ import java.util.ResourceBundle;
     }
 
     @Override
-
     public void notifyDonorUpdateHistory(String username) throws RemoteException {
         throw new RemoteException("Not available");
     }
-    }
+}

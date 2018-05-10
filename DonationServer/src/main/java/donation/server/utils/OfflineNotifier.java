@@ -68,4 +68,8 @@ public class OfflineNotifier {
 
         undeliveredMessages.put(username,notificationsToSend);
     }
+
+    public int getNrNotifications(String username) {
+        return undeliveredMessages.get(username) == null ? 0 : undeliveredMessages.get(username).size();
+    }
 }

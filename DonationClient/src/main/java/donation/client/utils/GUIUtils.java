@@ -1,14 +1,13 @@
 package donation.client.utils;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -18,6 +17,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Line;
 
 public class GUIUtils {
+    public static void showSnackBar(String message, StackPane parent) {
+        JFXSnackbar snackbar = new JFXSnackbar(parent);
+//        snackbar.enqueue(new JFXSnackbar.SnackbarEvent(message));
+        snackbar.show(message, "Dismiss", 5000, event -> snackbar.close());
+    }
+
     public static void showDialogMessage(Alert.AlertType type, String header, String text, StackPane parent) {
         JFXDialog dialog = new JFXDialog();
         dialog.setBackground(Background.EMPTY);

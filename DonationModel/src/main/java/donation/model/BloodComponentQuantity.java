@@ -28,6 +28,8 @@ public class BloodComponentQuantity implements Serializable {
     @Column(name = "idRequest")
     private int IDrequest;
 
+    @Column(name = "IDTransfusionCenter")
+    private int IDTransfusionCenter;
 
     /**
      * 
@@ -138,4 +140,11 @@ public class BloodComponentQuantity implements Serializable {
         this.bloodStatus = bloodStatus;
     }
 
+    public int getIDTransfusionCenter() {
+        return IDTransfusionCenter;
+    }
+
+    public void setIDTransfusionCenter(int IDTransfusionCenter) {
+        this.IDTransfusionCenter = IDTransfusionCenter;
+    }
 }
