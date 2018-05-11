@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -118,6 +119,10 @@ public class LoginController implements Initializable {
 
             Parent mainView = null;
             Stage mainStage = new Stage();
+            mainStage.setWidth(1024);
+            mainStage.setHeight(768);
+            mainStage.setTitle("Donare de sange");
+            mainStage.getIcons().add(new Image("donation/client/icon.png"));
 
             try {
                 FXMLLoader loader = new FXMLLoader();
