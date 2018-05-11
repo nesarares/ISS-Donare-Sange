@@ -104,7 +104,6 @@ public class MainServiceImpl implements IMainService {
         donorProfileRepository.save(donorProfile);
     }
 
-
     @Override
     public void addNewUser(String username, UserType userType) throws Exception {
 
@@ -117,7 +116,6 @@ public class MainServiceImpl implements IMainService {
 
     @Override
     public void logout(String username, IObserver observer) {
-
         if (loggedUsers.get(username) == null) return;
 
         System.out.println("User logged out: " + username);
@@ -424,6 +422,7 @@ public class MainServiceImpl implements IMainService {
         }
 
         try {
+            notifier.addMessage(username, content);
             connectedClient.notifyDonorAnalyseFinished(username, content);
         } catch (RemoteException e) {
             System.out.println("notifyAnalysisFinished->" + e.getMessage());

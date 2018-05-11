@@ -353,7 +353,7 @@
                      </children>
                   </AnchorPane>
                   <JFXDrawer fx:id="drawer" defaultDrawerSize="240.0" prefHeight="600.0" prefWidth="240.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <AnchorPane fx:id="drawerContent" prefHeight="600.0" prefWidth="233.0" styleClass="drawer" AnchorPane.leftAnchor="-250.0">
+                  <AnchorPane fx:id="drawerContent" prefHeight="600.0" prefWidth="233.0" styleClass="drawer" AnchorPane.leftAnchor="0.0">
                      <children>
                         <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="240.0" spacing="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
@@ -362,9 +362,9 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </MaterialDesignIconView>
-                              <Label fx:id="labelCenterName" text="Nume Centru" textFill="WHITE">
+                              <Label fx:id="labelCenterName" alignment="CENTER" prefHeight="69.0" prefWidth="207.0" text="Nume Centru" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                                  <VBox.margin>
-                                    <Insets bottom="30.0" />
+                                    <Insets bottom="10.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="Saira SemiCondensed SemiBold" size="17.0" />

@@ -185,7 +185,7 @@ public class CenterController extends AbstractController {
         super.setMainService(mainService, username, stageLogin);
         initLabels();
         initComboBoxes();
-        labelCenterName.setText(username);
+        labelCenterName.setText(mainService.getTransfusionCenterProfile(username).getAddress());
     }
 
     @FXML
@@ -425,6 +425,7 @@ public class CenterController extends AbstractController {
             bloodBag.setIDTransfusionCenter(comboBoxCenter.getSelectionModel().getSelectedItem().getIdUser());
             mainService.updateBloodComponentQuantity(bloodBag);
             handleButtonStock(null);
+            handleDrawer(null);
             GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Success", "Blood bag was sent succesfully!", stackPane);
         } catch (Exception e) {
             GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Error", "Could not send blood bag to center. \n" + e.getMessage(), stackPane);
