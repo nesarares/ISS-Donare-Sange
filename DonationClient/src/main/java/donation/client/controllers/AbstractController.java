@@ -1,21 +1,24 @@
 package donation.client.controllers;
 
 import donation.services.IMainService;
+import donation.utils.IObserver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 
-public abstract class AbstractController implements Initializable {
+public abstract class AbstractController implements Initializable,IObserver {
     private LoginController loginController;
-    private IMainService mainService;
-    private String username;
+    protected IMainService mainService;
+    protected String username;
     private Stage stageView;
+    private ControllerRoot controllerRoot;
 
     @FXML
     protected void handleLogoutEvent(ActionEvent e) {
-        System.out.println("Logging out...");
-        mainService.logout(username, null);
+        System.out.println(controllerRoot.getObservers().size());
+        mainService.logout(username,null);
+        controllerRoot.getObservers().clear();
         loginController.showLoginWindow();
         stageView.close();
     }
@@ -31,7 +34,23 @@ public abstract class AbstractController implements Initializable {
         });
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public void setLoginController(LoginController loginController) {
         this.loginController = loginController;
+    }
+
+    public IMainService getMainService() {
+        return mainService;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setControllerRoot(ControllerRoot controllerRoot){
+        this.controllerRoot = controllerRoot;
     }
 }

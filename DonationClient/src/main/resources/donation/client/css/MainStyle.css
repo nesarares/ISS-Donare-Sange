@@ -27,12 +27,12 @@
     -jfx-rippler-fill: -fx-accent;
 }
 
-.jfx-text-field, .jfx-password-field, .jfx-text-area {
+.jfx-text-field, .jfx-combo-box .jfx-password-field, .jfx-text-area, .float {
     -jfx-focus-color: -fx-accent;
     -jfx-label-float: true;
 }
 
-.jfx-text-field .text, .jfx-date-picker, .jfx-text-area, .jfx-text-field, .jfx-password-field {
+.jfx-text-field .text, .jfx-combo-box, .jfx-date-picker, .jfx-text-area, .jfx-text-field, .jfx-password-field {
     -fx-font-size: 13px;
 }
 
@@ -67,6 +67,15 @@
 .menu-button:hover, .menu-button:disabled {
     -fx-background-color: -fx-accent;
     -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.menu-button:hover .txt, .menu-button:disabled .txt {
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.menu-button:disabled .notif-badge {
     -fx-opacity: 1;
 }
 
@@ -147,14 +156,14 @@
 /*****************************************/
 /*        TABLE VIEW STYLING            */
 /*****************************************/
-.jfx-list-view {
+.notif {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-focus-color: transparent;
     -fx-padding: 5px;
 }
 
-.jfx-list-cell, .jfx-list-cell:focused, .jfx-list-cell:selected, .jfx-list-cell:armed {
+.notif .jfx-list-cell, .notif .jfx-list-cell:focused, .notif .jfx-list-cell:selected, .notif .jfx-list-cell:armed {
     -fx-text-fill: black;
     -fx-font-size: 16px;
     -fx-font-family: 'Open Sans';
@@ -164,8 +173,35 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 3, 0, 0, 1);
 }
 
-.jfx-list-cell:empty {
+.notif .jfx-list-cell:empty {
     -fx-background-color: transparent;
+}
+
+.jfx-snackbar-content {
+    -fx-background-color: -fx-dark;
+    -fx-padding: 0 30px;
+    -fx-font-family: "Saira SemiCondensed SemiBold";
+    -fx-font-size: 1.2em;
+}
+.jfx-snackbar-toast {
+    -fx-text-fill: WHITE;
+}
+.jfx-snackbar-action {
+    -fx-text-fill: white;
+}
+
+.jfx-snackbar-content .jfx-button, .jfx-snackbar-action .jfx-button {
+    -fx-background-color: transparent;
+}
+
+.notif-badge {
+    -fx-background-color: #ffe502;
+    /*-fx-text-fill: white;*/
+    -fx-background-radius: 50%;
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+    -fx-font-family: "Saira SemiCondensed SemiBold";
+    -fx-padding: 2px;
 }
 
 /*****************************************/

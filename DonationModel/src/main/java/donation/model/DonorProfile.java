@@ -1,11 +1,9 @@
 package donation.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * 
@@ -21,6 +19,7 @@ public class DonorProfile implements Serializable{
     }
 
     @Id
+    @GeneratedValue (strategy = IDENTITY)
     @Column(name = "id")
     private int ID;
 

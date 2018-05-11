@@ -1,9 +1,6 @@
 package donation.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
@@ -22,6 +19,7 @@ public class MedicalQuestionnaire implements Serializable {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
     /**

@@ -16,6 +16,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class StartClient extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         ApplicationContext factory = new ClassPathXmlApplicationContext("classpath:spring-client.xml");
 
         primaryStage.setTitle("Donare de sange");

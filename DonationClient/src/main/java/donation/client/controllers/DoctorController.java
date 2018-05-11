@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
 import donation.client.utils.Timer;
 import donation.services.IMainService;
+import donation.utils.IObserver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -15,9 +16,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 public class DoctorController extends AbstractController {
+
     @FXML
     private Label labelNumeDoctor;
 
@@ -99,4 +102,28 @@ public class DoctorController extends AbstractController {
         handleDrawer(null);
     }
 
+    @Override
+    public void addObserver(IObserver observer) throws RemoteException {
+
+    }
+
+    @Override
+    public void removeObserver(IObserver observer) throws RemoteException {
+        throw  new RemoteException("Not available!");
+    }
+
+    @Override
+    public void testUpdate() throws RemoteException {
+
+    }
+
+    @Override
+    public void notifyDonorAnalyseFinished(String username, String message) throws RemoteException {
+        System.out.println("Doctor controler->" + username + " " + message);
+    }
+
+    @Override
+    public void notifyDonorUpdateHistory(String username) throws RemoteException {
+        throw new  RemoteException("Not available");
+    }
 }

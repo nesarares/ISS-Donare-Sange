@@ -16,9 +16,21 @@ public class ControllerRoot extends UnicastRemoteObject implements Serializable,
 
     }
 
+    public List<IObserver> getObservers() {
+        return observers;
+    }
+
     public void addObserver(IObserver observer) throws RemoteException {
         observers.add(observer);
-        System.out.println(observers.size());
+        System.out.println("ControllerRoot->" + observers.size());
+    }
+
+    public  void removeObserver(IObserver observer) throws  RemoteException{
+        if(observer == null){
+            observers.clear();
+            return;
+        }
+        observers.remove(observer);
     }
 
     @Override
@@ -27,4 +39,22 @@ public class ControllerRoot extends UnicastRemoteObject implements Serializable,
             observer.testUpdate();
         }
     }
+
+    @Override
+    public void notifyDonorAnalyseFinished(String username, String message)throws  RemoteException {
+
+        for(IObserver observer : observers){
+            observer.notifyDonorAnalyseFinished(username,message);
+        }
+    }
+
+    @Override
+    public void notifyDonorUpdateHistory(String username) throws RemoteException {
+
+        for(IObserver  observer : observers){
+            observer.notifyDonorUpdateHistory(username);
+        }
+    }
+
+
 }

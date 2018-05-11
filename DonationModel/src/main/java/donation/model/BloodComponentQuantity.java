@@ -19,6 +19,7 @@ public class BloodComponentQuantity implements Serializable {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
     @Column(name = "idDonation")
@@ -26,6 +27,9 @@ public class BloodComponentQuantity implements Serializable {
 
     @Column(name = "idRequest")
     private int IDrequest;
+
+    @Column(name = "IDTransfusionCenter")
+    private int IDTransfusionCenter;
 
     /**
      * 
@@ -64,6 +68,21 @@ public class BloodComponentQuantity implements Serializable {
     private BloodStatus bloodStatus;
 
 
+    public int getIDdonation() {
+        return IDdonation;
+    }
+
+    public void setIDdonation(int IDdonation) {
+        this.IDdonation = IDdonation;
+    }
+
+    public int getIDrequest() {
+        return IDrequest;
+    }
+
+    public void setIDrequest(int IDrequest) {
+        this.IDrequest = IDrequest;
+    }
 
     public int getID() {
         return ID;
@@ -119,5 +138,13 @@ public class BloodComponentQuantity implements Serializable {
 
     public void setBloodStatus(BloodStatus bloodStatus) {
         this.bloodStatus = bloodStatus;
+    }
+
+    public int getIDTransfusionCenter() {
+        return IDTransfusionCenter;
+    }
+
+    public void setIDTransfusionCenter(int IDTransfusionCenter) {
+        this.IDTransfusionCenter = IDTransfusionCenter;
     }
 }

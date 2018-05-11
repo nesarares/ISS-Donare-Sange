@@ -11,30 +11,19 @@ import java.util.*;
 public interface IServiceDonor {
 
     /**
-     * @param firstName 
-     * @param lastName 
-     * @param birthDate 
-     * @param address 
-     * @param nationality 
-     * @param email 
-     * @param phone
+     * @return
      */
-     void addProfile(String firstName, String lastName, Date birthDate, String address, String nationality, String email, String phone);
+     DonorProfile getProfile(String username);
 
     /**
      * @return
      */
-     DonorProfile getProfile();
-
-    /**
-     * @return
-     */
-     List<Donation> getHistory();
+     List<Donation> getHistory(String username);
 
     /**
      * @param username 
      * @param profile
      */
-     void updateProfile(String username, DonorProfile profile);
+     void updateProfile(String username, DonorProfile profile) throws Exception;
 
 }
