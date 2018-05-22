@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class BloodRequestRepository {
+public class BloodRequestRepository implements IRepository<BloodRequest> {
     public BloodRequestRepository() {
     }
 

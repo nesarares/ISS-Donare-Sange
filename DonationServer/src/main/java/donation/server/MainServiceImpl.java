@@ -27,6 +27,7 @@ public class MainServiceImpl implements IMainService {
     private IRepository<Donation> donationRepository;
     private IRepository<BloodComponentQuantity> bloodComponentQuantityRepository;
     private IRepository<BloodTransfusionCenterProfile> bloodTransfusionCenterProfileRepository;
+    private IRepository<BloodRequest> bloodRequestRepository;
 
     private IValidator<User> userValidator = new ValidatorUser();
     private IValidator<DonorProfile> donorProfileValidator = new ValidatorDonorProfile();
@@ -45,7 +46,8 @@ public class MainServiceImpl implements IMainService {
                            IRepository<MedicalQuestionnaire> medicalQuestionnaireRepository,
                            IRepository<Donation> donationIRepository,
                            IRepository<BloodComponentQuantity> bloodComponentQuantityRepository,
-                           IRepository<BloodTransfusionCenterProfile> bloodTransfusionCenterProfileRepository) {
+                           IRepository<BloodTransfusionCenterProfile> bloodTransfusionCenterProfileRepository,
+                           IRepository<BloodRequest> bloodRequestRepository) {
 
         this.userRepository = userIRepository;
         this.donorProfileRepository = donorProfileRepository;
@@ -53,6 +55,7 @@ public class MainServiceImpl implements IMainService {
         this.donationRepository = donationIRepository;
         this.bloodComponentQuantityRepository = bloodComponentQuantityRepository;
         this.bloodTransfusionCenterProfileRepository = bloodTransfusionCenterProfileRepository;
+        this.bloodRequestRepository = bloodRequestRepository;
     }
 
     @Override
@@ -127,11 +130,6 @@ public class MainServiceImpl implements IMainService {
         User user = userRepository.find(x -> x.getUsername().equals(username));
         if (user == null) return null;
         return user.getType();
-    }
-
-    @Override
-    public void sendBloodRequest(BloodRequest request) {
-
     }
 
     @Override
@@ -341,6 +339,15 @@ public class MainServiceImpl implements IMainService {
     }
 
     @Override
+    public List<BloodRequest> getBloodRequestsCenter(String username) {
+        return bloodRequestRepository.getAllFiltered(request ->
+                (request.getReceiver() == null ||
+                        request.getReceiver().getUsername().equals(username)) &&
+                        request.getBloodRequestStatus() != BloodRequestStatus.Completed);
+
+    }
+
+    @Override
     public List<User> getAllByType(UserType type) {
         return userRepository.getAllFiltered(x -> x.getType().equals(type));
     }
@@ -427,5 +434,19 @@ public class MainServiceImpl implements IMainService {
         } catch (RemoteException e) {
             System.out.println("notifyAnalysisFinished->" + e.getMessage());
         }
+    }
+
+    @Override
+    public void addBloodRequest(BloodRequest request, String username) throws Exception {
+        request.setSender(userRepository.find(u -> u.getUsername().equals(username)));
+        request.setBloodRequestStatus(BloodRequestStatus.Waiting);
+        request.setDateRequested(new Date());
+        request.setReceiver(null);
+        bloodRequestRepository.save(request);
+    }
+
+    @Override
+    public List<BloodRequest> getBloodRequestsDoctor(String username) {
+        return bloodRequestRepository.getAllFiltered(request -> request.getSender().getUsername().equals(username));
     }
 }
