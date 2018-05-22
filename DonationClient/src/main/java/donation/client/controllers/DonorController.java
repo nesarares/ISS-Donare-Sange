@@ -116,9 +116,9 @@ public class DonorController extends AbstractController {
                     setText(null);
                     setStyle("");
                 } else {
-                    setText(item.toString());
+                    setText(item ? "✔" : "✘");
                     if (item) {
-                        setStyle("-fx-background-color: red; -fx-text-fill: white");
+                        setStyle("-fx-background-color: #b31514; -fx-text-fill: white");
                         setTextFill(Color.WHITE);
                     }
                 }
