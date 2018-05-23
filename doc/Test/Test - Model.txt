@@ -1,0 +1,23 @@
+Test-case identifier: TestModel;
+
+Test location: /donation/model/TestModel;
+
+Feature to be tested: Getters, setters, validators - Corectitudinea functionarii;
+
+Feature pass/fail criteria: Testele vor trece daca getters vor returna aceeasi
+							valoare care se gaseste ca parametru in setters;
+							Testele validatoarelor constau in incercarea validarii
+							datelor eronate, in vederea propagarii exceptiilor;
+
+Means of control: Metodele clasei TestModel vor fi apelate automat la construirea
+					aplicatiei de catre utilitarul Gradle;
+
+Data: Valorile cu care s-au realizat testele au fost introduse manual in cod (hardcodate)
+	  Trecerea testelor este verificata implicit la asamblarea aplicatiei, neputandu-se face
+	  acest lucru daca un singur test a esuat;
+	  
+Test Procedure: Testele vor folosii setters pentru fiecare entitate din model, atribuind
+				anumite valori atributelor obiectelor, urmand o verificare ulterioara cu 
+				ajutorul getters. Testele nu ar trebui sa dureze mai mult de 1-2 secunde
+				
+Special requirements: ---	
