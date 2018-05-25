@@ -113,7 +113,7 @@ public class CenterController extends AbstractController {
     ObservableList<BloodRequest> modelBR = FXCollections.observableArrayList();
 
     @FXML
-    private Label labelIdRequest;
+    private Label labelGroupBR, labelRhBR, labelLeukocytesBR, labelThrombocytesBR, labelPlasmaBR;
 
     @FXML
     private JFXListView<BloodComponentQuantity> listDetailsBloodStock;
@@ -188,7 +188,11 @@ public class CenterController extends AbstractController {
 
     private void loadDetailsPane(BloodRequest request) {
         setModelDetailsBR(request);
-        labelIdRequest.setText(String.valueOf(request.getID()));
+        labelPlasmaBR.setText(request.getPlasmaQuantity() + " ml");
+        labelThrombocytesBR.setText(request.getThrombocytesQuantity() + " ml");
+        labelLeukocytesBR.setText(request.getLeukocytesQuantity() + " ml");
+        labelGroupBR.setText(request.getBloodGroup().toString());
+        labelRhBR.setText(request.getRhBloodGroup().toString());
     }
 
     private void loadRequests() {
@@ -213,13 +217,13 @@ public class CenterController extends AbstractController {
     private void setModelDetailsBR(BloodRequest request) {
         modelDetailsBloodStock.setAll(
                 mainService.getBloodStock(username).stream()
-                    .filter(
-                            br -> br.getBloodStatus() == BloodStatus.Valid &&
-                                    br.getAboBloodGroup() == request.getBloodGroup() &&
-                                    br.getRhBloodGroup() == request.getRhBloodGroup() &&
-                                    br.getIDrequest() == 0
-                    )
-                    .collect(Collectors.toList())
+                        .filter(
+                                br -> br.getBloodStatus() == BloodStatus.Valid &&
+                                        br.getAboBloodGroup() == request.getBloodGroup() &&
+                                        br.getRhBloodGroup() == request.getRhBloodGroup() &&
+                                        br.getIDrequest() == 0
+                        )
+                        .collect(Collectors.toList())
         );
     }
 
