@@ -454,7 +454,20 @@
                            <center>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
                                  <children>
-                                    <JFXListView fx:id="listNotifications" styleClass="notif" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <JFXListView fx:id="listNotifications" styleClass="notif" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+                                       <placeholder>
+                                          <VBox alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <FontAwesomeIconView fill="#868686" glyphName="ENVELOPE" size="100" />
+                                                <Label text="You don't have any new &#10;notifications." textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="Saira SemiCondensed Light" size="27.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </placeholder>
+                                    </JFXListView>
                                  </children>
                               </AnchorPane>
                            </center>
