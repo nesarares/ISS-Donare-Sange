@@ -330,4 +330,9 @@ public class DonorController extends AbstractController {
             updateLabels();
         });
     }
+
+    @Override
+    public void notifyNewRequestAdded(String username,String message) throws RemoteException {
+        throw  new RemoteException("Not available!");
+    }
 }

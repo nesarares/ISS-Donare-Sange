@@ -56,5 +56,12 @@ public class ControllerRoot extends UnicastRemoteObject implements Serializable,
         }
     }
 
+    @Override
+    public void notifyNewRequestAdded(String username,String message) throws RemoteException {
+        for(IObserver  observer : observers){
+            observer.notifyNewRequestAdded(username,message);
+        }
+    }
+
 
 }

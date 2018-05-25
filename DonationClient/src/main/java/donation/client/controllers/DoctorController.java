@@ -288,4 +288,9 @@ public class DoctorController extends AbstractController {
     public void notifyDonorUpdateHistory(String username) throws RemoteException {
         throw new RemoteException("Not available");
     }
+
+    @Override
+    public void notifyNewRequestAdded(String username,String message) throws RemoteException {
+        throw new  RemoteException("Not available!");
+    }
 }

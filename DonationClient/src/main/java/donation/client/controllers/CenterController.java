@@ -9,6 +9,7 @@ import donation.client.utils.Timer;
 import donation.model.*;
 import donation.services.IMainService;
 import donation.utils.IObserver;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import sun.plugin.util.UIUtil;
 
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -121,10 +123,7 @@ public class CenterController extends AbstractController {
 
     @FXML
     JFXListView<String> listNotifications;
-    private ObservableList<String> modelNotifications = FXCollections.observableArrayList(
-            "2018-03-18 - A new blood request arrived.",
-            "2018-02-26 - A blood request has been canceled.",
-            "2018-02-03 - A new blood request arrived.");
+    private ObservableList<String> modelNotifications = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -150,6 +149,7 @@ public class CenterController extends AbstractController {
         columnSenderBR.setCellValueFactory(request ->
                 new SimpleStringProperty(request.getValue().getSender().getUsername())
         );
+
         columnStatusBR.setCellValueFactory(new PropertyValueFactory<>("bloodRequestStatus"));
 
         columnActionBR.setCellFactory(param -> new TableCell<BloodRequest, Void>() {
@@ -289,7 +289,7 @@ public class CenterController extends AbstractController {
         super.setMainService(mainService, username, stageLogin);
         initLabels();
         initComboBoxes();
-        labelCenterName.setText(mainService.getTransfusionCenterProfile(username).getAddress());
+            labelCenterName.setText(mainService.getTransfusionCenterProfile(username).getAddress());
     }
 
     @FXML
@@ -308,6 +308,12 @@ public class CenterController extends AbstractController {
     }
 
     private void initListNotifications() {
+
+        listNotifications.setOnMouseClicked(ev-> {
+            mainService.removeNotificationFromDonor(getUsername(), listNotifications.getSelectionModel().getSelectedItem());
+            modelNotifications.remove(listNotifications.getSelectionModel().getSelectedItem());
+        });
+
         listNotifications.setItems(modelNotifications);
     }
 
@@ -515,7 +521,6 @@ public class CenterController extends AbstractController {
             return;
         }
 
-
         try {
             buildMedicalQuestionnaire(questionnaire, donorProfile);
             mainService.addMedicalQuestionnaire(questionnaire);
@@ -562,5 +567,15 @@ public class CenterController extends AbstractController {
     @Override
     public void notifyDonorUpdateHistory(String username) throws RemoteException {
         throw new RemoteException("Not available");
+    }
+
+    @Override
+    public void notifyNewRequestAdded(String username,String message) throws RemoteException {
+        Platform.runLater(()->{
+            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION,"Information",message,stackPane);
+            loadRequests();
+            modelNotifications.add(new java.util.Date() + " " + message);
+        });
+
     }
 }

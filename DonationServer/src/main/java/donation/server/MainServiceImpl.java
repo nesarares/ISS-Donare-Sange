@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class MainServiceImpl implements IMainService {
 
@@ -35,6 +36,7 @@ public class MainServiceImpl implements IMainService {
     private Map<String, IObserver> loggedUsers = new ConcurrentHashMap<>();
 
     private OfflineNotifier notifier = new OfflineNotifier();
+    private OfflineNotifier centerNotifier = new OfflineNotifier();
 
     private final int DAYS_UNTIL_NEXT_DONATION = 30;
     private final int BLOOD_BAG_QUANTITY = 450;
@@ -70,6 +72,21 @@ public class MainServiceImpl implements IMainService {
 
         if (notifier.hasUndeliveredMessages(username))
             notifier.sendUndeliveredMessages(username, this::notifyAnalysisFinished);
+
+        if(centerNotifier.hasUndeliveredMessages(username)) {
+
+            centerNotifier.sendUndeliveredMessages(username,(u,m)->{
+                IObserver center = loggedUsers.get(u);
+
+                try {
+                    center.notifyNewRequestAdded(u,m);
+                } catch (RemoteException e) {
+                    System.out.println("Login->" + e.getMessage());
+                }
+
+            });
+        }
+
         return true;
     }
 
@@ -436,17 +453,58 @@ public class MainServiceImpl implements IMainService {
         }
     }
 
+    private void sendToAllCenters(){
+
+        //todo do the implementation
+        List<User> users = userRepository.getAll().stream().filter(x->x.getType() == UserType.BloodTransfusionCenter).collect(Collectors.toList());
+
+        for(User user : users){
+
+            IObserver center = loggedUsers.get(user.getUsername());
+
+            if(center == null){
+                centerNotifier.addMessage(user.getUsername(),"A new blood request have arrived!");
+                continue;
+            }
+
+            try {
+                centerNotifier.addMessage(user.getUsername(),"A new blood request have arrived!");
+                center.notifyNewRequestAdded(user.getUsername(),"A new blood request have arrived!");
+            } catch (RemoteException e) {
+                System.out.println("MainImpl->sendOnlyToOneCenter->" + e.getMessage());
+            }
+        }
+
+    }
+
+    private void sendOnlyToOneCenter(String centerName){
+
+    }
+
+    private void notifyNewBloodRequestAdded(String centerName){
+
+        if(centerName == null){
+            sendToAllCenters();
+            return;
+        }
+
+        sendOnlyToOneCenter(centerName);
+    }
+
     @Override
     public void addBloodRequest(BloodRequest request, String username) throws Exception {
         request.setSender(userRepository.find(u -> u.getUsername().equals(username)));
         request.setBloodRequestStatus(BloodRequestStatus.Waiting);
         request.setDateRequested(new Date());
-        request.setReceiver(null);
+        request.setReceiver(null);//for all centers
         bloodRequestRepository.save(request);
+        notifyNewBloodRequestAdded(null);//for all centers
     }
 
     @Override
     public List<BloodRequest> getBloodRequestsDoctor(String username) {
         return bloodRequestRepository.getAllFiltered(request -> request.getSender().getUsername().equals(username));
     }
+
+
 }
