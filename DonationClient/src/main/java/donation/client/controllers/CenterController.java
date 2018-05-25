@@ -293,7 +293,7 @@ public class CenterController extends AbstractController {
         super.setMainService(mainService, username, stageLogin);
         initLabels();
         initComboBoxes();
-            labelCenterName.setText(mainService.getTransfusionCenterProfile(username).getAddress());
+        labelCenterName.setText(mainService.getTransfusionCenterProfile(username).getAddress());
     }
 
     @FXML
@@ -313,7 +313,7 @@ public class CenterController extends AbstractController {
 
     private void initListNotifications() {
 
-        listNotifications.setOnMouseClicked(ev-> {
+        listNotifications.setOnMouseClicked(ev -> {
             mainService.removeNotificationFromDonor(getUsername(), listNotifications.getSelectionModel().getSelectedItem());
             modelNotifications.remove(listNotifications.getSelectionModel().getSelectedItem());
         });
@@ -574,9 +574,9 @@ public class CenterController extends AbstractController {
     }
 
     @Override
-    public void notifyNewRequestAdded(String username,String message) throws RemoteException {
-        Platform.runLater(()->{
-            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION,"Information",message,stackPane);
+    public void notifyNewRequestAdded(String username, String message) throws RemoteException {
+        Platform.runLater(() -> {
+            GUIUtils.showSnackBar("You have a new notification.", stackPane);
             loadRequests();
             modelNotifications.add(new java.util.Date() + " " + message);
         });
