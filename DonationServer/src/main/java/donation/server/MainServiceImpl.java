@@ -463,13 +463,13 @@ public class MainServiceImpl implements IMainService {
             IObserver center = loggedUsers.get(user.getUsername());
 
             if(center == null){
-                centerNotifier.addMessage(user.getUsername(),"A new blood request have arrived!");
+                centerNotifier.addMessage(user.getUsername(),"A new blood request has arrived");
                 continue;
             }
 
             try {
-                centerNotifier.addMessage(user.getUsername(),"A new blood request have arrived!");
-                center.notifyNewRequestAdded(user.getUsername(),"A new blood request have arrived!");
+                centerNotifier.addMessage(user.getUsername(),"A new blood request has arrived");
+                center.notifyNewRequestAdded(user.getUsername(),"A new blood request has arrived");
             } catch (RemoteException e) {
                 System.out.println("MainImpl->sendOnlyToOneCenter->" + e.getMessage());
             }
