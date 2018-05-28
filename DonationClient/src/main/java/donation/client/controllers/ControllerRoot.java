@@ -22,7 +22,6 @@ public class ControllerRoot extends UnicastRemoteObject implements Serializable,
 
     public void addObserver(IObserver observer) throws RemoteException {
         observers.add(observer);
-        System.out.println("ControllerRoot->" + observers.size());
     }
 
     public  void removeObserver(IObserver observer) throws  RemoteException{

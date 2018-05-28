@@ -17,25 +17,25 @@ public class StartClient extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        ApplicationContext factory = new ClassPathXmlApplicationContext("classpath:spring-client.xml");
+        try {
+            ApplicationContext factory = new ClassPathXmlApplicationContext("classpath:spring-client.xml");
 
-        primaryStage.setTitle("Donare de sange");
-        primaryStage.getIcons().add(new Image("donation/client/icon.png"));
-        primaryStage.setOnCloseRequest((event) -> System.exit(0));
-        primaryStage.setResizable(false);
+            primaryStage.setTitle("Donare de sange");
+            primaryStage.getIcons().add(new Image("donation/client/icon.png"));
+            primaryStage.setOnCloseRequest((event) -> System.exit(0));
+            primaryStage.setResizable(false);
 
-        IMainService service = (IMainService) factory.getBean("service");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/LoginView.fxml"));
-        Parent root = loader.load();
-        LoginController ctrl = loader.getController();
-        ctrl.setMainService(service);
-        ctrl.loadLoginWindow(root, primaryStage);
+            IMainService service = (IMainService) factory.getBean("service");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/LoginView.fxml"));
+            Parent root = loader.load();
+            LoginController ctrl = loader.getController();
+            ctrl.setMainService(service);
+            ctrl.loadLoginWindow(root, primaryStage);
 
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/DoctorView.fxml"));
-//        Parent root = loader.load();
-//        Scene scene = new Scene(root);
-//        primaryStage.setScene(scene);
-//        primaryStage.show();
+        }catch (Exception e){
+            System.out.println("You must start the server first!");
+            System.exit(0);
+        }
     }
 
     public static void main(String[] args) {

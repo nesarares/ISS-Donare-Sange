@@ -9,6 +9,7 @@ import donation.client.utils.Timer;
 import donation.model.*;
 import donation.services.IMainService;
 import donation.utils.IObserver;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -240,28 +241,37 @@ public class DoctorController extends AbstractController {
 
     @FXML
     private void handleSendBloodRequest(ActionEvent actionEvent) {
-        try {
-            BloodRequest request = new BloodRequest();
-            request.setBloodGroup(comboBloodGroup.getValue());
-            request.setPatientName(textPatientName.getText());
-            request.setRhBloodGroup(comboRh.getValue());
 
-            int leukocytesQuantity = checkLeukocytes.isSelected() ? Integer.parseInt(textQuantityLeukocytes.getText()) : 0;
-            request.setLeukocytesQuantity(leukocytesQuantity);
+        new Thread(()-> {
 
-            int plasmaQuantity = checkPlasma.isSelected() ? Integer.parseInt(textQuantityPlasma.getText()) : 0;
-            request.setPlasmaQuantity(plasmaQuantity);
+            try {
 
-            int thrombocytesQuantity = checkThrombocytes.isSelected() ? Integer.parseInt(textQuantityThrombocytes.getText()) : 0;
-            request.setThrombocytesQuantity(thrombocytesQuantity);
+                //todo rares da disable la butonul de send dupa ce da un request si enable in finally
 
-            mainService.addBloodRequest(request, username);
-            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Success", "Request was sucessfully added!", stackPaneContent);
-        } catch (NumberFormatException e) {
-            GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Error", "Invalid quantities entered.", stackPaneContent);
-        } catch (Exception e) {
-            GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Error", e.getMessage(), stackPaneContent);
-        }
+                BloodRequest request = new BloodRequest();
+                request.setBloodGroup(comboBloodGroup.getValue());
+                request.setPatientName(textPatientName.getText());
+                request.setRhBloodGroup(comboRh.getValue());
+
+                int leukocytesQuantity = checkLeukocytes.isSelected() ? Integer.parseInt(textQuantityLeukocytes.getText()) : 0;
+                request.setLeukocytesQuantity(leukocytesQuantity);
+
+                int plasmaQuantity = checkPlasma.isSelected() ? Integer.parseInt(textQuantityPlasma.getText()) : 0;
+                request.setPlasmaQuantity(plasmaQuantity);
+
+                int thrombocytesQuantity = checkThrombocytes.isSelected() ? Integer.parseInt(textQuantityThrombocytes.getText()) : 0;
+                request.setThrombocytesQuantity(thrombocytesQuantity);
+
+                mainService.addBloodRequest(request, username);
+                Platform.runLater(()->GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Success", "Request was sucessfully added!", stackPaneContent));
+
+            } catch (NumberFormatException e) {
+                Platform.runLater(()->GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Error", "Invalid quantities entered.", stackPaneContent));
+            } catch (Exception e) {
+                Platform.runLater(()->GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Error", e.getMessage(), stackPaneContent));
+            }
+
+        }).start();
     }
 
     @Override

@@ -246,8 +246,7 @@ public class CenterController extends AbstractController {
 
     private void initLabels() {
         labelTotalDonationsSoFar.setText(mainService.getAllDonationsForCenter(getUsername()) + "");
-        //todo de completat atunci cand apare un request de sange
-        labelActiveBloodRequest.setText("0");
+        labelActiveBloodRequest.setText(mainService.getBloodRequestsCenter(getUsername()).size() + "");
     }
 
     private void initComboBoxes() {
@@ -343,8 +342,13 @@ public class CenterController extends AbstractController {
     }
 
     private void handleSearchTextChanged(JFXTextField searchBar) {
-        if (searchBar.getText() != null || Objects.equals(searchBar.getText(), "")) initListDonors(searchBar.getText());
-        else initListDonors("");
+
+        if (searchBar.getText() != null || Objects.equals(searchBar.getText(), "")) {
+            initListDonors(searchBar.getText());
+            return;
+        }
+
+        initListDonors("");
     }
 
     @FXML
@@ -572,10 +576,10 @@ public class CenterController extends AbstractController {
     @Override
     public void notifyNewRequestAdded(String username,String message) throws RemoteException {
         Platform.runLater(()->{
-            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION,"Information",message,stackPane);
+            GUIUtils.showSnackBar("You have a new blood request!",stackPane);
             loadRequests();
-            modelNotifications.add(new java.util.Date() + " " + message);
+            modelBR.setAll(mainService.getBloodRequestsCenter(getUsername()));
+            modelNotifications.add(message);
         });
-
     }
 }
