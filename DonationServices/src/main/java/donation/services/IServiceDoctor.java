@@ -1,9 +1,9 @@
 package donation.services;
 
 import donation.model.BloodRequest;
+import donation.model.DoctorProfile;
 
-import java.util.*;
-import java.util.function.Predicate;
+import java.util.List;
 
 /**
  * 
@@ -19,9 +19,16 @@ public interface IServiceDoctor {
 
     /**
      *
-     * @param predicate
+     * @param username
      * @return
      */
     List<BloodRequest> getBloodRequestsDoctor(String username);
+
+    /**
+     *
+     * @param username
+     * @return
+     */
+    DoctorProfile getDoctorProfile(String username);
 
 }
