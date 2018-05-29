@@ -18,7 +18,7 @@ public class OfflineNotifier {
             System.out.println("Username: " + x + " Messages" + y.toString());
         });
 
-        if(undeliveredMessages.get(username).size() == 0)return;
+        if(undeliveredMessages.get(username) == null || undeliveredMessages.get(username).size() == 0)return;
 
         undeliveredMessages.forEach((x,y)->{//todo optimization(make this to run on multiple threads (hint use executorService) )
 

@@ -14,7 +14,9 @@
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</property>
-        <!--<property name="hibernate.hbm2ddl.auto">create</property> &lt;!&ndash;ATUNCI CAND RULATI PRIMA DATA, SCHIMBATI DIN "update" IN "create". Apoi schimbati inapoi in update, sau stergeti randul. &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+        <!--<property name="hibernate.hbm2ddl.auto">update</property>-->
+        <!--ATUNCI CAND RULATI PRIMA DATA, SCHIMBATI DIN "update" IN "create". Apoi schimbati inapoi in update, sau stergeti randul.-->
+        <!--<property name="hibernate.hbm2ddl.auto">create</property>-->
 
     </session-factory>
 </hibernate-configuration>

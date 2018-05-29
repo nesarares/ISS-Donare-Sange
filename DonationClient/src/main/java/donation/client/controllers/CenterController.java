@@ -2,22 +2,30 @@ package donation.client.controllers;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import donation.client.utils.GUIUtils;
 import donation.client.utils.Timer;
 import donation.model.*;
 import donation.services.IMainService;
 import donation.utils.IObserver;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import sun.plugin.util.UIUtil;
 
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -45,7 +53,7 @@ public class CenterController extends AbstractController {
     private AnchorPane drawerContent;
 
     @FXML
-    private AnchorPane homePane, donationPane, questionnairePane, stockPane, requestsPane, notificationsPane;
+    private AnchorPane homePane, donationPane, questionnairePane, stockPane, requestsPane, notificationsPane, detailsPane;
     @FXML
     private JFXButton buttonHome, buttonDonation, buttonQuestionnaire, buttonStock, buttonRequests, buttonNotifications;
 
@@ -99,11 +107,23 @@ public class CenterController extends AbstractController {
             columnQuantity, columnExpDate, columnStatus;
 
     @FXML
+    private TableColumn<BloodRequest, String> columnDateBR, columnPatientBR, columnSenderBR, columnStatusBR;
+    @FXML
+    private TableColumn<BloodRequest, Void> columnActionBR;
+    @FXML
+    private TableView<BloodRequest> tableBloodRequestsBR;
+    ObservableList<BloodRequest> modelBR = FXCollections.observableArrayList();
+
+    @FXML
+    private Label labelGroupBR, labelRhBR, labelLeukocytesBR, labelThrombocytesBR, labelPlasmaBR;
+
+    @FXML
+    private JFXListView<BloodComponentQuantity> listDetailsBloodStock;
+    private ObservableList<BloodComponentQuantity> modelDetailsBloodStock = FXCollections.observableArrayList();
+
+    @FXML
     JFXListView<String> listNotifications;
-    private ObservableList<String> modelNotifications = FXCollections.observableArrayList(
-            "2018-03-18 - A new blood request arrived.",
-            "2018-02-26 - A blood request has been canceled.",
-            "2018-02-03 - A new blood request arrived.");
+    private ObservableList<String> modelNotifications = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -116,7 +136,95 @@ public class CenterController extends AbstractController {
         initListNotifications();
         initSearchFields();
         initTableBloodStock();
+        initListDetailsBR();
+        initTableBr();
         toggleView(homePane, buttonHome);
+    }
+
+    private void initTableBr() {
+
+        columnDateBR.setCellValueFactory(request -> new SimpleStringProperty(request.getValue().getDateRequested().toString().split(" ")[0]));
+        columnPatientBR.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+        // TODO De pus nume in loc de username la reciever
+        columnSenderBR.setCellValueFactory(request ->
+                new SimpleStringProperty(request.getValue().getSender().getUsername())
+        );
+
+        columnStatusBR.setCellValueFactory(new PropertyValueFactory<>("bloodRequestStatus"));
+
+        columnActionBR.setCellFactory(param -> new TableCell<BloodRequest, Void>() {
+            private JFXButton detailsButton = new JFXButton();
+            HBox pane = new HBox(detailsButton);
+
+            {
+                FontAwesomeIconView iconDetails = new FontAwesomeIconView();
+                iconDetails.setIcon(FontAwesomeIcon.PENCIL);
+                iconDetails.setFont(new Font(20));
+
+                pane.setAlignment(Pos.CENTER);
+                pane.setSpacing(10d);
+                detailsButton.setId("ActionButton");
+                detailsButton.getStyleClass().add("btn");
+                detailsButton.setTooltip(new Tooltip("Edit request"));
+//                detailsButton.setGraphic(iconDetails);
+                detailsButton.setText("Edit");
+
+                detailsButton.setOnAction(event -> {
+                    BloodRequest request = (BloodRequest) getTableRow().getItem();
+                    loadDetailsPane(request);
+                    toggleView(detailsPane, null);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : detailsButton);
+            }
+        });
+
+        tableBloodRequestsBR.setItems(modelBR);
+    }
+
+    private void loadDetailsPane(BloodRequest request) {
+        setModelDetailsBR(request);
+        labelPlasmaBR.setText(request.getPlasmaQuantity() + " ml");
+        labelThrombocytesBR.setText(request.getThrombocytesQuantity() + " ml");
+        labelLeukocytesBR.setText(request.getLeukocytesQuantity() + " ml");
+        labelGroupBR.setText(request.getBloodGroup().toString());
+        labelRhBR.setText(request.getRhBloodGroup().toString());
+    }
+
+    private void loadRequests() {
+        modelBR.setAll(mainService.getBloodRequestsCenter(username));
+    }
+
+    private void initListDetailsBR() {
+        listDetailsBloodStock.setCellFactory(param -> new ListCell<BloodComponentQuantity>() {
+            @Override
+            public void updateItem(BloodComponentQuantity item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null) setText(null);
+                else {
+                    setText(item.getBloodComponent() + " - " + item.getQuantity() + " ml - exp: " + item.getExpirationDate());
+                }
+            }
+        });
+
+        listDetailsBloodStock.setItems(modelDetailsBloodStock);
+    }
+
+    private void setModelDetailsBR(BloodRequest request) {
+        modelDetailsBloodStock.setAll(
+                mainService.getBloodStock(username).stream()
+                        .filter(
+                                br -> br.getBloodStatus() == BloodStatus.Valid &&
+                                        br.getAboBloodGroup() == request.getBloodGroup() &&
+                                        br.getRhBloodGroup() == request.getRhBloodGroup() &&
+                                        br.getIDrequest() == 0
+                        )
+                        .collect(Collectors.toList())
+        );
     }
 
     private void initTableBloodStock() {
@@ -204,6 +312,12 @@ public class CenterController extends AbstractController {
     }
 
     private void initListNotifications() {
+
+        listNotifications.setOnMouseClicked(ev -> {
+            mainService.removeNotificationFromDonor(getUsername(), listNotifications.getSelectionModel().getSelectedItem());
+            modelNotifications.remove(listNotifications.getSelectionModel().getSelectedItem());
+        });
+
         listNotifications.setItems(modelNotifications);
     }
 
@@ -218,6 +332,7 @@ public class CenterController extends AbstractController {
         requestsPane.setVisible(false);
         stockPane.setVisible(false);
         notificationsPane.setVisible(false);
+        detailsPane.setVisible(false);
 
         buttonDonation.setDisable(false);
         buttonHome.setDisable(false);
@@ -227,7 +342,8 @@ public class CenterController extends AbstractController {
         buttonStock.setDisable(false);
 
         viewToShow.setVisible(true);
-        buttonClicked.setDisable(true);
+        if (buttonClicked != null)
+            buttonClicked.setDisable(true);
     }
 
     private void handleSearchTextChanged(JFXTextField searchBar) {
@@ -265,6 +381,7 @@ public class CenterController extends AbstractController {
     @FXML
     private void handleButtonRequests(ActionEvent actionEvent) {
         toggleView(requestsPane, buttonRequests);
+        loadRequests();
         handleDrawer(null);
     }
 
@@ -408,7 +525,6 @@ public class CenterController extends AbstractController {
             return;
         }
 
-
         try {
             buildMedicalQuestionnaire(questionnaire, donorProfile);
             mainService.addMedicalQuestionnaire(questionnaire);
@@ -455,5 +571,15 @@ public class CenterController extends AbstractController {
     @Override
     public void notifyDonorUpdateHistory(String username) throws RemoteException {
         throw new RemoteException("Not available");
+    }
+
+    @Override
+    public void notifyNewRequestAdded(String username, String message) throws RemoteException {
+        Platform.runLater(() -> {
+            GUIUtils.showSnackBar("You have a new notification.", stackPane);
+            loadRequests();
+            modelNotifications.add(new java.util.Date() + " " + message);
+        });
+
     }
 }

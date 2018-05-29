@@ -56,4 +56,7 @@ public interface IServiceScientist {
      */
     List<BloodTransfusionCenterProfile> getAllTransfusionCenterProfiles();
 
+    List<BloodRequest> getBloodRequestsCenter(String username);
+
+
 }

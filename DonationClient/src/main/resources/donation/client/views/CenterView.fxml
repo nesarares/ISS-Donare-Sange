@@ -275,7 +275,7 @@
                         </BorderPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="stockPane" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="stockPane" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <top>
@@ -312,7 +312,7 @@
                                         <TableColumn fx:id="columnGroup" prefWidth="75.0" text="Group" />
                                           <TableColumn fx:id="columnRh" prefWidth="75.0" text="Rh" />
                                           <TableColumn fx:id="columnQuantity" prefWidth="75.0" text="Quantity" />
-                                          <TableColumn fx:id="columnExpDate" prefWidth="75.0" text="Expiration Date" />
+                                          <TableColumn fx:id="columnExpDate" prefWidth="75.0" text="Exp Date" />
                                           <TableColumn fx:id="columnStatus" prefWidth="75.0" text="Status" />
                                       </columns>
                                        <columnResizePolicy>
@@ -331,7 +331,116 @@
                               <Label styleClass="title" text="Blood Requests" BorderPane.alignment="CENTER" />
                            </top>
                            <center>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER" />
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <TableView fx:id="tableBloodRequestsBR" prefHeight="280.0" prefWidth="240.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <columns>
+                                          <TableColumn fx:id="columnDateBR" prefWidth="75.0" text="Date Requested" />
+                                          <TableColumn fx:id="columnPatientBR" prefWidth="75.0" text="Patient" />
+                                          <TableColumn fx:id="columnSenderBR" prefWidth="75.0" text="Doctor" />
+                                          <TableColumn fx:id="columnStatusBR" prefWidth="75.0" text="Status" />
+                                          <TableColumn fx:id="columnActionBR" prefWidth="75.0" text="Action" />
+                                       </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </children></AnchorPane>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="detailsPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <top>
+                              <Label styleClass="title" text="Details" BorderPane.alignment="CENTER" />
+                           </top>
+                           <center>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <TableView fx:id="tableBloodStockRD" layoutX="80.0" layoutY="245.0" prefHeight="357.0" prefWidth="720.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
+                                       <columns>
+                                          <TableColumn fx:id="columnTypeRD" prefWidth="75.0" text="Type" />
+                                          <TableColumn fx:id="columnGroupRD" prefWidth="75.0" text="Group" />
+                                          <TableColumn fx:id="columnRhRD" prefWidth="75.0" text="Rh" />
+                                          <TableColumn fx:id="columnQuantityRD" prefWidth="75.0" text="Quantity" />
+                                          <TableColumn fx:id="columnExpDateRD" prefWidth="75.0" text="Exp Date" />
+                                          <TableColumn fx:id="columnStatusRD" prefWidth="75.0" text="Status" />
+                                       </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                    <JFXListView fx:id="listDetailsBloodStock" layoutX="80.0" layoutY="80.0" prefHeight="135.0" prefWidth="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="0.0" />
+                                    <JFXButton layoutX="40.0" layoutY="207.0" styleClass="btn" text="Add component" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="150.0" />
+                                    <GridPane hgap="20.0" layoutX="273.0" layoutY="40.0" prefHeight="175.0" prefWidth="254.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="179.0" minWidth="10.0" prefWidth="159.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="10.0" prefWidth="95.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label text="Blood group:">
+                                             <font>
+                                                <Font name="Saira SemiCondensed SemiBold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="RH:" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font name="Saira SemiCondensed SemiBold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Leukocytes qu:" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font name="Saira SemiCondensed SemiBold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Thrombocytes qu:" GridPane.rowIndex="3">
+                                             <font>
+                                                <Font name="Saira SemiCondensed SemiBold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Plasma qu:" GridPane.rowIndex="4">
+                                             <font>
+                                                <Font name="Saira SemiCondensed SemiBold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="labelGroupBR" text="AB" GridPane.columnIndex="1">
+                                             <font>
+                                                <Font name="Saira SemiCondensed SemiBold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="labelRhBR" text="+" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                             <font>
+                                                <Font name="Saira SemiCondensed SemiBold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="labelLeukocytesBR" text="120 mg" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                             <font>
+                                                <Font name="Saira SemiCondensed SemiBold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="labelThrombocytesBR" text="120 mg" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                             <font>
+                                                <Font name="Saira SemiCondensed SemiBold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="labelPlasmaBR" text="120 mg" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                             <font>
+                                                <Font name="Saira SemiCondensed SemiBold" size="17.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
                            </center>
                         </BorderPane>
                      </children>
@@ -345,7 +454,20 @@
                            <center>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
                                  <children>
-                                    <JFXListView fx:id="listNotifications" styleClass="notif" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <JFXListView fx:id="listNotifications" styleClass="notif" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+                                       <placeholder>
+                                          <VBox alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <FontAwesomeIconView fill="#868686" glyphName="ENVELOPE" size="100" />
+                                                <Label text="You don't have any new &#10;notifications." textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="Saira SemiCondensed Light" size="27.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </placeholder>
+                                    </JFXListView>
                                  </children>
                               </AnchorPane>
                            </center>
@@ -353,7 +475,7 @@
                      </children>
                   </AnchorPane>
                   <JFXDrawer fx:id="drawer" defaultDrawerSize="240.0" prefHeight="600.0" prefWidth="240.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <AnchorPane fx:id="drawerContent" prefHeight="600.0" prefWidth="233.0" styleClass="drawer" AnchorPane.leftAnchor="0.0">
+                  <AnchorPane fx:id="drawerContent" prefHeight="600.0" prefWidth="233.0" styleClass="drawer" visible="false" AnchorPane.leftAnchor="-250.0">
                      <children>
                         <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="240.0" spacing="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>

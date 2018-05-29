@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class MainServiceImpl implements IMainService {
 
@@ -27,6 +28,7 @@ public class MainServiceImpl implements IMainService {
     private IRepository<Donation> donationRepository;
     private IRepository<BloodComponentQuantity> bloodComponentQuantityRepository;
     private IRepository<BloodTransfusionCenterProfile> bloodTransfusionCenterProfileRepository;
+    private IRepository<BloodRequest> bloodRequestRepository;
 
     private IValidator<User> userValidator = new ValidatorUser();
     private IValidator<DonorProfile> donorProfileValidator = new ValidatorDonorProfile();
@@ -34,6 +36,7 @@ public class MainServiceImpl implements IMainService {
     private Map<String, IObserver> loggedUsers = new ConcurrentHashMap<>();
 
     private OfflineNotifier notifier = new OfflineNotifier();
+    private OfflineNotifier centerNotifier = new OfflineNotifier();
 
     private final int DAYS_UNTIL_NEXT_DONATION = 30;
     private final int BLOOD_BAG_QUANTITY = 450;
@@ -45,7 +48,8 @@ public class MainServiceImpl implements IMainService {
                            IRepository<MedicalQuestionnaire> medicalQuestionnaireRepository,
                            IRepository<Donation> donationIRepository,
                            IRepository<BloodComponentQuantity> bloodComponentQuantityRepository,
-                           IRepository<BloodTransfusionCenterProfile> bloodTransfusionCenterProfileRepository) {
+                           IRepository<BloodTransfusionCenterProfile> bloodTransfusionCenterProfileRepository,
+                           IRepository<BloodRequest> bloodRequestRepository) {
 
         this.userRepository = userIRepository;
         this.donorProfileRepository = donorProfileRepository;
@@ -53,6 +57,7 @@ public class MainServiceImpl implements IMainService {
         this.donationRepository = donationIRepository;
         this.bloodComponentQuantityRepository = bloodComponentQuantityRepository;
         this.bloodTransfusionCenterProfileRepository = bloodTransfusionCenterProfileRepository;
+        this.bloodRequestRepository = bloodRequestRepository;
     }
 
     @Override
@@ -67,6 +72,21 @@ public class MainServiceImpl implements IMainService {
 
         if (notifier.hasUndeliveredMessages(username))
             notifier.sendUndeliveredMessages(username, this::notifyAnalysisFinished);
+
+        if(centerNotifier.hasUndeliveredMessages(username)) {
+
+            centerNotifier.sendUndeliveredMessages(username,(u,m)->{
+                IObserver center = loggedUsers.get(u);
+
+                try {
+                    center.notifyNewRequestAdded(u,m);
+                } catch (RemoteException e) {
+                    System.out.println("Login->" + e.getMessage());
+                }
+
+            });
+        }
+
         return true;
     }
 
@@ -127,11 +147,6 @@ public class MainServiceImpl implements IMainService {
         User user = userRepository.find(x -> x.getUsername().equals(username));
         if (user == null) return null;
         return user.getType();
-    }
-
-    @Override
-    public void sendBloodRequest(BloodRequest request) {
-
     }
 
     @Override
@@ -289,7 +304,7 @@ public class MainServiceImpl implements IMainService {
         } catch (Exception e) {
             if (e.getMessage().contains("30-days")) {
                 Optional<Donation> lastDonationDate =
-                        donationRepository.getAllFiltered(x -> x.getDonor().getId() == userRepository.find(u -> u.getUsername().equals(donation.getDonor())).getId())
+                        donationRepository.getAllFiltered(x -> x.getDonor().getId() == userRepository.find(u -> u.getUsername().equals(donation.getDonor().getUsername())).getId())
                                 .stream()
                                 .sorted((x, y) -> -x.getDonationDate().compareTo(y.getDonationDate()))
                                 .findFirst();
@@ -338,6 +353,15 @@ public class MainServiceImpl implements IMainService {
     @Override
     public List<BloodTransfusionCenterProfile> getAllTransfusionCenterProfiles() {
         return bloodTransfusionCenterProfileRepository.getAll();
+    }
+
+    @Override
+    public List<BloodRequest> getBloodRequestsCenter(String username) {
+        return bloodRequestRepository.getAllFiltered(request ->
+                (request.getReceiver() == null ||
+                        request.getReceiver().getUsername().equals(username)) &&
+                        request.getBloodRequestStatus() != BloodRequestStatus.Completed);
+
     }
 
     @Override
@@ -428,4 +452,59 @@ public class MainServiceImpl implements IMainService {
             System.out.println("notifyAnalysisFinished->" + e.getMessage());
         }
     }
+
+    private void sendToAllCenters(){
+
+        //todo do the implementation
+        List<User> users = userRepository.getAll().stream().filter(x->x.getType() == UserType.BloodTransfusionCenter).collect(Collectors.toList());
+
+        for(User user : users){
+
+            IObserver center = loggedUsers.get(user.getUsername());
+
+            if(center == null){
+                centerNotifier.addMessage(user.getUsername(),"A new blood request has arrived");
+                continue;
+            }
+
+            try {
+                centerNotifier.addMessage(user.getUsername(),"A new blood request has arrived");
+                center.notifyNewRequestAdded(user.getUsername(),"A new blood request has arrived");
+            } catch (RemoteException e) {
+                System.out.println("MainImpl->sendOnlyToOneCenter->" + e.getMessage());
+            }
+        }
+
+    }
+
+    private void sendOnlyToOneCenter(String centerName){
+
+    }
+
+    private void notifyNewBloodRequestAdded(String centerName){
+
+        if(centerName == null){
+            sendToAllCenters();
+            return;
+        }
+
+        sendOnlyToOneCenter(centerName);
+    }
+
+    @Override
+    public void addBloodRequest(BloodRequest request, String username) throws Exception {
+        request.setSender(userRepository.find(u -> u.getUsername().equals(username)));
+        request.setBloodRequestStatus(BloodRequestStatus.Waiting);
+        request.setDateRequested(new Date());
+        request.setReceiver(null);//for all centers
+        bloodRequestRepository.save(request);
+        notifyNewBloodRequestAdded(null);//for all centers
+    }
+
+    @Override
+    public List<BloodRequest> getBloodRequestsDoctor(String username) {
+        return bloodRequestRepository.getAllFiltered(request -> request.getSender().getUsername().equals(username));
+    }
+
+
 }
