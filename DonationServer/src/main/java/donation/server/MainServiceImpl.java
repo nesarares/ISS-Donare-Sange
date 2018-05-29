@@ -304,7 +304,7 @@ public class MainServiceImpl implements IMainService {
         } catch (Exception e) {
             if (e.getMessage().contains("30-days")) {
                 Optional<Donation> lastDonationDate =
-                        donationRepository.getAllFiltered(x -> x.getDonor().getId() == userRepository.find(u -> u.getUsername().equals(donation.getDonor())).getId())
+                        donationRepository.getAllFiltered(x -> x.getDonor().getId() == userRepository.find(u -> u.getUsername().equals(donation.getDonor().getUsername())).getId())
                                 .stream()
                                 .sorted((x, y) -> -x.getDonationDate().compareTo(y.getDonationDate()))
                                 .findFirst();
