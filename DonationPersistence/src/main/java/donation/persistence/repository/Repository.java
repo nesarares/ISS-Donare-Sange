@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class Repository {
+
     private static SessionFactory factory = new Configuration()
             .configure()
             .addAnnotatedClass(User.class)
@@ -28,7 +29,8 @@ public class Repository {
     public Repository() {
     }
 
-    public static <T> void add(Class<T> classz, T obj)  {
+    public static <T> void add(Class<T> classz, T obj) {
+
         Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
@@ -52,7 +54,7 @@ public class Repository {
             return Optional.of(obj);
     }
 
-    public static <T> void delete(Class<T> classz, T obj)  {
+    public static <T> void delete(Class<T> classz, T obj) {
         Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
 
@@ -62,9 +64,14 @@ public class Repository {
         session.close();
     }
 
-    public static <T> void update(Class<T> classz, T oldObject, T newObject)  {
-        delete(classz, oldObject);
-        add(classz, newObject);
+    public static <T> void update(Class<T> classz, T oldObject, T newObject) {
+
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.saveOrUpdate(newObject);
+        transaction.commit();
+        session.close();
+
     }
 
     public static <T> boolean exists(Class<T> classz, T object) {
@@ -108,5 +115,9 @@ public class Repository {
             if (predicate.test(object))
                 filtered.add(object);
         return filtered;
+    }
+
+    public static Session makeSession() {
+        return factory.openSession();
     }
 }

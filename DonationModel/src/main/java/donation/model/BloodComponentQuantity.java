@@ -5,15 +5,28 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * 
+ *
  */
 @Entity
-@Table(name="bloodComponentQuantity")
+@Table(name = "bloodComponentQuantity")
 public class BloodComponentQuantity implements Serializable {
 
-    /**
-     * Default constructor
-     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BloodComponentQuantity that = (BloodComponentQuantity) o;
+
+        return ID == that.ID;
+    }
+
+    @Override
+    public int hashCode() {
+        return ID;
+    }
+
+
     public BloodComponentQuantity() {
     }
 
@@ -31,40 +44,28 @@ public class BloodComponentQuantity implements Serializable {
     @Column(name = "IDTransfusionCenter")
     private int IDTransfusionCenter;
 
-    /**
-     * 
-     */
-    @Column(name="quantity")
+
+    @Column(name = "quantity")
     private int quantity;
 
-    /**
-     * 
-     */
-    @Column(name="expirationDate")
+
+    @Column(name = "expirationDate")
     private Date expirationDate;
 
-    /**
-     * 
-     */
-    @Column(name="bloodComponent")
+
+    @Column(name = "bloodComponent")
     private BloodComponent bloodComponent;
 
-    /**
-     * 
-     */
-    @Column(name="rhBloodGroup")
+
+    @Column(name = "rhBloodGroup")
     private RhBloodGroup rhBloodGroup;
 
-    /**
-     * 
-     */
-    @Column(name="aboBloodGroup")
+
+    @Column(name = "aboBloodGroup")
     private ABOBloodGroup aboBloodGroup;
 
-    /**
-     * 
-     */
-    @Column(name="bloodStatus")
+
+    @Column(name = "bloodStatus")
     private BloodStatus bloodStatus;
 
 

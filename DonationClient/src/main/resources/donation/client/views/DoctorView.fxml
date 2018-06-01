@@ -132,13 +132,28 @@
                                           <Insets />
                                        </GridPane.margin>
                                     </Label>
-                                    <JFXTextField fx:id="textQuantityLeukocytes" promptText="Quantity (ml)" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                    <JFXTextField fx:id="textQuantityLeukocytes" promptText="No. Bags" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="3" />
                                     <JFXButton fx:id="buttonSend" onAction="#handleSendBloodRequest" prefHeight="25.0" prefWidth="149.0" ripplerFill="#d10000" styleClass="btn" text="Send" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
                                     <JFXCheckBox fx:id="checkLeukocytes" text="Leukocytes" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                                     <JFXCheckBox fx:id="checkThrombocytes" text="Thrombocytes" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                                     <JFXCheckBox fx:id="checkPlasma" text="Plasma" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                                    <JFXTextField fx:id="textQuantityPlasma" promptText="Quantity (ml)" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                                    <JFXTextField fx:id="textQuantityThrombocytes" promptText="Quantity (ml)" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                                    <JFXTextField fx:id="textQuantityPlasma" promptText="No. Bags" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                                    <JFXTextField fx:id="textQuantityThrombocytes" promptText="No. Bags" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                                    <Label fx:id="labelLeukocytesQuant" alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="100.0" text="Label" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                       <GridPane.margin>
+                                          <Insets top="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labelTromboQuant" alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="100.0" text="Label" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                                       <GridPane.margin>
+                                          <Insets top="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Label fx:id="labelPlasmaQuant" alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="100.0" text="Label" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                                       <GridPane.margin>
+                                          <Insets top="10.0" />
+                                       </GridPane.margin>
+                                    </Label>
                                  </children>
                               </GridPane>
                            </center>
@@ -271,6 +286,11 @@
                               </StackPane>
                            </graphic>
                         </JFXButton>
+                        <AnchorPane layoutX="149.0" prefHeight="25.0" prefWidth="91.0">
+                           <children>
+                              <JFXButton id="buttonEmail" onAction="#handleEmailButton" fx:id="buttonEmail" layoutX="59.0" prefHeight="26.0" prefWidth="91.0" text="Press me" textFill="#f8f8f8" />
+                           </children>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
                   <JFXHamburger fx:id="menuHamburger" onMousePressed="#handleDrawer" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">

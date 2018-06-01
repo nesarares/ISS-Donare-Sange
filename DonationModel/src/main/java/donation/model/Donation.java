@@ -7,16 +7,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * 
- */
-@Entity
-@Table(name="donation")
-public class Donation  implements Serializable{
 
-    /**
-     * Default constructor
-     */
+@Entity
+@Table(name = "donation")
+public class Donation implements Serializable {
+
+
     public Donation() {
     }
 
@@ -25,72 +21,50 @@ public class Donation  implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
-    @Column(name ="idTransfusionCenter")
+    @Column(name = "idTransfusionCenter")
     private int idTransfusionCenter;
 
 
-
-    /**
-     * 
-     */
-    @Column(name="donationDate")
+    @Column(name = "donationDate")
     private Date donationDate;
 
-    /**
-     * 
-     */
-    @Column(name="HIVorAIDS")
+
+    @Column(name = "HIVorAIDS")
     private boolean HIVorAIDS;
 
-    /**
-     * 
-     */
-    @Column(name="hepatitis")
+
+    @Column(name = "hepatitis")
     private boolean hepatitis;
 
-    /**
-     * 
-     */
-    @Column(name="syphilis")
+
+    @Column(name = "syphilis")
     private boolean syphilis;
 
-    /**
-     * 
-     */
-    @Column(name="HTLV")
+
+    @Column(name = "HTLV")
     private boolean HTLV;
 
-    /**
-     * 
-     */
-    @Column(name="levelALT")
+
+    @Column(name = "levelALT")
     private int levelALT;
 
-    /**
-     * 
-     */
+
     @ManyToOne
-    @JoinColumn(name="donor")
+    @JoinColumn(name = "donor")
     private User donor;
 
-    /**
-     * 
-     */
+
     @OneToMany(mappedBy = "IDdonation", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Fetch(FetchMode.SELECT)
     private List<BloodComponentQuantity> bloodComponents;
 
-    /**
-     * 
-     */
+
     @OneToOne
-    @JoinColumn(name="medicalQuestionnaire")
+    @JoinColumn(name = "medicalQuestionnaire")
     private MedicalQuestionnaire medicalQuestionnaire;
 
-    /**
-     * 
-     */
-    @Column(name="donationStatus")
+
+    @Column(name = "donationStatus")
     private DonationStatus donationStatus;
 
     public int getID() {

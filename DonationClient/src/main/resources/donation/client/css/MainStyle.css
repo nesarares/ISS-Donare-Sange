@@ -344,3 +344,31 @@
 .tabel-fara-butoane .table-row-cell {
     -fx-cell-size: 40px;
 }
+
+#buttonEmail{
+    -fx-min-height: 25px;
+    -fx-max-height: 25px;
+    -fx-min-width: 25px;
+    -fx-max-width: 25px;
+    -fx-content-display: graphic-only;
+    -fx-background-image: url("/donation/client/envelope.png");
+    -fx-background-size: 25px 25px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+#buttonEmail:hover{
+    -fx-min-height: 25px;
+    -fx-max-height: 25px;
+    -fx-min-width: 25px;
+    -fx-max-width: 25px;
+    -fx-content-display: graphic-only;
+    -fx-background-image: url("/donation/client/envelope2.png");
+    -fx-background-size: 25px 25px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+#buttonEmail:pressed{
+    -fx-background-color: transparent;
+}

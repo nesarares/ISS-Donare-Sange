@@ -1,10 +1,13 @@
 package donation.server;
 
+import backup.Backup;
 import donation.model.*;
 import donation.model.validators.IValidator;
 import donation.model.validators.ValidationException;
 import donation.model.validators.ValidatorDonorProfile;
 import donation.model.validators.ValidatorUser;
+import donation.persistence.repository.BloodComponentQuantityRepository;
+import donation.persistence.repository.BloodTransfusionCenterProfileRepository;
 import donation.persistence.repository.IRepository;
 import donation.persistence.repository.RepositoryException;
 import donation.server.utils.DayCounter;
@@ -17,6 +20,7 @@ import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class MainServiceImpl implements IMainService {
@@ -35,14 +39,30 @@ public class MainServiceImpl implements IMainService {
 
     private Map<String, IObserver> loggedUsers = new ConcurrentHashMap<>();
 
+    private Backup backup = Backup.getInstance();
     private OfflineNotifier notifier = new OfflineNotifier();
     private OfflineNotifier centerNotifier = new OfflineNotifier();
     private RequestPlanner<BloodTransfusionCenterProfile> requestPlanner = new RequestPlanner<>();
+    private Map<BloodRequest, List<BloodTransfusionCenterProfile>> requestTracker = new HashMap<>();
+
 
     private final int DAYS_UNTIL_NEXT_DONATION = 30;
     private final int BLOOD_BAG_QUANTITY = 450;
     private final int BLOOD_COMPONENT_QUANTITY = BLOOD_BAG_QUANTITY / 3;
+    private final int BACKUP_TIME = 3600 * 24 * 1000;//seconds * hours * milliseconds
 
+
+    private void backupAction() {
+
+        while (true) {
+            try {
+                Thread.sleep(BACKUP_TIME);
+                backup.doBackup();
+            } catch (InterruptedException e) {
+                System.out.println("BackupAction->" + e.getMessage());
+            }
+        }
+    }
 
     private void addCenterLocations() {
         userRepository
@@ -52,6 +72,290 @@ public class MainServiceImpl implements IMainService {
                             .find(y -> y.getIdUser() == x.getId());
                     requestPlanner.addNewLocation(centerProfile);
                 });
+    }
+
+    private synchronized MedicalQuestionnaire getLastQuestionnaire(int userId) throws Exception {
+        Optional<MedicalQuestionnaire> lastQuestionnaire =
+                medicalQuestionnaireRepository.getAllFiltered(x -> x.getIdUser() == userId)
+                        .stream()
+                        .sorted((x, y) -> -x.getDate().compareTo(y.getDate()))
+                        .findFirst();
+
+        if (!lastQuestionnaire.isPresent())
+            throw new Exception("You should first complete the donation questionnaire for the selected user!");
+
+        return lastQuestionnaire.get();
+    }
+
+    private synchronized void checkIfCanDonate(int userId, Date newDonationDate) throws Exception {
+        Optional<Donation> lastDonationDate =
+                donationRepository.getAllFiltered(x -> x.getDonor().getId() == userId)
+                        .stream()
+                        .sorted((x, y) -> -x.getDonationDate().compareTo(y.getDonationDate()))
+                        .findFirst();
+
+        if (!lastDonationDate.isPresent()) return;
+        Date lastDonation = java.sql.Date.valueOf(lastDonationDate.get().getDonationDate().toString().split(" ")[0]);
+        if (DayCounter.getDaysBetween(lastDonation.toString(), newDonationDate.toString()) >= 30) return;
+        throw new Exception("The user could not donate because he have not passed the 30-days no donation period!");
+    }
+
+    private BloodComponentQuantity createBloodComponentQuantity(BloodComponent type, DonorProfile donorProfile, Donation donation) {
+        BloodComponentQuantity bloodComponentQuantity = new BloodComponentQuantity();
+        bloodComponentQuantity.setBloodComponent(type);
+        bloodComponentQuantity.setAboBloodGroup(donorProfile.getAboBloodGroup());
+        bloodComponentQuantity.setRhBloodGroup(donorProfile.getRhBloodGroup());
+        bloodComponentQuantity.setBloodStatus(
+                donation.isHepatitis() || donation.isHIVorAIDS() || donation.isHTLV() || donation.isSyphilis() ?
+                        BloodStatus.NotValid :
+                        BloodStatus.Valid
+        );
+
+        bloodComponentQuantity.setIDdonation(donation.getID());
+        bloodComponentQuantity.setIDrequest(0);
+        bloodComponentQuantity.setIDTransfusionCenter(donation.getIdTransfusionCenter());
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(donation.getDonationDate());
+
+        switch (type) {
+            case Plasma:
+                calendar.add(Calendar.DATE, 90);
+                break;
+            case Leukocytes:
+                calendar.add(Calendar.DATE, 5);
+                break;
+            case Thrombocytes:
+                calendar.add(Calendar.DATE, 42);
+                break;
+        }
+
+        bloodComponentQuantity.setExpirationDate(calendar.getTime());
+        bloodComponentQuantity.setQuantity(BLOOD_COMPONENT_QUANTITY);
+
+        return bloodComponentQuantity;
+    }
+
+    private List<BloodComponentQuantity> createBloodComponents(Donation donation) throws Exception {
+        User user = donation.getDonor();
+        DonorProfile donorProfile = donorProfileRepository.find(x -> x.getIdUser() == user.getId());
+
+        List<BloodComponentQuantity> components = new ArrayList<>(Arrays.asList(
+                createBloodComponentQuantity(BloodComponent.Leukocytes, donorProfile, donation),
+                createBloodComponentQuantity(BloodComponent.Plasma, donorProfile, donation),
+                createBloodComponentQuantity(BloodComponent.Thrombocytes, donorProfile, donation)
+        ));
+
+        for (BloodComponentQuantity bloodComponentQuantity : components)
+            bloodComponentQuantityRepository.save(bloodComponentQuantity);
+
+        return components;
+    }
+
+    private void addDonationHelper(Donation donation, int centerId) throws Exception {
+        User donor = donation.getDonor();
+        MedicalQuestionnaire recentUserQuestionnaire = getLastQuestionnaire(donor.getId());
+
+        checkIfCanDonate(donor.getId(), donation.getDonationDate());
+
+        donation.setDonationStatus(DonationStatus.Classification);
+        donation.setDonor(donor);
+        donation.setMedicalQuestionnaire(recentUserQuestionnaire);
+        donation.setIdTransfusionCenter(centerId);
+
+        donationRepository.save(donation);
+        donation.setBloodComponents(createBloodComponents(donation));
+
+        notifyNewHistoryContent(donor.getUsername());
+    }
+
+    private void notifyNewHistoryContent(String username) {
+        IObserver connectedClient = loggedUsers.get(username);
+        if (connectedClient == null) return;
+        try {
+            connectedClient.notifyDonorUpdateHistory(username);
+        } catch (Exception e) {
+            System.out.println("NotifyNewHistoryContent->" + e.getMessage());
+        }
+    }
+
+    private void notifyAnalysisFinished(String username, String content) {
+
+        IObserver connectedClient = loggedUsers.get(username);
+
+        if (connectedClient == null) {
+            notifier.addMessage(username, content);
+            System.out.println("MainServiceImpl -> Client cannot be notified(it will be later notified)! -> " + username);
+            return;
+        }
+
+        try {
+            notifier.addMessage(username, content);
+            connectedClient.notifyDonorAnalyseFinished(username, content);
+
+        } catch (RemoteException e) {
+            System.out.println("notifyAnalysisFinished->" + e.getMessage());
+        }
+    }
+
+    private void sendToAllCenters() {
+
+        List<User> users = userRepository.getAll().stream().filter(x -> x.getType() == UserType.BloodTransfusionCenter).collect(Collectors.toList());
+
+        for (User user : users) {
+            IObserver center = loggedUsers.get(user.getUsername());
+            if (center == null) {
+                centerNotifier.addMessage(user.getUsername(), LocalDate.now() + " " + "A new blood request has arrived!");
+                continue;
+            }
+
+            try {
+                centerNotifier.addMessage(user.getUsername(), LocalDate.now() + " " + "A new blood request has arrived!");
+                center.notifyNewRequestAdded(user.getUsername(), LocalDate.now() + " " + "A new blood request has arrived!");
+            } catch (RemoteException e) {
+                System.out.println("MainImpl->sendToAllCenters->" + e.getMessage());
+            }
+        }
+    }
+
+    private void sendOnlyToOneCenter(String centerUsername) {
+        IObserver center = loggedUsers.get(centerUsername);
+
+        if (center == null) {
+            centerNotifier.addMessage(centerUsername, LocalDate.now() + " " + "A new blood request has arrived!");
+            return;
+        }
+
+        try {
+            centerNotifier.addMessage(centerUsername, LocalDate.now() + " " + "A new blood request has arrived!");
+            center.notifyNewRequestAdded(centerUsername, LocalDate.now() + " " + "A new blood request has arrived!");
+        } catch (RemoteException e) {
+            System.out.println("MainImpl->sendOnlyToOneCenter->" + e.getMessage());
+        }
+    }
+
+    private User getRequestReceiver(String doctorUsername) {
+        String hospitalLocation = doctorProfileRepository.getAllFiltered(
+                x -> x.getIdUser() == userRepository
+                        .find(y -> y.getUsername().equals(doctorUsername))
+                        .getId()
+        ).get(0).getHospital();
+
+        BloodTransfusionCenterProfile nearestCenter = requestPlanner.getNearestObjectsTo(hospitalLocation).get(0);
+        return userRepository.findById(nearestCenter.getIdUser());
+    }
+
+    private void notifyNewBloodRequestAdded(String centerName) {
+        if (centerName == null) {
+            sendToAllCenters();
+            return;
+        }
+        sendOnlyToOneCenter(centerName);
+    }
+
+    private BloodTransfusionCenterProfile getCenterProfile(String center) {
+
+        return bloodTransfusionCenterProfileRepository.find(
+                x -> x.getIdUser() == userRepository.find(
+                        y -> y.getUsername().equals(center)
+                ).getId()
+        );
+
+    }
+
+    private void moveBloodRequest(BloodRequest request, BloodTransfusionCenterProfile toCenter) throws RepositoryException {
+
+        User userTo = userRepository.find(
+                usr -> usr.getId() == toCenter.getIdUser()
+        );
+
+        System.out.println("Before->" + bloodRequestRepository.find(x -> x.getID() == request.getID()).getReceiver().getUsername());
+        request.setReceiver(userTo);
+
+        System.out.println(userTo.getUsername());
+        bloodRequestRepository.update(request.getID(), request);
+        System.out.println("After->" + bloodRequestRepository.find(x -> x.getID() == request.getID()).getReceiver().getUsername());
+
+        notifyNewBloodRequestAdded(userTo.getUsername());
+    }
+
+    private void sendToASpecificCenter(BloodRequest request, BloodTransfusionCenterProfile toCenter, BloodTransfusionCenterProfile fromCenter) throws Exception {
+        moveBloodRequest(request, toCenter);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void sendRequestFromOneCenterToAnother(BloodTransfusionCenterProfile centerProfile, BloodRequest request) throws Exception {
+
+        List<BloodTransfusionCenterProfile> nearestLocations = (List<BloodTransfusionCenterProfile>) requestPlanner.getNearestObjectsTo(centerProfile, false);
+
+        List<BloodTransfusionCenterProfile> usedCenters = requestTracker.get(request);
+
+        BloodTransfusionCenterProfile nextLocation = null;
+
+        for (BloodTransfusionCenterProfile location : nearestLocations) {
+            if (usedCenters.contains(location)) continue;
+            nextLocation = location;
+            break;
+        }
+
+        if (nextLocation == null) {
+            requestTracker.get(request).clear();
+
+            request.setBloodRequestStatus(BloodRequestStatus.Unresolved);
+            bloodRequestRepository.update(request.getID(), request);
+
+            sendBloodAlert();
+
+            throw new Exception("The request could not be resolved!\nThere are no centers that have blood for: " + request.getPatientName());
+        }
+
+        sendToASpecificCenter(request, nextLocation, centerProfile);
+    }
+
+    private synchronized void sendBloodAlert() {
+        List<User> donors = getAllByType(UserType.Donor);
+
+        donors.forEach(user -> {
+            IObserver loggedUser = loggedUsers.get(user.getUsername());
+            notifier.addMessage(user.getUsername(), new Date() + " There is a blood alert!");
+
+            if (loggedUser != null) {
+                try {
+                    loggedUser.notifyDonorAnalyseFinished(user.getUsername(), new Date() + " There is a blood alert!");
+                } catch (RemoteException e) {
+                    System.out.println("sendBlooadAlert() -> " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    private void reloadCenter(User receiver) {
+        IObserver center = loggedUsers.get(receiver.getUsername());
+        if (center == null) return;
+        try {
+            center.reloadCenterView();
+        } catch (RemoteException e) {
+            System.out.println("ReloadCenter() ->  " + e.getMessage());
+        }
+    }
+
+    private void notifyRequestUpdated(User user) {
+
+        IObserver doctor = loggedUsers.get(user.getUsername());
+
+        if (doctor == null) return;
+
+        try {
+            doctor.reloadDoctorTables();
+        } catch (RemoteException e) {
+            System.out.println("Notify request update -> " + e.getMessage());
+        }
+
+    }
+
+
+    public int getBloodComponentQuantity() {
+        return BLOOD_COMPONENT_QUANTITY;
     }
 
     public MainServiceImpl(IRepository<User> userIRepository,
@@ -73,31 +377,43 @@ public class MainServiceImpl implements IMainService {
         this.doctorProfileRepository = doctorProfileRepository;
 
         addCenterLocations();
+
+        new Thread(this::backupAction).start();
+
     }
+
 
     @Override
     public synchronized boolean login(String username, String password, IObserver observer) throws Exception {
+
         User user = userRepository.find(x -> x.getUsername().equals(username));
         if (user == null || !user.getPassHash().equals(password)) return false;
         if (loggedUsers.get(username) != null) throw new Exception("User is already connected :(");
 
         loggedUsers.put(username, observer);
 
-        if (notifier.hasUndeliveredMessages(username))
+        if (notifier.hasUndeliveredMessages(username)) {
             notifier.sendUndeliveredMessages(username, this::notifyAnalysisFinished);
-
-        if (centerNotifier.hasUndeliveredMessages(username)) {
-            centerNotifier.sendUndeliveredMessages(username, (u, m) -> {
-                IObserver center = loggedUsers.get(u);
-
-                try {
-                    center.notifyNewRequestAdded(u, m);
-                } catch (RemoteException e) {
-                    System.out.println("Login->" + e.getMessage());
-                }
-
-            });
         }
+
+        if (!centerNotifier.hasUndeliveredMessages(username)) return true;
+
+        centerNotifier.sendUndeliveredMessages(username, (u, m) -> {
+
+            IObserver center = loggedUsers.get(u);
+
+            if (center == null) {
+                return;
+            }
+
+            try {
+                center.notifyNewRequestAdded(u, m);
+            } catch (Exception e) {
+                System.out.println("Login->" + e.getMessage());
+            }
+
+        });
+
 
         return true;
     }
@@ -183,112 +499,15 @@ public class MainServiceImpl implements IMainService {
 
     @Override
     public synchronized void addMedicalQuestionnaire(MedicalQuestionnaire questionnaire) throws RepositoryException {
-        //todo sa facem ca dupa ce aduga un chestionar sa adauge si donarea/rezultatele donarii
-        //todo sa nu reamaa donari fara chestionre
         medicalQuestionnaireRepository.save(questionnaire);
     }
 
     @Override
     public synchronized List<BloodComponentQuantity> getBloodStock(String center) {
         return bloodComponentQuantityRepository.getAllFiltered(
-                b -> b.getIDTransfusionCenter() == userRepository.find(u -> u.getUsername().equals(center)).getId()
+                b -> b.getIDTransfusionCenter() == userRepository
+                        .find(u -> u.getUsername().equals(center)).getId() && b.getQuantity() > 0
         );
-    }
-
-    private synchronized MedicalQuestionnaire getLastQuestionnaire(int userId) throws Exception {
-        Optional<MedicalQuestionnaire> lastQuestionnaire =
-                medicalQuestionnaireRepository.getAllFiltered(x -> x.getIdUser() == userId)
-                        .stream()
-                        .sorted((x, y) -> -x.getDate().compareTo(y.getDate()))
-                        .findFirst();
-
-        if (!lastQuestionnaire.isPresent())
-            throw new Exception("You should first complete the donation questionnaire for the selected user!");
-
-        return lastQuestionnaire.get();
-    }
-
-    private synchronized void checkIfCanDonate(int userId, Date newDonationDate) throws Exception {
-        Optional<Donation> lastDonationDate =
-                donationRepository.getAllFiltered(x -> x.getDonor().getId() == userId)
-                        .stream()
-                        .sorted((x, y) -> -x.getDonationDate().compareTo(y.getDonationDate()))
-                        .findFirst();
-
-        if (!lastDonationDate.isPresent()) return;
-        Date lastDonation = java.sql.Date.valueOf(lastDonationDate.get().getDonationDate().toString().split(" ")[0]);
-        if (DayCounter.getDaysBetween(lastDonation.toString(), newDonationDate.toString()) >= 30) return;
-        throw new Exception("The user could not donate because he have not passed the 30-days no donation period!");
-    }
-
-
-    private BloodComponentQuantity createBloodComponentQuantity(BloodComponent type, DonorProfile donorProfile, Donation donation) {
-        BloodComponentQuantity bloodComponentQuantity = new BloodComponentQuantity();
-        bloodComponentQuantity.setBloodComponent(type);
-        bloodComponentQuantity.setAboBloodGroup(donorProfile.getAboBloodGroup());
-        bloodComponentQuantity.setRhBloodGroup(donorProfile.getRhBloodGroup());
-        bloodComponentQuantity.setBloodStatus(
-                donation.isHepatitis() || donation.isHIVorAIDS() || donation.isHTLV() || donation.isSyphilis() ?
-                        BloodStatus.NotValid :
-                        BloodStatus.Valid
-        );
-
-        bloodComponentQuantity.setIDdonation(donation.getID());
-        bloodComponentQuantity.setIDrequest(0);
-        bloodComponentQuantity.setIDTransfusionCenter(donation.getIdTransfusionCenter());
-
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(donation.getDonationDate());
-
-        switch (type) {
-            case Plasma:
-                calendar.add(Calendar.DATE, 90);
-                break;
-            case Leukocytes:
-                calendar.add(Calendar.DATE, 5);
-                break;
-            case Thrombocytes:
-                calendar.add(Calendar.DATE, 42);
-                break;
-        }
-
-        bloodComponentQuantity.setExpirationDate(calendar.getTime());
-        bloodComponentQuantity.setQuantity(BLOOD_COMPONENT_QUANTITY);
-
-        return bloodComponentQuantity;
-    }
-
-    private List<BloodComponentQuantity> createBloodComponents(Donation donation) throws Exception {
-        User user = donation.getDonor();
-        DonorProfile donorProfile = donorProfileRepository.find(x -> x.getIdUser() == user.getId());
-
-        List<BloodComponentQuantity> components = new ArrayList<>(Arrays.asList(
-                createBloodComponentQuantity(BloodComponent.Leukocytes, donorProfile, donation),
-                createBloodComponentQuantity(BloodComponent.Plasma, donorProfile, donation),
-                createBloodComponentQuantity(BloodComponent.Thrombocytes, donorProfile, donation)
-        ));
-
-        for (BloodComponentQuantity bloodComponentQuantity : components)
-            bloodComponentQuantityRepository.save(bloodComponentQuantity);
-
-        return components;
-    }
-
-    private void addDonationHelper(Donation donation, int centerId) throws Exception {
-        User donor = donation.getDonor();
-        MedicalQuestionnaire recentUserQuestionnaire = getLastQuestionnaire(donor.getId());
-
-        checkIfCanDonate(donor.getId(), donation.getDonationDate());
-
-        donation.setDonationStatus(DonationStatus.Classification);
-        donation.setDonor(donor);
-        donation.setMedicalQuestionnaire(recentUserQuestionnaire);
-        donation.setIdTransfusionCenter(centerId);
-
-        donationRepository.save(donation);
-        donation.setBloodComponents(createBloodComponents(donation));
-
-        notifyNewHistoryContent(donor.getUsername());
     }
 
     @Override
@@ -412,92 +631,9 @@ public class MainServiceImpl implements IMainService {
         return notifier.getNrNotifications(username);
     }
 
-    private void notifyNewHistoryContent(String username) {
-        IObserver connectedClient = loggedUsers.get(username);
-        if (connectedClient == null) return;
-        try {
-            connectedClient.notifyDonorUpdateHistory(username);
-        } catch (Exception e) {
-            System.out.println("NotifyNewHistoryContent->" + e.getMessage());
-        }
-    }
-
-    private void notifyAnalysisFinished(String username, String content) {
-        IObserver connectedClient = loggedUsers.get(username);
-
-        if (connectedClient == null) {
-            notifier.addMessage(username, content);
-            System.out.println("MainServiceImpl -> Client cannot be notified(it will be later notified)! -> " + username);
-            return;
-        }
-
-        try {
-            notifier.addMessage(username, content);
-            connectedClient.notifyDonorAnalyseFinished(username, content);
-        } catch (RemoteException e) {
-            System.out.println("notifyAnalysisFinished->" + e.getMessage());
-        }
-    }
-
-    private void sendToNearestCenter(String doctorUsername) {
-        //String hospitalLocation =
-    }
-
-    private void sendToAllCenters() {
-        List<User> users = userRepository.getAll().stream().filter(x -> x.getType() == UserType.BloodTransfusionCenter).collect(Collectors.toList());
-        for (User user : users) {
-            IObserver center = loggedUsers.get(user.getUsername());
-            if (center == null) {
-                centerNotifier.addMessage(user.getUsername(), LocalDate.now() + " " + "A new blood request has arrived!");
-                continue;
-            }
-
-            try {
-                centerNotifier.addMessage(user.getUsername(), LocalDate.now() + " " + "A new blood request has arrived!");
-                center.notifyNewRequestAdded(user.getUsername(), LocalDate.now() + " " + "A new blood request has arrived!");
-            } catch (RemoteException e) {
-                System.out.println("MainImpl->sendToAllCenters->" + e.getMessage());
-            }
-        }
-    }
-
-    private void sendOnlyToOneCenter(String centerUsername) {
-        IObserver center = loggedUsers.get(centerUsername);
-
-        if (center == null) {
-            centerNotifier.addMessage(centerUsername, LocalDate.now() + " " + "A new blood request has arrived!");
-            return;
-        }
-
-        try {
-            centerNotifier.addMessage(centerUsername, LocalDate.now() + " " + "A new blood request has arrived!");
-            center.notifyNewRequestAdded(centerUsername, LocalDate.now() + " " + "A new blood request has arrived!");
-        } catch (RemoteException e) {
-            System.out.println("MainImpl->sendOnlyToOneCenter->" + e.getMessage());
-        }
-    }
-
-    private User getRequestReceiver(String doctorUsername) {
-        String hospitalLocation = doctorProfileRepository.getAllFiltered(
-                x -> x.getIdUser() == userRepository
-                        .find(y -> y.getUsername().equals(doctorUsername))
-                        .getId()
-        ).get(0).getHospital();
-
-        BloodTransfusionCenterProfile nearestCenter = requestPlanner.getNearestObjectsTo(hospitalLocation).get(0);
-        return userRepository.findById(nearestCenter.getIdUser());
-    }
-
-    private void notifyNewBloodRequestAdded(String centerName) {
-        if (centerName == null) {
-            sendToAllCenters();
-            return;
-        }
-        sendOnlyToOneCenter(centerName);
-    }
-
     @Override
     public synchronized void addBloodRequest(BloodRequest request, String username) throws Exception {
+
         User nearestCenter = getRequestReceiver(username);
 
         request.setSender(userRepository.find(u -> u.getUsername().equals(username)));
@@ -524,4 +660,97 @@ public class MainServiceImpl implements IMainService {
                                         .equals(username))
                                 .getId());
     }
+
+    @Override
+    public synchronized void sendRequestToAnotherCenter(BloodRequest bloodRequest, String fromCenter) throws Exception {
+
+        BloodTransfusionCenterProfile fromCenterProfile = getCenterProfile(fromCenter);
+
+        System.out.println(bloodRequest.getID());
+        requestTracker.computeIfAbsent(bloodRequest, k -> new ArrayList<>());//if the request does not exist on server=> we add it
+        requestTracker.get(bloodRequest).add(fromCenterProfile);
+
+        sendRequestFromOneCenterToAnother(fromCenterProfile, bloodRequest);
+    }
+
+    @Override
+    public synchronized BloodRequest addComponentToRequest(BloodRequest request, BloodComponentQuantity bloodComponent) throws Exception {
+
+        switch (bloodComponent.getBloodComponent()) {
+
+            case Leukocytes: {
+                int addedQuantity = Math.min(
+                        request.getLeukocytesQuantity(),
+                        bloodComponent.getQuantity()
+                );
+                request.setLeukocytesQuantity(
+                        request.getLeukocytesQuantity() - addedQuantity
+                );
+                bloodComponent.setQuantity(
+                        bloodComponent.getQuantity() - addedQuantity
+                );
+                break;
+            }
+
+            case Thrombocytes: {
+
+                int addedQuantity = Math.min(
+                        request.getThrombocytesQuantity(),
+                        bloodComponent.getQuantity()
+                );
+
+                request.setThrombocytesQuantity(
+                        request.getThrombocytesQuantity() - addedQuantity
+                );
+
+                bloodComponent.setQuantity(
+                        bloodComponent.getQuantity() - addedQuantity
+                );
+
+                break;
+            }
+
+            case Plasma: {
+
+                int addedQuantity = Math.min(
+                        request.getPlasmaQuantity(),
+                        bloodComponent.getQuantity()
+                );
+
+                request.setPlasmaQuantity(
+                        request.getPlasmaQuantity() - addedQuantity
+                );
+
+                bloodComponent.setQuantity(
+                        bloodComponent.getQuantity() - addedQuantity
+                );
+
+                break;
+            }
+        }
+
+        bloodComponent.setIDrequest(request.getID());
+        bloodComponentQuantityRepository.update(bloodComponent.getID(), bloodComponent);
+        bloodRequestRepository.update(request.getID(), request);
+
+        if (request.getThrombocytesQuantity() == 0 && request.getPlasmaQuantity() == 0 && request.getLeukocytesQuantity() == 0) {
+            request.setBloodRequestStatus(BloodRequestStatus.Completed);
+            bloodRequestRepository.update(request.getID(), request);
+            if (requestTracker.get(request) != null) requestTracker.get(request).clear();
+        }
+
+        notifyRequestUpdated(request.getSender());
+        reloadCenter(request.getReceiver());
+        return request;
+    }
+
+    @Override
+    public synchronized List<BloodComponentQuantity> getBloodComponentsByRequest(BloodRequest request) {
+
+        List<BloodComponentQuantity> initialList = bloodComponentQuantityRepository.getAllFiltered(x -> x.getIDrequest() == request.getID());
+        initialList.forEach(x -> x.setQuantity(BLOOD_COMPONENT_QUANTITY - x.getQuantity()));
+        return initialList;
+
+    }
+
 }

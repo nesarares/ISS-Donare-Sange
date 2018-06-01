@@ -62,5 +62,17 @@ public class ControllerRoot extends UnicastRemoteObject implements Serializable,
         }
     }
 
+    @Override
+    public void reloadDoctorTables() throws  RemoteException{
+        for(IObserver observer : observers){
+            observer.reloadDoctorTables();
+        }
+    }
 
+    @Override
+    public void reloadCenterView() throws  RemoteException{
+        for(IObserver observer : observers){
+            observer.reloadCenterView();
+        }
+    }
 }

@@ -373,7 +373,7 @@
                                        </columnResizePolicy>
                                     </TableView>
                                     <JFXListView fx:id="listDetailsBloodStock" layoutX="80.0" layoutY="80.0" prefHeight="135.0" prefWidth="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="0.0" />
-                                    <JFXButton layoutX="40.0" layoutY="207.0" styleClass="btn" text="Add component" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="150.0" />
+                                    <JFXButton fx:id="buttonCenterAddComponent" layoutX="40.0" layoutY="207.0" onAction="#handleButtonAddComponent" styleClass="btn" text="Add component" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="150.0" />
                                     <GridPane hgap="20.0" layoutX="273.0" layoutY="40.0" prefHeight="175.0" prefWidth="254.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columnConstraints>
                                         <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="179.0" minWidth="10.0" prefWidth="159.0" />
@@ -439,6 +439,7 @@
                                           </Label>
                                        </children>
                                     </GridPane>
+                                    <JFXButton fx:id="buttonCenterSendToAnotherCenter" layoutX="225.0" layoutY="190.0" onAction="#handleSendToAnotherCenter" styleClass="btn" text="Send request to another center" AnchorPane.rightAnchor="500.0" />
                                  </children>
                               </AnchorPane>
                            </center>
@@ -454,7 +455,7 @@
                            <center>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
                                  <children>
-                                    <JFXListView fx:id="listNotifications" styleClass="notif" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+                                    <JFXListView fx:id="listNotifications" styleClass="notif" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <placeholder>
                                           <VBox alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>

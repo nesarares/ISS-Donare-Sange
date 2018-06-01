@@ -4,16 +4,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * 
- */
+
 @Entity
-@Table(name="doctorProfile")
+@Table(name = "doctorProfile")
 public class DoctorProfile implements Serializable {
 
-    /**
-     * Default constructor
-     */
+
     public DoctorProfile() {
     }
 
@@ -22,28 +18,20 @@ public class DoctorProfile implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
-    /**
-     * 
-     */
-    @Column(name="firstName")
+
+    @Column(name = "firstName")
     private String firstName;
 
-    /**
-     * 
-     */
-    @Column(name="lastName")
+
+    @Column(name = "lastName")
     private String lastName;
 
-    /**
-     * 
-     */
-    @Column(name="hospital")
+
+    @Column(name = "hospital")
     private String hospital;
 
-    /**
-     * 
-     */
-    @Column(name="idUser")
+
+    @Column(name = "idUser")
     private int idUser;
 
     public int getID() {

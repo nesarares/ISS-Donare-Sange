@@ -17,21 +17,10 @@ public class RequestPlanner<T extends HasAddress<T>> {
 
 
     /**
-     * Adds a new location into the graph,also calculates the distances between it and all other location
-     *
-     * @param object a new location
-     */
-
-    public void addNewLocation(T object) {
-        centers.add(object);
-    }
-
-    /**
      * @param locationOne->the first location
      * @param locationTwo->the second location
      * @return the distance between those two locations
      */
-
     private double getDistanceFromTwoLocations(T locationOne, T locationTwo) {
 
         Pair<String, String> pointXY = new Pair<>(locationOne.getAddress(), locationTwo.getAddress());
@@ -86,7 +75,6 @@ public class RequestPlanner<T extends HasAddress<T>> {
      *                        return a list of objects and their distances to the @param object,else will return the location in decreasing order sorted by their distance to the reference point
      * @return a list
      */
-
     public List<?> getNearestObjectsTo(T object, boolean alsoDistances) {
 
 
@@ -101,12 +89,12 @@ public class RequestPlanner<T extends HasAddress<T>> {
         return getAllDistances(object);
     }
 
-    public List<T> getNearestObjectsTo(String location){
+    public List<T> getNearestObjectsTo(String location) {
 
-        centers = centers.stream().sorted((x,y)->{
+        centers = centers.stream().sorted((x, y) -> {
             try {
-                Double first = distanceCalculator.getDistance(x.getAddress(),location);
-                Double second = distanceCalculator.getDistance(y.getAddress(),location);
+                Double first = distanceCalculator.getDistance(x.getAddress(), location);
+                Double second = distanceCalculator.getDistance(y.getAddress(), location);
                 return first.compareTo(second);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -115,5 +103,14 @@ public class RequestPlanner<T extends HasAddress<T>> {
         }).collect(Collectors.toList());
 
         return centers;
+    }
+
+    /**
+     * Adds a new location into the graph,also calculates the distances between it and all other location
+     *
+     * @param object a new location
+     */
+    public void addNewLocation(T object) {
+        centers.add(object);
     }
 }

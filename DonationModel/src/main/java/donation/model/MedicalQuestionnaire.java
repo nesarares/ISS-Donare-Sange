@@ -4,16 +4,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * 
- */
+
 @Entity
-@Table(name="medicalQuestionnaire")
+@Table(name = "medicalQuestionnaire")
 public class MedicalQuestionnaire implements Serializable {
 
-    /**
-     * Default constructor
-     */
+
     public MedicalQuestionnaire() {
     }
 
@@ -22,237 +18,158 @@ public class MedicalQuestionnaire implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
-    /**
-     * 
-     */
+
     @Column(name = "healthy")
     private boolean healthy;
 
-    /**
-     * 
-     */
+
     @Column(name = "unexpectedLossWeight")
     private boolean unexpectedLossWeight;
 
-    /**
-     * 
-     */
+
     @Column(name = "inexplicableFever")
     private boolean inexplicableFever;
 
-    /**
-     * 
-     */
+
     @Column(name = "dentalTreatment")
     private boolean dentalTreatment;
 
-    /**
-     * 
-     */
+
     @Column(name = "vaccines")
     private boolean vaccines;
 
-    /**
-     * 
-     */
+
     @Column(name = "drugTreatment")
     private boolean drugTreatment;
 
-    /**
-     * 
-     */
+
     @Column(name = "sexualPartnerHIVHepatitis")
     private boolean sexualPartnerHIVHepatitis;
 
-    /**
-     * 
-     */
+
     @Column(name = "sexualPartnerIntravenousDrug")
     private boolean sexualPartnerIntravenousDrug;
 
-    /**
-     * 
-     */
+
     @Column(name = "sexualPartnerSexWorker")
     private boolean sexualPartnerSexWorker;
 
-    /**
-     * 
-     */
+
     @Column(name = "multipleSexualPartners")
     private boolean multipleSexualPartners;
 
-    /**
-     * 
-     */
+
     @Column(name = "intravenousDrugs")
     private boolean intravenousDrugs;
 
-    /**
-     * 
-     */
+
     @Column(name = "sexWorker")
     private boolean sexWorker;
 
-    /**
-     * 
-     */
+
     @Column(name = "sexualPartnerChanged")
     private boolean sexualPartnerChanged;
 
-    /**
-     * 
-     */
+
     @Column(name = "numberOfSexualPartners")
     private int numberOfSexualPartners;
 
-    /**
-     * 
-     */
+
     @Column(name = "surgery")
     private boolean surgery;
 
-    /**
-     * 
-     */
+
     @Column(name = "tattoos")
     private boolean tattoos;
 
-    /**
-     *
-     */
+
     @Column(name = "receivedBlood")
     private boolean receivedBlood;
 
-    /**
-     *
-     */
+
     @Column(name = "pregnancy")
     private boolean pregnancy;
 
-    /**
-     * 
-     */
+
     @Column(name = "birthdayOfChild")
     private Date birthdayOfChild;
 
-    /**
-     * 
-     */
+
     @Column(name = "lastMenstruation")
     private Date lastMenstruation;
 
-    /**
-     * 
-     */
+
     @Column(name = "bornLivedTravelledForeign")
     private boolean bornLivedTravelledForeign;
 
-    /**
-     * 
-     */
+
     @Column(name = "bLTFWhere")
     private String bLTFWhere;
 
-    /**
-     * 
-     */
+
     @Column(name = "bLTFWhen")
     private String bLTFWhen;
 
-    /**
-     * 
-     */
+
     @Column(name = "detention")
     private boolean detention;
 
-    /**
-     * 
-     */
+
     @Column(name = "hepatitis")
     private boolean hepatitis;
 
-    /**
-     * 
-     */
+
     @Column(name = "icterusTuberculosisReumaticFeverMalaria")
     private boolean icterusTuberculosisReumaticFeverMalaria;
 
-    /**
-     * 
-     */
+
     @Column(name = "heartDiseaseHLBloodPressure")
     private boolean heartDiseaseHLBloodPressure;
 
-    /**
-     * 
-     */
+
     @Column(name = "stroke")
     private boolean stroke;
 
-    /**
-     * 
-     */
+
     @Column(name = "asthma")
     private boolean asthma;
 
-    /**
-     * 
-     */
+
     @Column(name = "convulsionsNervousDisease")
     private boolean convulsionsNervousDisease;
 
-    /**
-     * 
-     */
+
     @Column(name = "diabetisUlcerCancer")
     private boolean diabetisUlcerCancer;
 
-    /**
-     * 
-     */
+
     @Column(name = "STD")
     private boolean STD;
 
-    /**
-     * 
-     */
+
     @Column(name = "smoker")
     private boolean smoker;
 
-    /**
-     * 
-     */
+
     @Column(name = "lastAlcoholConsume")
     private Date lastAlcoholConsume;
 
-    /**
-     * 
-     */
     @Column(name = "alcohol")
     private String alcohol;
 
-    /**
-     * 
-     */
+
     @Column(name = "alcoholQuantity")
     private int alcoholQuantity;
 
-    /**
-     * 
-     */
+
     @Column(name = "beenRefusedDelayed")
     private boolean beenRefusedDelayed;
 
-    /**
-     * 
-     */
+
     @Column(name = "postDonationAttention")
     private boolean postDonationAttention;
 
-    /**
-     * 
-     */
+
     @Column(name = "bloodPressure")
     private String bloodPressure;
 

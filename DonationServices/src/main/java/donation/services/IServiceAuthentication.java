@@ -8,39 +8,39 @@ import java.rmi.RemoteException;
 
 
 /**
- * 
+ *
  */
 public interface IServiceAuthentication {
 
     /**
-     * @param username 
-     * @param password 
-     * @param observer 
+     * @param username
+     * @param password
+     * @param observer
      * @return
      */
-     boolean login(String username, String password, IObserver observer) throws Exception;
+    boolean login(String username, String password, IObserver observer) throws Exception;
 
     /**
-     * @param username 
-     * @param password 
+     * @param username
+     * @param password
      * @param userType
      */
-    void addNewUser(String username, String password, UserType userType, DonorProfile donorProfile) throws  Exception;
+    void addNewUser(String username, String password, UserType userType, DonorProfile donorProfile) throws Exception;
 
     /**
-     * @param username 
+     * @param username
      * @param userType
      */
-    void addNewUser(String username, UserType userType) throws  Exception;
+    void addNewUser(String username, UserType userType) throws Exception;
 
     /**
-     * @param username 
+     * @param username
      * @param newPassword
      */
-     void updatePassword(String username, String newPassword);
+    void updatePassword(String username, String newPassword);
 
     /**
-     * @param username 
+     * @param username
      * @param observer
      */
     void logout(String username, IObserver observer);

@@ -28,59 +28,124 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-    //    private LoginService loginService;
-    private ControllerRoot controllerRoot;
-    private IMainService mainService;
-
     @FXML
     private StackPane stackPaneContent;
 
     @FXML
-    private JFXTextField textFieldUsername;
-    @FXML
-    private JFXPasswordField textFieldPassword;
-    @FXML
     private AnchorPane anchorPaneRegistration;
 
-    @FXML
-    private JFXTextField textFieldFirstName, textFieldLastName, textFieldCNP,
-            textFieldEmail, textFieldPhone, textFieldWeight,
-            textFieldHeight, textFieldNationality, textFieldRegisterUsername, textFieldRegisterPassword;
-    @FXML
-    private JFXDatePicker datePickerBirthDate;
-    @FXML
-    private JFXTextArea textAreaHomeAddress, textAreaResidenceAddress;
     @FXML
     private JFXCheckBox checkBoxResidence;
 
     @FXML
+    private JFXDatePicker datePickerBirthDate;
+
+    @FXML
+    private JFXTextField textFieldUsername;
+    @FXML
+    private JFXTextField textFieldFirstName, textFieldLastName, textFieldCNP,
+            textFieldEmail, textFieldPhone, textFieldWeight,
+            textFieldHeight, textFieldNationality, textFieldRegisterUsername, textFieldRegisterPassword;
+
+    @FXML
+    private JFXTextArea textAreaHomeAddress, textAreaResidenceAddress;
+
+    @FXML
+    private JFXPasswordField textFieldPassword;
+
+    @FXML
     private JFXButton buttonLogin;
 
+
     private Stage mainStage;
-
     private Parent mainWindowView;
+    private ControllerRoot controllerRoot;
+    private IMainService mainService;
 
-    public LoginController() {
-        //todo functia logincontroler va fi elimnata la urma
-    }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        anchorPaneRegistration.setVisible(false);
-        checkBoxResidence.setOnAction(ev -> {
-            if (checkBoxResidence.isSelected()) textAreaResidenceAddress.setDisable(true);
-            else textAreaResidenceAddress.setDisable(false);
-        });
+    @FXML
+    private void handleSignUp(ActionEvent actionEvent) {
+        DonorProfile donorProfile = new DonorProfile();
+
+        donorProfile.setFirstName(textFieldFirstName.getText());
+        donorProfile.setLastName(textFieldLastName.getText());
+        donorProfile.setCNP(textFieldCNP.getText());
+
+        donorProfile.setBirthDate(null);
+        if (datePickerBirthDate.getValue() != null)
+            donorProfile.setBirthDate(Date.valueOf(datePickerBirthDate.getValue()));
+
+        donorProfile.setEmail(textFieldEmail.getText());
+        donorProfile.setPhone(textFieldPhone.getText());
+
         try {
-            controllerRoot = new ControllerRoot();
-        } catch (RemoteException e) {
-            System.out.println("LoginControler->constructor" + e.getMessage());
+            donorProfile.setWeight(Float.parseFloat(textFieldWeight.getText().equals("") ? "0.0" : textFieldWeight.getText()));
+        } catch (NumberFormatException ex) {
+            donorProfile.setWeight(0);
+        }
+        try {
+            donorProfile.setHeight(Integer.parseInt(textFieldHeight.getText().equals("") ? "0" : textFieldHeight.getText()));
+        } catch (NumberFormatException ex) {
+            donorProfile.setHeight(0);
+        }
+        donorProfile.setNationality(textFieldNationality.getText());
+        donorProfile.setAddress(textAreaHomeAddress.getText());
+        donorProfile.setResidence(donorProfile.getAddress());
+        if (checkBoxResidence.isSelected()) donorProfile.setResidence(textAreaHomeAddress.getText());
+
+        try {
+            mainService.addNewUser(textFieldRegisterUsername.getText(), textFieldRegisterPassword.getText(), UserType.Donor, donorProfile);
+            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Success", "Account registered successfully!", stackPaneContent);
+            handleBack(null);
+        } catch (Exception e) {
+            GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Error", e.getMessage(), stackPaneContent);
         }
     }
 
-    public void setMainService(IMainService mainService) {
-        this.mainService = mainService;
+    @FXML
+    private void handleLogin(ActionEvent actionEvent) {
+        String username = textFieldUsername.getText();
+        String password = textFieldPassword.getText();
+
+
+        buttonLogin.setDisable(true);
+        textFieldUsername.setDisable(true);
+        textFieldPassword.setDisable(true);
+        new Thread(()->{
+            try {
+                if (mainService.login(username, password, controllerRoot)) {
+                    loadMainView(mainService.getUserType(username));
+                    return;
+                }
+                Platform.runLater(()->GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Unsuccessful", "Username or password are invalid", stackPaneContent));
+            } catch (Exception e) {
+                Platform.runLater(()->GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Unsuccessful", e.getMessage(), stackPaneContent));
+            }
+            finally {
+                Platform.runLater(()->{
+                    buttonLogin.setDisable(false);
+                    textFieldUsername.setDisable(false);
+                    textFieldPassword.setDisable(false);
+                });
+            }
+
+        }).start();
     }
+
+    @FXML
+    public void handleRegistration(ActionEvent actionEvent) {
+        clearFields();
+        Timer.setTimeout(() -> anchorPaneRegistration.setVisible(true), 100);
+        new BounceInLeftTransition(anchorPaneRegistration).play();
+    }
+
+    @FXML
+    public void handleBack(ActionEvent actionEvent) {
+        BounceOutLeftTransition trans = new BounceOutLeftTransition(anchorPaneRegistration);
+        trans.setOnFinished((ev) -> anchorPaneRegistration.setVisible(false));
+        trans.play();
+    }
+
 
     private void clearFields() {
         textFieldFirstName.clear();
@@ -97,20 +162,6 @@ public class LoginController implements Initializable {
         textFieldRegisterPassword.clear();
         textFieldRegisterUsername.clear();
         checkBoxResidence.setSelected(false);
-    }
-
-    @FXML
-    public void handleRegistration(ActionEvent actionEvent) {
-        clearFields();
-        Timer.setTimeout(() -> anchorPaneRegistration.setVisible(true), 100);
-        new BounceInLeftTransition(anchorPaneRegistration).play();
-    }
-
-    @FXML
-    public void handleBack(ActionEvent actionEvent) {
-        BounceOutLeftTransition trans = new BounceOutLeftTransition(anchorPaneRegistration);
-        trans.setOnFinished((ev) -> anchorPaneRegistration.setVisible(false));
-        trans.play();
     }
 
     private void loadMainView(UserType userType) {
@@ -165,74 +216,16 @@ public class LoginController implements Initializable {
         });
     }
 
-
-    @FXML
-    private void handleSignUp(ActionEvent actionEvent) {
-        DonorProfile donorProfile = new DonorProfile();
-
-        donorProfile.setFirstName(textFieldFirstName.getText());
-        donorProfile.setLastName(textFieldLastName.getText());
-        donorProfile.setCNP(textFieldCNP.getText());
-
-        donorProfile.setBirthDate(null);
-        if (datePickerBirthDate.getValue() != null)
-            donorProfile.setBirthDate(Date.valueOf(datePickerBirthDate.getValue()));
-
-        donorProfile.setEmail(textFieldEmail.getText());
-        donorProfile.setPhone(textFieldPhone.getText());
-
-        try {
-            donorProfile.setWeight(Float.parseFloat(textFieldWeight.getText().equals("") ? "0.0" : textFieldWeight.getText()));
-        } catch (NumberFormatException ex) {
-            donorProfile.setWeight(0);
-        }
-        try {
-            donorProfile.setHeight(Integer.parseInt(textFieldHeight.getText().equals("") ? "0" : textFieldHeight.getText()));
-        } catch (NumberFormatException ex) {
-            donorProfile.setHeight(0);
-        }
-        donorProfile.setNationality(textFieldNationality.getText());
-        donorProfile.setAddress(textAreaHomeAddress.getText());
-        donorProfile.setResidence(donorProfile.getAddress());
-        if (checkBoxResidence.isSelected()) donorProfile.setResidence(textAreaHomeAddress.getText());
-
-        try {
-            mainService.addNewUser(textFieldRegisterUsername.getText(), textFieldRegisterPassword.getText(), UserType.Donor, donorProfile);
-            GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Success", "Account registered successfully!", stackPaneContent);
-            handleBack(null);
-        } catch (Exception e) {
-            GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Error", e.getMessage(), stackPaneContent);
-        }
+    void showLoginWindow() {
+        mainStage.show();
     }
 
-    @FXML
-    private void handleLogin(ActionEvent actionEvent) {
-        String username = textFieldUsername.getText();
-        String password = textFieldPassword.getText();
 
+    public LoginController() {
+    }
 
-        buttonLogin.setDisable(true);
-        textFieldUsername.setDisable(true);
-        textFieldPassword.setDisable(true);
-        new Thread(()->{
-            try {
-                    if (mainService.login(username, password, controllerRoot)) {
-                        loadMainView(mainService.getUserType(username));
-                        return;
-                    }
-                    Platform.runLater(()->GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Unsuccessful", "Username or password are invalid", stackPaneContent));
-                } catch (Exception e) {
-                    Platform.runLater(()->GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Unsuccessful", e.getMessage(), stackPaneContent));
-                }
-                finally {
-                    Platform.runLater(()->{
-                        buttonLogin.setDisable(false);
-                        textFieldUsername.setDisable(false);
-                        textFieldPassword.setDisable(false);
-                    });
-                }
-
-        }).start();
+    public void setMainService(IMainService mainService) {
+        this.mainService = mainService;
     }
 
     public void loadLoginWindow(Parent show, Stage primaryStage) {
@@ -243,7 +236,18 @@ public class LoginController implements Initializable {
         mainStage.show();
     }
 
-    void showLoginWindow() {
-        mainStage.show();
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        anchorPaneRegistration.setVisible(false);
+        checkBoxResidence.setOnAction(ev -> {
+            if (checkBoxResidence.isSelected()) textAreaResidenceAddress.setDisable(true);
+            else textAreaResidenceAddress.setDisable(false);
+        });
+        try {
+            controllerRoot = new ControllerRoot();
+        } catch (RemoteException e) {
+            System.out.println("LoginControler->constructor" + e.getMessage());
+        }
     }
 }
