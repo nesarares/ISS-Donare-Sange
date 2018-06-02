@@ -11,6 +11,8 @@
         <bean id ="donationRepository" class="donation.persistence.repository.DonationRepository"/>
         <bean id="bloodComponentQuantityRepository" class ="donation.persistence.repository.BloodComponentQuantityRepository"/>
         <bean id="bloodTransfusionCenterProfileRepository" class ="donation.persistence.repository.BloodTransfusionCenterProfileRepository"/>
+        <bean id="bloodRequestRepository" class ="donation.persistence.repository.BloodRequestRepository"/>
+        <bean id="doctorProfileRepository" class="donation.persistence.repository.DoctorProfileRepository"/>
 
         <bean id="mainService" class="donation.server.MainServiceImpl">
             <constructor-arg ref="userRepository"/>
@@ -19,6 +21,8 @@
             <constructor-arg ref="donationRepository"/>
             <constructor-arg ref="bloodComponentQuantityRepository"/>
             <constructor-arg ref="bloodTransfusionCenterProfileRepository"/>
+            <constructor-arg ref="bloodRequestRepository"/>
+            <constructor-arg ref="doctorProfileRepository"/>
         </bean>
 
         <bean class="org.springframework.remoting.rmi.RmiServiceExporter">

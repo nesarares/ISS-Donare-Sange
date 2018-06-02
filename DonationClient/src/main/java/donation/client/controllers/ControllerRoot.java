@@ -22,7 +22,6 @@ public class ControllerRoot extends UnicastRemoteObject implements Serializable,
 
     public void addObserver(IObserver observer) throws RemoteException {
         observers.add(observer);
-        System.out.println("ControllerRoot->" + observers.size());
     }
 
     public  void removeObserver(IObserver observer) throws  RemoteException{
@@ -53,6 +52,13 @@ public class ControllerRoot extends UnicastRemoteObject implements Serializable,
 
         for(IObserver  observer : observers){
             observer.notifyDonorUpdateHistory(username);
+        }
+    }
+
+    @Override
+    public void notifyNewRequestAdded(String username,String message) throws RemoteException {
+        for(IObserver  observer : observers){
+            observer.notifyNewRequestAdded(username,message);
         }
     }
 

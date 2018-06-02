@@ -16,7 +16,6 @@ public abstract class AbstractController implements Initializable,IObserver {
 
     @FXML
     protected void handleLogoutEvent(ActionEvent e) {
-        System.out.println(controllerRoot.getObservers().size());
         mainService.logout(username,null);
         controllerRoot.getObservers().clear();
         loginController.showLoginWindow();
@@ -34,23 +33,19 @@ public abstract class AbstractController implements Initializable,IObserver {
         });
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setLoginController(LoginController loginController) {
+    void setLoginController(LoginController loginController) {
         this.loginController = loginController;
     }
 
-    public IMainService getMainService() {
+    IMainService getMainService() {
         return mainService;
     }
 
-    public String getUsername() {
+    String getUsername() {
         return username;
     }
 
-    public void setControllerRoot(ControllerRoot controllerRoot){
+    void setControllerRoot(ControllerRoot controllerRoot){
         this.controllerRoot = controllerRoot;
     }
 }
