@@ -8,7 +8,6 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
@@ -16,16 +15,13 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donation.client.controllers.DoctorController">
+<AnchorPane minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" stylesheets="@../css/MainStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="donation.client.controllers.DoctorController">
    <children>
       <StackPane fx:id="stackPaneContent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -35,7 +31,7 @@
                      <children>
                         <BorderPane prefHeight="601.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <top>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="82.0" prefWidth="174.0" text="Active blood requests" BorderPane.alignment="CENTER">
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="82.0" prefWidth="174.0" styleClass="title" text="Active blood requests" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -62,105 +58,70 @@
                         </BorderPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="requestFormular" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="requestFormular" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <BorderPane prefHeight="601.0" prefWidth="844.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <top>
-                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="82.0" prefWidth="200.0" text="Blood Request Formular" BorderPane.alignment="CENTER">
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="82.0" prefWidth="200.0" styleClass="title" text="Blood Request Formular" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
                            </top>
                            <center>
-                              <GridPane alignment="CENTER" hgap="20.0" prefHeight="200.0" prefWidth="200.0" vgap="10.0" BorderPane.alignment="CENTER_RIGHT">
-                                <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="417.0" minWidth="10.0" prefWidth="150.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="417.0" minWidth="100.0" prefWidth="115.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="417.0" minWidth="10.0" prefWidth="200.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="100.0" prefWidth="90.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="384.0" minWidth="100.0" prefWidth="115.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="558.0" minWidth="10.0" prefWidth="220.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                              <VBox maxWidth="600.0" prefHeight="503.0" prefWidth="246.0" spacing="30.0" styleClass="grid-mare" BorderPane.alignment="TOP_CENTER">
                                  <children>
-                                    <Label prefHeight="17.0" prefWidth="73.0" text="Patient name" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
-                                       <GridPane.margin>
-                                          <Insets />
-                                       </GridPane.margin>
-                                    </Label>
-                                    <JFXTextField fx:id="textPatientName" prefHeight="29.0" prefWidth="837.0" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="1">
-                                       <GridPane.margin>
-                                          <Insets right="10.0" />
-                                       </GridPane.margin>
-                                    </JFXTextField>
-                                    <Label text="Blood group" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
-                                       <GridPane.margin>
-                                          <Insets right="10.0" />
-                                       </GridPane.margin>
-                                    </Label>
-                                    <JFXComboBox fx:id="comboBloodGroup" focusColor="#e42e33" prefHeight="29.0" prefWidth="254.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2">
-                                       <GridPane.margin>
-                                          <Insets right="10.0" />
-                                       </GridPane.margin>
-                                    </JFXComboBox>
-                                    <JFXComboBox fx:id="comboRh" focusColor="#e42e33" prefHeight="25.0" prefWidth="193.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
-                                       <GridPane.margin>
-                                          <Insets />
-                                       </GridPane.margin>
-                                    </JFXComboBox>
-                                    <Label text="Rh blood group" GridPane.columnIndex="4" GridPane.halignment="LEFT" GridPane.rowIndex="2">
-                                       <GridPane.margin>
-                                          <Insets right="10.0" />
-                                       </GridPane.margin>
-                                    </Label>
-                                    <Label text="Blood component" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3">
-                                       <GridPane.margin>
-                                          <Insets />
-                                       </GridPane.margin>
-                                    </Label>
-                                    <JFXTextField fx:id="textQuantityLeukocytes" promptText="No. Bags" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                                    <JFXButton fx:id="buttonSend" onAction="#handleSendBloodRequest" prefHeight="25.0" prefWidth="149.0" ripplerFill="#d10000" styleClass="btn" text="Send" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
-                                    <JFXCheckBox fx:id="checkLeukocytes" text="Leukocytes" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                    <JFXCheckBox fx:id="checkThrombocytes" text="Thrombocytes" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                    <JFXCheckBox fx:id="checkPlasma" text="Plasma" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                                    <JFXTextField fx:id="textQuantityPlasma" promptText="No. Bags" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-                                    <JFXTextField fx:id="textQuantityThrombocytes" promptText="No. Bags" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                                    <Label fx:id="labelLeukocytesQuant" alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="100.0" text="Label" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="3">
-                                       <GridPane.margin>
-                                          <Insets top="10.0" />
-                                       </GridPane.margin>
-                                    </Label>
-                                    <Label fx:id="labelTromboQuant" alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="100.0" text="Label" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4">
-                                       <GridPane.margin>
-                                          <Insets top="10.0" />
-                                       </GridPane.margin>
-                                    </Label>
-                                    <Label fx:id="labelPlasmaQuant" alignment="CENTER_RIGHT" prefHeight="31.0" prefWidth="100.0" text="Label" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="5">
-                                       <GridPane.margin>
-                                          <Insets top="10.0" />
-                                       </GridPane.margin>
-                                    </Label>
+                                    <JFXTextField fx:id="textPatientName" prefHeight="29.0" prefWidth="837.0" promptText="Patient name" />
+                                    <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                       <children>
+                                          <JFXComboBox fx:id="comboBloodGroup" focusColor="#e42e33" prefHeight="29.0" prefWidth="254.0" promptText="Blood group" />
+                                          <JFXComboBox fx:id="comboRh" focusColor="#e42e33" prefHeight="25.0" prefWidth="193.0" promptText="RH" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0">
+                                       <children>
+                                          <JFXCheckBox fx:id="checkLeukocytes" text="Leukocytes" />
+                                          <Label fx:id="labelLeukocytesQuant" text="Label" visible="false">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXTextField fx:id="textQuantityLeukocytes" promptText="No. Bags" visible="false" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                       <children>
+                                          <JFXCheckBox fx:id="checkThrombocytes" text="Thrombocytes" />
+                                          <Label fx:id="labelTromboQuant" text="Label" visible="false">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXTextField fx:id="textQuantityThrombocytes" promptText="No. Bags" visible="false" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                       <children>
+                                          <JFXCheckBox fx:id="checkPlasma" text="Plasma" />
+                                          <Label fx:id="labelPlasmaQuant" text="Label" visible="false">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <JFXTextField fx:id="textQuantityPlasma" promptText="No. Bags" visible="false" />
+                                       </children>
+                                    </HBox>
+                                    <JFXButton fx:id="buttonSend" onAction="#handleSendBloodRequest" prefHeight="25.0" prefWidth="149.0" ripplerFill="#d10000" styleClass="btn" text="Send" />
                                  </children>
-                              </GridPane>
+                                 <padding>
+                                    <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                                 </padding>
+                              </VBox>
                            </center>
                         </BorderPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="detailsPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="detailsPane" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <top>
@@ -203,19 +164,19 @@
                                           </AnchorPane>
                                           <AnchorPane prefHeight="100.0" prefWidth="165.0" styleClass="card">
                                              <children>
-                                                <Label prefHeight="36.0" prefWidth="170.0" styleClass="card-header" text="Leukocytes Qu." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Label prefHeight="36.0" prefWidth="170.0" styleClass="card-header" text="Leukocytes Rem." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                 <Label fx:id="labelLeukocytesQu" styleClass="card-content, middle" text="300 ml" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="36.0" />
                                              </children>
                                           </AnchorPane>
                                           <AnchorPane prefHeight="100.0" prefWidth="165.0" styleClass="card">
                                              <children>
-                                                <Label prefHeight="36.0" prefWidth="170.0" styleClass="card-header" text="Thrombocytes Qu." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Label prefHeight="36.0" prefWidth="170.0" styleClass="card-header" text="Thrombocytes Rem." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                 <Label fx:id="labelThrombocytesQu" styleClass="card-content, middle" text="300 ml" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="36.0" />
                                              </children>
                                           </AnchorPane>
                                           <AnchorPane prefHeight="100.0" prefWidth="165.0" styleClass="card">
                                              <children>
-                                                <Label prefHeight="36.0" prefWidth="170.0" styleClass="card-header" text="Plasma Qu." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Label prefHeight="36.0" prefWidth="170.0" styleClass="card-header" text="Plasma Rem." AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                 <Label fx:id="labelPlasmaQu" styleClass="card-content, middle" text="300 ml" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="36.0" />
                                              </children>
                                           </AnchorPane>
@@ -288,12 +249,12 @@
                         </JFXButton>
                         <AnchorPane layoutX="149.0" prefHeight="25.0" prefWidth="91.0">
                            <children>
-                              <JFXButton id="buttonEmail" onAction="#handleEmailButton" fx:id="buttonEmail" layoutX="59.0" prefHeight="26.0" prefWidth="91.0" text="Press me" textFill="#f8f8f8" />
+                              <JFXButton id="buttonEmail" fx:id="buttonEmail" layoutX="59.0" onAction="#handleEmailButton" prefHeight="26.0" prefWidth="91.0" text="Press me" textFill="#f8f8f8" />
                            </children>
                         </AnchorPane>
                      </children>
                   </AnchorPane>
-                  <JFXHamburger fx:id="menuHamburger" onMousePressed="#handleDrawer" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
+                  <JFXHamburger fx:id="menuHamburger" onMousePressed="#handleDrawer" styleClass="hamburger-white" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -303,8 +264,4 @@
          </children>
       </StackPane>
    </children>
-   <stylesheets>
-      <URL value="@../css/MainStyle.css" />
-      <URL value="@../css/MainStyle.css" />
-   </stylesheets>
 </AnchorPane>

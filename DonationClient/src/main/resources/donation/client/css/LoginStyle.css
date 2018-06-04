@@ -1,5 +1,5 @@
 .jfx-button.btn {
-    -fx-font-size: 20px;
+    -fx-font-size: 23px;
     -fx-background-color: rgba(0, 0, 0, 0.3);
     -fx-background-radius: 5px;
     -fx-font-family: 'Roboto Light';
@@ -52,11 +52,11 @@
 }
 
 .jfx-text-field .text, .jfx-date-picker, .jfx-text-area, .jfx-text-field, .jfx-password-field {
-    -fx-font-size: 12px;
+    -fx-font-size: 16px;
 }
 
 .jfx-text-field .glyph-icon {
-    -glyph-size: 15px;
+    -glyph-size: 18px;
 }
 
 .jfx-check-box {

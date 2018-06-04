@@ -45,13 +45,13 @@ public class LoginController implements Initializable {
     @FXML
     private JFXTextField textFieldFirstName, textFieldLastName, textFieldCNP,
             textFieldEmail, textFieldPhone, textFieldWeight,
-            textFieldHeight, textFieldNationality, textFieldRegisterUsername, textFieldRegisterPassword;
+            textFieldHeight, textFieldNationality, textFieldRegisterUsername;
 
     @FXML
     private JFXTextArea textAreaHomeAddress, textAreaResidenceAddress;
 
     @FXML
-    private JFXPasswordField textFieldPassword;
+    private JFXPasswordField textFieldPassword, textFieldRegisterPassword;
 
     @FXML
     private JFXButton buttonLogin;

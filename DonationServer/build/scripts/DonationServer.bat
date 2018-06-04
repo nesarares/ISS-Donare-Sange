@@ -63,10 +63,10 @@ set CMD_LINE_ARGS=%*
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\spring-jcl-5.0.4.RELEASE.jar;%APP_HOME%\lib\DonationModel-1.0.jar;%APP_HOME%\lib\spring-aop-5.0.4.RELEASE.jar;%APP_HOME%\lib\spring-beans-5.0.4.RELEASE.jar;%APP_HOME%\lib\DonationServer-1.0.jar;%APP_HOME%\lib\spring-context-5.0.4.RELEASE.jar;%APP_HOME%\lib\DonationPersistence-1.0.jar;%APP_HOME%\lib\DonationServices-1.0.jar;%APP_HOME%\lib\spring-core-5.0.4.RELEASE.jar;%APP_HOME%\lib\spring-expression-5.0.4.RELEASE.jar
+set CLASSPATH=%APP_HOME%\lib\classmate-1.3.0.jar;%APP_HOME%\lib\javassist-3.22.0-GA.jar;%APP_HOME%\lib\spring-beans-5.0.4.RELEASE.jar;%APP_HOME%\lib\jboss-transaction-api_1.2_spec-1.0.1.Final.jar;%APP_HOME%\lib\joda-time-2.9.9.jar;%APP_HOME%\lib\activation-1.1.1.jar;%APP_HOME%\lib\dom4j-1.6.1.jar;%APP_HOME%\lib\google-maps-services-0.2.7.jar;%APP_HOME%\lib\okio-1.13.0.jar;%APP_HOME%\lib\jaxb-api-2.3.0.jar;%APP_HOME%\lib\spring-aop-5.0.4.RELEASE.jar;%APP_HOME%\lib\jboss-logging-3.3.1.Final.jar;%APP_HOME%\lib\DonationServer-1.0.jar;%APP_HOME%\lib\txw2-2.3.0.jar;%APP_HOME%\lib\spring-core-5.0.4.RELEASE.jar;%APP_HOME%\lib\jandex-2.0.3.Final.jar;%APP_HOME%\lib\mysql-connector-java-5.1.13.jar;%APP_HOME%\lib\okhttp-3.8.1.jar;%APP_HOME%\lib\hibernate-jpa-2.1-api-1.0.0.Final.jar;%APP_HOME%\lib\spring-jcl-5.0.4.RELEASE.jar;%APP_HOME%\lib\spring-context-5.0.4.RELEASE.jar;%APP_HOME%\lib\slf4j-api-1.7.25.jar;%APP_HOME%\lib\hibernate-commons-annotations-5.0.1.Final.jar;%APP_HOME%\lib\slf4j-simple-1.6.1.jar;%APP_HOME%\lib\hibernate-gradle-plugin-5.2.16.Final.jar;%APP_HOME%\lib\antlr-2.7.7.jar;%APP_HOME%\lib\dom-2.3.0-jaxb-1.0.6.jar;%APP_HOME%\lib\spring-expression-5.0.4.RELEASE.jar;%APP_HOME%\lib\gson-2.8.1.jar;%APP_HOME%\lib\DonationModel-1.0.jar;%APP_HOME%\lib\DonationPersistence-1.0.jar;%APP_HOME%\lib\DonationServices-1.0.jar;%APP_HOME%\lib\hibernate-core-5.2.16.Final.jar;%APP_HOME%\lib\byte-buddy-1.6.14.jar;%APP_HOME%\lib\istack-commons-runtime-3.0.5.jar;%APP_HOME%\lib\jaxb-core-2.3.0.jar
 
 @rem Execute DonationServer
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %DONATION_SERVER_OPTS%  -classpath "%CLASSPATH%" donation.server.StartServer %CMD_LINE_ARGS%
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %DONATION_SERVER_OPTS%  -classpath "%CLASSPATH%" StartServer %CMD_LINE_ARGS%
 
 :end
 @rem End local scope for the variables with windows NT shell

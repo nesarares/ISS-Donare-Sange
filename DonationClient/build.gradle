@@ -7,6 +7,15 @@ apply plugin: 'application'
 sourceCompatibility = 1.8
 mainClassName = "donation.client.StartClient"
 
+jar {
+    manifest {
+        attributes('Main-Class':'donation.client.StartClient')
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
 repositories {
     mavenCentral()
 }

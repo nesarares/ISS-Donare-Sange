@@ -13,22 +13,23 @@ public class Backup {
 
     private String path;
 
-    private static  Backup instance = new Backup();
+    private static Backup instance = new Backup();
 
-    private Backup(){
+    private Backup() {
         try {
-            path = Backup.class.getResource("/backup").toURI().getPath().substring(1)+"/backup.dat";
+            path = new File(Backup.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent() + "\\backup.dat";
+//            path = Backup.class.getResource("/backup").toURI().getPath().substring(1)+"/backup.dat";
+//            path = "./backup/backup.dat";
         } catch (URISyntaxException e) {
             System.out.println("Backup->" + e.getMessage());
         }
     }
 
     /**
-     *
      * @return a pair formed by username and password of database owner
      */
 
-    private Pair<String,String> getUsernameAndPassword() {
+    private Pair<String, String> getUsernameAndPassword() {
 
         try {
 
@@ -68,16 +69,16 @@ public class Backup {
                 password = node.getTextContent();
             }
 
-            return  new Pair<>(username,password);
+            return new Pair<>(username, password);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Backup->getUsernameAndPassword->" + e.getMessage());
         }
 
-        return  null;
+        return null;
     }
 
-    public static Backup getInstance(){
+    public static Backup getInstance() {
         return instance;
     }
 
@@ -87,25 +88,28 @@ public class Backup {
 
     public void doBackup() {
 
-        new Thread(()-> {
+        new Thread(() -> {
 
-            Pair<String, String> userPass = getUsernameAndPassword();
+//            Pair<String, String> userPass = getUsernameAndPassword();
 
             String mySqlDumpLocation = null;
 
             try {
-                mySqlDumpLocation = getClass().getResource("/Processes/mysqldump.exe").toURI().getPath().substring(1);
+//                mySqlDumpLocation = getClass().getResource("/Processes/mysqldump.exe").toURI().getPath().substring(1);
+                mySqlDumpLocation = new File(Backup.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent() + "\\mysqldump.exe";
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            String cmd = mySqlDumpLocation +" -u" + userPass.getKey() + " -p" + userPass.getValue() + " --database " + "iss" + " -r " + "\"" + path + "\"";
-
+//            String cmd = mySqlDumpLocation + " -u" + userPass.getKey() + " -p" + userPass.getValue() + " --database " + "iss" + " -r " + "\"" + path + "\"";
+            String cmd = "\"" + mySqlDumpLocation +"\" -uroot -proot --database iss -r \"" + path + "\"";
 
             try {
-
+                System.out.println(mySqlDumpLocation);
+                System.out.println(path);
+                System.out.println(cmd);
                 int error = Runtime.getRuntime().exec(cmd).waitFor();
-
+                System.out.println("M-am terminat " + error);
                 if (error == 0) {
                     System.out.println("Backup complete!");
                     return;

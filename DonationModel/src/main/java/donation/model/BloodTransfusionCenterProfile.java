@@ -51,6 +51,14 @@ public class BloodTransfusionCenterProfile implements Serializable, HasAddress<B
         return address;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
     @Override
     public boolean equals(Object e) {
         if (e == null) return false;

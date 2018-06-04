@@ -8,7 +8,6 @@ import donation.client.utils.GUIUtils;
 import donation.client.utils.Timer;
 import donation.model.*;
 import donation.services.IMainService;
-import donation.utils.IObserver;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -25,7 +24,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import sun.plugin.util.UIUtil;
 
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -186,7 +184,14 @@ public class CenterController extends AbstractController {
                     buttonCenterSendToAnotherCenter.setDisable(true);
                 });
 
-                mainService.sendRequestToAnotherCenter(selectedBloodRequest, username);
+                try {
+                    mainService.sendRequestToAnotherCenter(selectedBloodRequest, username);
+                } catch (NullPointerException e) {
+                    Platform.runLater(() -> {
+                        GUIUtils.showDialogMessage(Alert.AlertType.ERROR, "Error", "You must be connected to the internet!", stackPane);
+                    });
+                    return;
+                }
 
                 Platform.runLater(() -> {
                     GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Information", "Request was sent to the nearest center!", stackPane);

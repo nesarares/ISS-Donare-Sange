@@ -6,8 +6,6 @@ import donation.model.validators.IValidator;
 import donation.model.validators.ValidationException;
 import donation.model.validators.ValidatorDonorProfile;
 import donation.model.validators.ValidatorUser;
-import donation.persistence.repository.BloodComponentQuantityRepository;
-import donation.persistence.repository.BloodTransfusionCenterProfileRepository;
 import donation.persistence.repository.IRepository;
 import donation.persistence.repository.RepositoryException;
 import donation.server.utils.DayCounter;
@@ -20,7 +18,6 @@ import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class MainServiceImpl implements IMainService {
@@ -49,7 +46,8 @@ public class MainServiceImpl implements IMainService {
     private final int DAYS_UNTIL_NEXT_DONATION = 30;
     private final int BLOOD_BAG_QUANTITY = 450;
     private final int BLOOD_COMPONENT_QUANTITY = BLOOD_BAG_QUANTITY / 3;
-    private final int BACKUP_TIME = 3600 * 24 * 1000;//seconds * hours * milliseconds
+//    private final int BACKUP_TIME = 3600 * 24 * 1000;//seconds * hours * milliseconds
+    private final int BACKUP_TIME = 7 * 1000;//seconds * hours * milliseconds
 
 
     private void backupAction() {

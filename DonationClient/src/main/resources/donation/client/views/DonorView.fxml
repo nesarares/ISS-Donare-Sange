@@ -34,7 +34,7 @@
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <AnchorPane fx:id="homePane" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="homePane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <top>
@@ -192,8 +192,11 @@
                                           </HBox>
                                           <HBox alignment="CENTER" spacing="30.0">
                                              <children>
-                                                <JFXTextArea fx:id="textAreaResidenceAddress" prefHeight="46.0" prefWidth="464.0" promptText="Residence Address" />
-                                                <JFXCheckBox fx:id="checkBoxResidenceAddress" contentDisplay="TOP" text="Same as home address" />
+                                                <JFXTextArea fx:id="textAreaResidenceAddress" prefHeight="49.0" prefWidth="412.0" promptText="Residence Address" />
+                                                <JFXCheckBox fx:id="checkBoxResidenceAddress" contentDisplay="TOP" text="Same as home address">
+                                                   <font>
+                                                      <Font name="Saira SemiCondensed Medium" size="18.0" />
+                                                   </font></JFXCheckBox>
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER" spacing="30.0">
@@ -209,7 +212,7 @@
                         </BorderPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="notificationsPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="notificationsPane" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <top>
@@ -239,7 +242,7 @@
                      </children>
                   </AnchorPane>
                   <JFXDrawer fx:id="drawer" defaultDrawerSize="240.0" prefHeight="600.0" prefWidth="240.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                  <AnchorPane fx:id="drawerContent" prefHeight="600.0" prefWidth="233.0" styleClass="drawer" visible="false" AnchorPane.leftAnchor="-250.0">
+                  <AnchorPane fx:id="drawerContent" prefHeight="600.0" prefWidth="233.0" styleClass="drawer" visible="false" AnchorPane.leftAnchor="-259.0">
                      <children>
                         <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="240.0" spacing="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
@@ -253,7 +256,7 @@
                                     <Insets bottom="30.0" />
                                  </VBox.margin>
                                  <font>
-                                    <Font name="Saira SemiCondensed SemiBold" size="17.0" />
+                                    <Font name="Saira SemiCondensed SemiBold" size="21.0" />
                                  </font>
                               </Label>
                               <JFXButton fx:id="buttonHome" onAction="#handleButtonHome" prefHeight="17.0" prefWidth="284.0" styleClass="menu-button" text="Home">
@@ -314,7 +317,7 @@
                                           </StackPane>
                                           <Label styleClass="txt" text="Notifications">
                                              <HBox.margin>
-                                                <Insets left="20.0" right="30.0" />
+                                                <Insets left="20.0" right="15.0" />
                                              </HBox.margin>
                                           </Label>
                                           <Label fx:id="labelNrNotifications" prefHeight="30.0" prefWidth="30.0" styleClass="notif-badge" text="0" />
@@ -339,7 +342,7 @@
                         </JFXButton>
                      </children>
                   </AnchorPane>
-                  <JFXHamburger fx:id="menuHamburger" onMousePressed="#handleDrawer" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
+                  <JFXHamburger fx:id="menuHamburger" onMousePressed="#handleDrawer" styleClass="hamburger-white" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
