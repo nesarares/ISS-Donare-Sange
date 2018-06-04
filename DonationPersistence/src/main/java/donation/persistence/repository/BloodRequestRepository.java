@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class BloodRequestRepository implements IRepository<BloodRequest> {
+
     public BloodRequestRepository() {
     }
 
@@ -15,23 +16,24 @@ public class BloodRequestRepository implements IRepository<BloodRequest> {
     }
 
     public void save(BloodRequest entity) throws RepositoryException {
-        if (Repository.exists(BloodRequest.class,entity))
+        if (Repository.exists(BloodRequest.class, entity))
             throw new RepositoryException("There cannot be two instances of an object.");
         Repository.add(BloodRequest.class, entity);
     }
 
     public void delete(BloodRequest entity) throws RepositoryException {
-        if (!Repository.exists(BloodRequest.class,entity))
+        if (!Repository.exists(BloodRequest.class, entity))
             throw new RepositoryException("You cannot delete an object that doesn't exist.");
         Repository.delete(BloodRequest.class, entity);
     }
 
     public BloodRequest findById(int entityId) {
-        Optional<BloodRequest> findResult = Repository.get(BloodRequest.class,entityId);
+        Optional<BloodRequest> findResult = Repository.get(BloodRequest.class, entityId);
         return findResult.orElse(null);
     }
 
     public void update(int oldId, BloodRequest newEntity) throws RepositoryException {
+        newEntity.setID(oldId);
         Optional<BloodRequest> bloodRequest = Repository.get(BloodRequest.class, oldId);
         if (bloodRequest.isPresent())
             Repository.update(BloodRequest.class, bloodRequest.get(), newEntity);
@@ -44,11 +46,11 @@ public class BloodRequestRepository implements IRepository<BloodRequest> {
     }
 
     public BloodRequest find(Predicate<BloodRequest> filterCondition) {
-        Optional<BloodRequest> findResult = Repository.findObj(BloodRequest.class,filterCondition);
+        Optional<BloodRequest> findResult = Repository.findObj(BloodRequest.class, filterCondition);
         return findResult.orElse(null);
     }
 
     public List<BloodRequest> getAllFiltered(Predicate<BloodRequest> predicate) {
-        return Repository.filterAll(BloodRequest.class,predicate);
+        return Repository.filterAll(BloodRequest.class, predicate);
     }
 }

@@ -39,7 +39,7 @@
 }
 
 .jfx-text-field .text, .jfx-combo-box, .jfx-date-picker, .jfx-text-area, .jfx-text-field, .jfx-password-field {
-    -fx-font-size: 13px;
+    -fx-font-size: 18px;
 }
 
 .jfx-text-field .glyph-icon {
@@ -48,6 +48,7 @@
 
 .jfx-check-box {
     -jfx-checked-color: -fx-accent;
+    -fx-font-size: 18px;
 }
 
 .jfx-date-picker {
@@ -63,7 +64,7 @@
     -fx-background-color: white;
     -fx-padding: 0;
     -fx-font-family: 'Saira SemiCondensed Regular';
-    -fx-font-size: 1.3em;
+    -fx-font-size: 1.5em;
     -fx-background-radius: 0;
     -fx-graphic-text-gap: 20px;
     -fx-alignment: top-left;
@@ -94,14 +95,18 @@
     -fx-cursor: hand;
 }
 
-.hamburger-white StackPane {
+.hamburger-white StackPane, .jfx-hamburger-icon StackPane {
     -fx-background-color: white;
 }
 
 .title {
     -fx-font-family: "Saira SemiCondensed Medium";
-    -fx-font-size: 2em;
-    -fx-padding: 20px 0 0 0;
+    -fx-font-size: 3em;
+    -fx-padding: 20px;
+    -fx-pref-width: 2000px;
+    -fx-alignment: center;
+    -fx-background-color: -fx-dark;
+    -fx-text-fill: white;
 }
 
 .center-pane {
@@ -123,7 +128,7 @@
 
 .card-header {
     -fx-font-family: "Saira SemiCondensed Medium";
-    -fx-font-size: 20px;
+    -fx-font-size: 25px;
     -fx-background-color: -fx-focus-color;
     -fx-text-fill: white;
     -fx-alignment: center;
@@ -136,13 +141,13 @@
 }
 
 .card-content-h2 {
-    -fx-font-size: 20px;
+    -fx-font-size: 28px;
     -fx-text-fill: -fx-focus-color;
     -fx-font-family: "Saira SemiCondensed SemiBold";
 }
 
 .card-content-text {
-    -fx-font-size: 15px;
+    -fx-font-size: 20px;
     -fx-font-family: "Saira SemiCondensed Light";
     -fx-padding: 0 0 15px 0;
 }
@@ -154,7 +159,7 @@
 
 .card-footer {
     -fx-font-family: "Saira SemiCondensed Medium";
-    -fx-font-size: 20px;
+    -fx-font-size: 25px;
     -fx-background-color: -fx-focus-color;
     -fx-text-fill: white;
     -fx-alignment: center;
@@ -176,7 +181,7 @@
 
 .notif .jfx-list-cell, .notif .jfx-list-cell:focused, .notif .jfx-list-cell:selected, .notif .jfx-list-cell:armed {
     -fx-text-fill: black;
-    -fx-font-size: 16px;
+    -fx-font-size: 18px;
     -fx-font-family: 'Open Sans';
     -fx-padding: 30px;
     -fx-background-color: transparent, white;
@@ -188,11 +193,21 @@
     -fx-background-color: transparent;
 }
 
+.lista-mare {
+    -fx-font-size: 16px;
+    -fx-font-family: 'Open Sans';
+}
+
+.grid-mare .label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
 .jfx-snackbar-content {
     -fx-background-color: -fx-dark;
     -fx-padding: 0 30px;
     -fx-font-family: "Saira SemiCondensed SemiBold";
-    -fx-font-size: 1.2em;
+    -fx-font-size: 1.4em;
 }
 .jfx-snackbar-toast {
     -fx-text-fill: WHITE;
@@ -227,13 +242,13 @@
 .table-view .cell {
     -fx-alignment: center;
     -fx-font-family: 'Open Sans';
-    -fx-font-size: 14px;
+    -fx-font-size: 18px;
 }
 
 .table-view .column-header {
     -fx-alignment: center;
     -fx-font-family: 'Saira SemiCondensed Light';
-    -fx-font-size: 16px;
+    -fx-font-size: 20px;
     -fx-background-color: dimgray;
 }
 
@@ -343,4 +358,32 @@
 
 .tabel-fara-butoane .table-row-cell {
     -fx-cell-size: 40px;
+}
+
+#buttonEmail{
+    -fx-min-height: 25px;
+    -fx-max-height: 25px;
+    -fx-min-width: 25px;
+    -fx-max-width: 25px;
+    -fx-content-display: graphic-only;
+    -fx-background-image: url("/donation/client/envelope.png");
+    -fx-background-size: 25px 25px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+#buttonEmail:hover{
+    -fx-min-height: 25px;
+    -fx-max-height: 25px;
+    -fx-min-width: 25px;
+    -fx-max-width: 25px;
+    -fx-content-display: graphic-only;
+    -fx-background-image: url("/donation/client/envelope2.png");
+    -fx-background-size: 25px 25px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+#buttonEmail:pressed{
+    -fx-background-color: transparent;
 }

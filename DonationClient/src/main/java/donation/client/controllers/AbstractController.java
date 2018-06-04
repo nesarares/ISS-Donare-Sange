@@ -7,30 +7,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 
-public abstract class AbstractController implements Initializable,IObserver {
+public abstract class AbstractController implements Initializable, IObserver {
+
     private LoginController loginController;
-    protected IMainService mainService;
-    protected String username;
     private Stage stageView;
     private ControllerRoot controllerRoot;
+    IMainService mainService;
+    String username;
 
     @FXML
     protected void handleLogoutEvent(ActionEvent e) {
-        mainService.logout(username,null);
+        mainService.logout(username, null);
         controllerRoot.getObservers().clear();
         loginController.showLoginWindow();
         stageView.close();
-    }
-
-    public void setMainService(IMainService mainService, String username, Stage stageView) {
-        this.mainService = mainService;
-        this.username = username;
-        this.stageView = stageView;
-
-        stageView.setOnCloseRequest(ev -> {
-            mainService.logout(username, null);
-            System.exit(0);
-        });
     }
 
     void setLoginController(LoginController loginController) {
@@ -45,7 +35,19 @@ public abstract class AbstractController implements Initializable,IObserver {
         return username;
     }
 
-    void setControllerRoot(ControllerRoot controllerRoot){
+    void setControllerRoot(ControllerRoot controllerRoot) {
         this.controllerRoot = controllerRoot;
     }
+
+    public void setMainService(IMainService mainService, String username, Stage stageView) {
+        this.mainService = mainService;
+        this.username = username;
+        this.stageView = stageView;
+
+        stageView.setOnCloseRequest(ev -> {
+            mainService.logout(username, null);
+            System.exit(0);
+        });
+    }
+
 }

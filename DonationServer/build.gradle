@@ -5,13 +5,26 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 sourceCompatibility = 1.8
-mainClassName = "donation.server.StartServer"
+mainClassName = "StartServer"
+
+jar {
+    manifest {
+        attributes('Main-Class':'StartServer')
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    implementation project(path: ':DonationModel', configuration: 'default')
+    implementation project(path: ':DonationPersistence', configuration: 'default')
+    implementation project(path: ':DonationServices', configuration: 'default')
+
     compile project(':DonationModel')
     compile project(':DonationPersistence')
     compile project(':DonationServices')
@@ -24,6 +37,12 @@ dependencies {
 
     compile "org.slf4j:slf4j-api:1.6.1"
     compile "org.slf4j:slf4j-simple:1.6.1"
+
+//    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.11'
+//    compile group: 'javax.activation', name: 'activation', version: '1.1.1'
+//    compile group: 'org.glassfish.jaxb', name: 'jaxb-core', version: '2.3.0'
+//    compile group: 'javax.xml', name: 'jaxb-impl', version: '2.1'
+//    compile group: 'org.w3c', name: 'dom', version: '2.3.0-jaxb-1.0.6'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

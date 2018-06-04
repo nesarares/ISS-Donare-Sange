@@ -3,108 +3,77 @@ package donation.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
-/**
- * 
- */
-@Entity
-@Table(name="donorProfile")
-public class DonorProfile implements Serializable{
 
-    /**
-     * Default constructor
-     */
+@Entity
+@Table(name = "donorProfile")
+public class DonorProfile implements Serializable {
+
+
     public DonorProfile() {
     }
 
     @Id
-    @GeneratedValue (strategy = IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     private int ID;
 
-    /**
-     * 
-     */
-    @Column(name="firstName")
+
+    @Column(name = "firstName")
     private String firstName;
 
-    /**
-     * 
-     */
-    @Column(name="lastName")
+
+    @Column(name = "lastName")
     private String lastName;
 
-    /**
-     * 
-     */
-    @Column(name="birthDate")
+
+    @Column(name = "birthDate")
     private Date birthDate;
 
-    /**
-     * 
-     */
-    @Column(name="address")
+
+    @Column(name = "address")
     private String address;
 
-    /**
-     * 
-     */
-    @Column(name="nationality")
+
+    @Column(name = "nationality")
     private String nationality;
 
-    /**
-     * 
-     */
-    @Column(name="email")
+
+    @Column(name = "email")
     private String email;
 
-    /**
-     * 
-     */
-    @Column(name="phone")
+
+    @Column(name = "phone")
     private String phone;
 
-    /**
-     * 
-     */
-    @Column(name="idUser")
+
+    @Column(name = "idUser")
     private int idUser;
 
-    /**
-     * 
-     */
-    @Column(name="weight")
+
+    @Column(name = "weight")
     private float weight;
 
-    /**
-     * 
-     */
-    @Column(name="height")
+
+    @Column(name = "height")
     private int height;
 
-    /**
-     * 
-     */
-    @Column(name="CNP")
+
+    @Column(name = "CNP")
     private String CNP;
 
-    /**
-     * 
-     */
-    @Column(name="residence")
+
+    @Column(name = "residence")
     private String residence;
 
-    /**
-     * 
-     */
-    @Column(name="rhBloodGroup")
+
+    @Column(name = "rhBloodGroup")
     private RhBloodGroup rhBloodGroup;
 
-    /**
-     * 
-     */
-    @Column(name="aboBloodGroup")
+
+    @Column(name = "aboBloodGroup")
     private ABOBloodGroup aboBloodGroup;
 
     public int getID() {

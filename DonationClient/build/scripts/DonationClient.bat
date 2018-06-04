@@ -63,7 +63,7 @@ set CMD_LINE_ARGS=%*
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\DonationClient-1.0.jar;%APP_HOME%\lib\spring-jcl-5.0.4.RELEASE.jar;%APP_HOME%\lib\DonationModel-1.0.jar;%APP_HOME%\lib\spring-aop-5.0.4.RELEASE.jar;%APP_HOME%\lib\spring-beans-5.0.4.RELEASE.jar;%APP_HOME%\lib\spring-context-5.0.4.RELEASE.jar;%APP_HOME%\lib\jfoenix-8.0.3.jar;%APP_HOME%\lib\fontawesomefx-8.9.jar;%APP_HOME%\lib\DonationServices-1.0.jar;%APP_HOME%\lib\spring-core-5.0.4.RELEASE.jar;%APP_HOME%\lib\spring-expression-5.0.4.RELEASE.jar
+set CLASSPATH=%APP_HOME%\lib\classmate-1.3.0.jar;%APP_HOME%\lib\spring-jcl-5.0.4.RELEASE.jar;%APP_HOME%\lib\javassist-3.22.0-GA.jar;%APP_HOME%\lib\spring-beans-5.0.4.RELEASE.jar;%APP_HOME%\lib\spring-context-5.0.4.RELEASE.jar;%APP_HOME%\lib\jfoenix-8.0.3.jar;%APP_HOME%\lib\hibernate-commons-annotations-5.0.1.Final.jar;%APP_HOME%\lib\jboss-transaction-api_1.2_spec-1.0.1.Final.jar;%APP_HOME%\lib\hibernate-gradle-plugin-5.2.16.Final.jar;%APP_HOME%\lib\antlr-2.7.7.jar;%APP_HOME%\lib\spring-expression-5.0.4.RELEASE.jar;%APP_HOME%\lib\dom4j-1.6.1.jar;%APP_HOME%\lib\DonationClient-1.0.jar;%APP_HOME%\lib\DonationModel-1.0.jar;%APP_HOME%\lib\spring-aop-5.0.4.RELEASE.jar;%APP_HOME%\lib\jboss-logging-3.3.1.Final.jar;%APP_HOME%\lib\fontawesomefx-8.9.jar;%APP_HOME%\lib\DonationServices-1.0.jar;%APP_HOME%\lib\spring-core-5.0.4.RELEASE.jar;%APP_HOME%\lib\jandex-2.0.3.Final.jar;%APP_HOME%\lib\hibernate-core-5.2.16.Final.jar;%APP_HOME%\lib\byte-buddy-1.6.14.jar;%APP_HOME%\lib\hibernate-jpa-2.1-api-1.0.0.Final.jar
 
 @rem Execute DonationClient
 "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %DONATION_CLIENT_OPTS%  -classpath "%CLASSPATH%" donation.client.StartClient %CMD_LINE_ARGS%

@@ -22,6 +22,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -121,7 +122,7 @@
                         </BorderPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="questionnairePane" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="questionnairePane" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <top>
@@ -142,7 +143,7 @@
                                           <VBox prefWidth="100.0" spacing="30.0">
                                              <children>
                                                 <JFXTextField fx:id="fieldSearchQuestionnaire" promptText="Search donor" />
-                                                <JFXListView fx:id="listQuestionnaireDonors" VBox.vgrow="ALWAYS" />
+                                                <JFXListView fx:id="listQuestionnaireDonors" styleClass="lista-mare" VBox.vgrow="ALWAYS" />
                                                 <JFXButton onAction="#handleButtonSubmitQuestionnaire" prefHeight="38.0" prefWidth="1318.0" styleClass="btn" text="Submit" />
                                              </children>
                                           </VBox>
@@ -163,7 +164,7 @@
                                                             <JFXCheckBox fx:id="checkBoxInexFever" text="Inexplicable Fever" />
                                                             <JFXCheckBox fx:id="checkBoxVaccines" text="Vaccines" />
                                                             <JFXCheckBox fx:id="checkBoxSexPartHiv" text="Sexual Partner HIV Hepatitis" />
-                                                            <JFXCheckBox fx:id="checkBoxSexPartWorker" text="Sexual Partner Sex Worker" />
+                                                            <JFXCheckBox fx:id="checkBoxSexPartWorker" text="Sexual Partner Prostitute" />
                                                             <JFXCheckBox fx:id="checkBoxIntraDrugs" text="Intravenous Drugs" />
                                                             <JFXCheckBox fx:id="checkBoxSexPartChanged" text="Sexual Partner Changed" />
                                                             <JFXCheckBox fx:id="checkBoxTatoos" text="Tattoos" />
@@ -196,7 +197,7 @@
                                                             <JFXCheckBox fx:id="checkBoxRecievedBlood" text="Recieved Blood" />
                                                             <JFXCheckBox fx:id="checkBoxBLTForeign" text="Born / Lived / Traveled Foreign" />
                                                             <JFXCheckBox fx:id="checkBoxHepatitis" text="Hepatitis" />
-                                                            <JFXCheckBox fx:id="checkBoxITLMalaria" text="Icterus / Tuberculosis / Reumatic Fever / Malaria" />
+                                                            <JFXCheckBox fx:id="checkBoxITLMalaria" text="Icterus / Tuberculosis / &#10;Reumatic Fever / Malaria" />
                                                             <JFXCheckBox fx:id="checkBoxHeartDisease" text="Heart Disease / High BP" />
                                                             <JFXCheckBox fx:id="checkBoxAsthma" text="Asthma" />
                                                             <JFXCheckBox fx:id="checkBoxDiabetisUlcerus" text="Diabetis / Ulcer Cancer" />
@@ -231,10 +232,10 @@
                            <center>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
                                  <children>
-                                    <GridPane hgap="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <GridPane hgap="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <columnConstraints>
-                                          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                          <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="342.0" minWidth="10.0" prefWidth="338.0" />
                                        </columnConstraints>
                                        <rowConstraints>
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -243,26 +244,30 @@
                                           <VBox prefWidth="100.0" spacing="30.0">
                                              <children>
                                                 <JFXTextField fx:id="fieldSearchDonation" promptText="Search donor" />
-                                                <JFXListView fx:id="listDonationDonors" VBox.vgrow="ALWAYS" />
-                                                <JFXButton onAction="#handleButtonSubmitDonation" prefHeight="38.0" prefWidth="1318.0" styleClass="btn" text="Submit" />
+                                                <JFXListView fx:id="listDonationDonors" prefWidth="2000.0" styleClass="lista-mare" VBox.vgrow="ALWAYS" />
                                              </children>
                                           </VBox>
                                           <ScrollPane fitToWidth="true" prefHeight="200.0" style="-fx-background-color: transparent;" GridPane.columnIndex="1">
                                              <content>
-                                                <VBox spacing="20.0">
+                                                <VBox alignment="TOP_CENTER" spacing="20.0">
                                                    <children>
                                                       <JFXDatePicker fx:id="datePickerDonationDate" prefHeight="29.0" prefWidth="291.0" promptText="Donation date" />
-                                                      <JFXCheckBox fx:id="checkBoxHIVOrAIDS" text="HIV or AIDS" />
-                                                      <JFXCheckBox fx:id="checkBoxHepatitisDonation" text="Hepatitis" />
-                                                      <JFXCheckBox fx:id="checkBoxSyphilis" text="Syphilis" />
-                                                      <JFXCheckBox fx:id="checkBoxHTLV" text="HTLV" />
-                                                      <JFXTextField fx:id="textFieldLevelALT" promptText="Level ALT" />
-                                                      <AnchorPane prefHeight="16.0" prefWidth="291.0">
+                                                      <VBox alignment="CENTER_LEFT" fillWidth="false" maxWidth="200.0" spacing="20.0">
                                                          <children>
-                                                            <JFXComboBox fx:id="comboBoxBloodGroup" focusColor="#e42e33" labelFloat="true" promptText="Blood Group" AnchorPane.bottomAnchor="5.0" />
-                                                            <JFXComboBox fx:id="comboBoxBloodRh" focusColor="#e42e33" labelFloat="true" layoutX="169.0" layoutY="10.0" prefHeight="29.0" prefWidth="120.0" promptText="Blood Rh" AnchorPane.bottomAnchor="5.0" />
+                                                            <JFXCheckBox fx:id="checkBoxHIVOrAIDS" text="HIV or AIDS" />
+                                                            <JFXCheckBox fx:id="checkBoxHepatitisDonation" text="Hepatitis" />
+                                                            <JFXCheckBox fx:id="checkBoxSyphilis" text="Syphilis" />
+                                                            <JFXCheckBox fx:id="checkBoxHTLV" text="HTLV" />
                                                          </children>
-                                                      </AnchorPane>
+                                                      </VBox>
+                                                      <JFXTextField fx:id="textFieldLevelALT" promptText="Level ALT" />
+                                                      <HBox alignment="CENTER" spacing="30.0">
+                                                         <children>
+                                                            <JFXComboBox fx:id="comboBoxBloodGroup" focusColor="#e42e33" labelFloat="true" promptText="Blood Group" />
+                                                            <JFXComboBox fx:id="comboBoxBloodRh" focusColor="#e42e33" labelFloat="true" prefHeight="29.0" prefWidth="120.0" promptText="Blood Rh" />
+                                                         </children>
+                                                      </HBox>
+                                                      <JFXButton alignment="CENTER" contentDisplay="CENTER" onAction="#handleButtonSubmitDonation" prefHeight="38.0" prefWidth="191.0" styleClass="btn" text="Submit" />
                                                    </children>
                                                 </VBox>
                                              </content>
@@ -298,7 +303,7 @@
                                        <children>
                                           <Label alignment="CENTER" text="Send blood bag to another center" GridPane.columnSpan="2" GridPane.rowIndex="2">
                                              <font>
-                                                <Font name="Saira SemiCondensed Regular" size="17.0" />
+                                                <Font name="Saira SemiCondensed Regular" size="21.0" />
                                              </font>
                                           </Label>
                                           <Separator prefWidth="640.0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
@@ -350,7 +355,7 @@
                         </BorderPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="detailsPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="detailsPane" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <top>
@@ -372,12 +377,12 @@
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                        </columnResizePolicy>
                                     </TableView>
-                                    <JFXListView fx:id="listDetailsBloodStock" layoutX="80.0" layoutY="80.0" prefHeight="135.0" prefWidth="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="0.0" />
-                                    <JFXButton layoutX="40.0" layoutY="207.0" styleClass="btn" text="Add component" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="150.0" />
-                                    <GridPane hgap="20.0" layoutX="273.0" layoutY="40.0" prefHeight="175.0" prefWidth="254.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <JFXListView fx:id="listDetailsBloodStock" layoutX="80.0" layoutY="80.0" prefHeight="135.0" prefWidth="300.0" styleClass="lista-mare" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="0.0" />
+                                    <JFXButton fx:id="buttonCenterAddComponent" layoutX="40.0" layoutY="207.0" onAction="#handleButtonAddComponent" styleClass="btn" text="Add component" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="150.0" />
+                                    <GridPane hgap="20.0" layoutX="273.0" layoutY="80.0" prefHeight="175.0" prefWidth="424.0" styleClass="grid-mare" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columnConstraints>
-                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="179.0" minWidth="10.0" prefWidth="159.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="10.0" prefWidth="95.0" />
+                                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="228.0" minWidth="10.0" prefWidth="153.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="6.0" prefWidth="81.0" />
                                       </columnConstraints>
                                       <rowConstraints>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -439,6 +444,7 @@
                                           </Label>
                                        </children>
                                     </GridPane>
+                                    <JFXButton fx:id="buttonCenterSendToAnotherCenter" layoutX="225.0" layoutY="190.0" onAction="#handleSendToAnotherCenter" styleClass="btn" text="Send request to another center" AnchorPane.rightAnchor="500.0" />
                                  </children>
                               </AnchorPane>
                            </center>
@@ -454,7 +460,7 @@
                            <center>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="center-pane" BorderPane.alignment="CENTER">
                                  <children>
-                                    <JFXListView fx:id="listNotifications" styleClass="notif" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+                                    <JFXListView fx:id="listNotifications" styleClass="notif" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <placeholder>
                                           <VBox alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
@@ -587,7 +593,7 @@
                         </JFXButton>
                      </children>
                   </AnchorPane>
-                  <JFXHamburger fx:id="menuHamburger" layoutX="30.0" layoutY="26.0" onMousePressed="#handleDrawer" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
+                  <JFXHamburger fx:id="menuHamburger" layoutX="30.0" layoutY="26.0" onMousePressed="#handleDrawer" styleClass="hamburger-white" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

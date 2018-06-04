@@ -21,41 +21,40 @@
       <StackPane fx:id="stackPaneContent" prefHeight="541.0" prefWidth="414.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
             <AnchorPane id="LoginWindow" prefHeight="745.0" prefWidth="473.0">
-                  <JFXTextField fx:id="textFieldUsername" layoutX="84.0" layoutY="374.0" onAction="#handleLogin" prefHeight="32.0" prefWidth="257.0" promptText="Username" unFocusColor="#6e6c6c" AnchorPane.bottomAnchor="226.0" AnchorPane.leftAnchor="84.0" AnchorPane.rightAnchor="50.0">
+                  <JFXTextField fx:id="textFieldUsername" layoutX="84.0" layoutY="375.0" onAction="#handleLogin" prefHeight="32.0" prefWidth="257.0" promptText="Username" unFocusColor="#6e6c6c" AnchorPane.bottomAnchor="233.0" AnchorPane.leftAnchor="84.0" AnchorPane.rightAnchor="50.0">
                      <font>
                         <Font name="Roboto" size="16.0" />
                      </font>
                   </JFXTextField>
-                  <JFXPasswordField fx:id="textFieldPassword" layoutX="85.0" layoutY="451.0" onAction="#handleLogin" prefHeight="32.0" prefWidth="257.0" promptText="Password" unFocusColor="#6e6c6c" AnchorPane.bottomAnchor="149.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="49.0">
+                  <JFXPasswordField fx:id="textFieldPassword" layoutX="85.0" layoutY="452.0" onAction="#handleLogin" prefHeight="32.0" prefWidth="257.0" promptText="Password" unFocusColor="#6e6c6c" AnchorPane.bottomAnchor="156.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="49.0">
                      <font>
                         <Font name="Roboto" size="16.0" />
                      </font>
                   </JFXPasswordField>
-                  <JFXButton fx:id="buttonLogin" layoutX="166.0" layoutY="528.0" onAction="#handleLogin" prefHeight="44.0" prefWidth="142.0" styleClass="btn" text="Login" textFill="#323232" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="165.0">
+                  <JFXButton fx:id="buttonLogin" layoutX="166.0" layoutY="529.0" onAction="#handleLogin" prefHeight="44.0" prefWidth="142.0" styleClass="btn" text="Login" textFill="#323232" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="165.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXTextField editable="false" focusColor="#34478000" layoutX="85.0" layoutY="461.0" mouseTransparent="true" prefHeight="25.0" prefWidth="300.0" unFocusColor="#4d4d4d00" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="49.0" />
-                  <FontAwesomeIconView fill="#323232" glyphName="USER" layoutX="50.0" layoutY="403.0" size="25" wrappingWidth="12.0" AnchorPane.bottomAnchor="224.9402904510498" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="411.0" />
-                  <FontAwesomeIconView fill="#323232" glyphName="KEY" layoutX="50.0" layoutY="475.0" size="25" wrappingWidth="12.0" AnchorPane.bottomAnchor="152.9402904510498" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="411.0" />
-                  <Hyperlink alignment="CENTER" contentDisplay="CENTER" layoutX="133.0" layoutY="637.0" onAction="#handleRegistration" text="Want to donate? Create new account." AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <JFXTextField editable="false" focusColor="#34478000" layoutX="85.0" layoutY="450.0" mouseTransparent="true" prefHeight="25.0" prefWidth="300.0" unFocusColor="#4d4d4d00" AnchorPane.bottomAnchor="153.0" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="49.0" />
+                  <FontAwesomeIconView fill="#323232" glyphName="USER" layoutX="50.0" layoutY="403.0" size="25" wrappingWidth="12.0" AnchorPane.bottomAnchor="232.9402904510498" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="411.0" />
+                  <FontAwesomeIconView fill="#323232" glyphName="KEY" layoutX="50.0" layoutY="475.0" size="25" wrappingWidth="12.0" AnchorPane.bottomAnchor="160.9402904510498" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="411.0" />
+                  <Hyperlink alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="588.0" onAction="#handleRegistration" text="Want to donate? Create new account." AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0">
+               <font>
+                  <Font name="Saira SemiCondensed Medium" size="18.0" />
+               </font></Hyperlink>
             </AnchorPane>
             <AnchorPane id="RegistrationWindow" fx:id="anchorPaneRegistration" prefHeight="745.0" prefWidth="473.0">
                   <Label alignment="CENTER_RIGHT" layoutY="-8.0" prefHeight="99.0" prefWidth="473.0" styleClass="h1" text="New Account" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <VBox layoutY="84.0" prefHeight="517.0" prefWidth="473.0" spacing="30.0" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="84.0">
                <HBox spacing="30.0">
                   <children>
-                     <JFXTextField fx:id="textFieldRegisterUsername" prefHeight="32.0" prefWidth="260.0" promptText="Username" unFocusColor="#6e6c6c">
+                     <JFXTextField fx:id="textFieldRegisterUsername" prefHeight="37.0" prefWidth="240.0" promptText="Username" unFocusColor="#6e6c6c">
                         <font>
                            <Font name="Roboto" size="16.0" />
                         </font>
                      </JFXTextField>
-                     <JFXTextField fx:id="textFieldRegisterPassword" prefHeight="32.0" prefWidth="257.0" promptText="Password" unFocusColor="#6e6c6c">
-                        <font>
-                           <Font name="Roboto" size="16.0" />
-                        </font>
-                     </JFXTextField>
+                     <JFXPasswordField fx:id="textFieldRegisterPassword" prefHeight="37.0" prefWidth="232.0" promptText="Password" />
                   </children>
                </HBox>
                         <HBox spacing="30.0">
@@ -114,6 +113,9 @@
                                  <VBox.margin>
                                     <Insets top="15.0" />
                                  </VBox.margin>
+                     <font>
+                        <Font name="Saira SemiCondensed Medium" size="15.0" />
+                     </font>
                               </JFXCheckBox>
                         </VBox>
                      <padding>

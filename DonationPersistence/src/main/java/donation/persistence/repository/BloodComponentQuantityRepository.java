@@ -16,23 +16,24 @@ public class BloodComponentQuantityRepository implements IRepository<BloodCompon
     }
 
     public void save(BloodComponentQuantity entity) throws RepositoryException {
-        if (Repository.exists(BloodComponentQuantity.class,entity))
+        if (Repository.exists(BloodComponentQuantity.class, entity))
             throw new RepositoryException("There cannot be two instances of an object.");
         Repository.add(BloodComponentQuantity.class, entity);
     }
 
     public void delete(BloodComponentQuantity entity) throws RepositoryException {
-        if (!Repository.exists(BloodComponentQuantity.class,entity))
+        if (!Repository.exists(BloodComponentQuantity.class, entity))
             throw new RepositoryException("You cannot delete an object that doesn't exist.");
         Repository.delete(BloodComponentQuantity.class, entity);
     }
 
     public BloodComponentQuantity findById(int entityId) {
-        Optional<BloodComponentQuantity> findResult = Repository.get(BloodComponentQuantity.class,entityId);
+        Optional<BloodComponentQuantity> findResult = Repository.get(BloodComponentQuantity.class, entityId);
         return findResult.orElse(null);
     }
 
     public void update(int oldId, BloodComponentQuantity newEntity) throws RepositoryException {
+        newEntity.setID(oldId);
         Optional<BloodComponentQuantity> bloodComponentQuantity = Repository.get(BloodComponentQuantity.class, oldId);
         if (bloodComponentQuantity.isPresent())
             Repository.update(BloodComponentQuantity.class, bloodComponentQuantity.get(), newEntity);
@@ -45,11 +46,11 @@ public class BloodComponentQuantityRepository implements IRepository<BloodCompon
     }
 
     public BloodComponentQuantity find(Predicate<BloodComponentQuantity> filterCondition) {
-        Optional<BloodComponentQuantity> findResult = Repository.findObj(BloodComponentQuantity.class,filterCondition);
+        Optional<BloodComponentQuantity> findResult = Repository.findObj(BloodComponentQuantity.class, filterCondition);
         return findResult.orElse(null);
     }
 
     public List<BloodComponentQuantity> getAllFiltered(Predicate<BloodComponentQuantity> predicate) {
-        return Repository.filterAll(BloodComponentQuantity.class,predicate);
+        return Repository.filterAll(BloodComponentQuantity.class, predicate);
     }
 }

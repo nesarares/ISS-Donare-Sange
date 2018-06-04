@@ -7,16 +7,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * 
- */
+
 @Entity
-@Table(name="bloodRequest")
+@Table(name = "bloodRequest")
 public class BloodRequest implements Serializable {
 
-    /**
-     * Default constructor
-     */
+
     public BloodRequest() {
     }
 
@@ -25,18 +21,14 @@ public class BloodRequest implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
 
-    /**
-     * 
-     */
+
     @ManyToOne
-    @JoinColumn(name="sender")
+    @JoinColumn(name = "sender")
     private User sender;
 
-    /**
-     * 
-     */
+
     @ManyToOne
-    @JoinColumn(name="receiver")
+    @JoinColumn(name = "receiver")
     private User receiver;
 
     @Column(name = "bloodRequestStatus")
@@ -149,5 +141,22 @@ public class BloodRequest implements Serializable {
 
     public void setRhBloodGroup(RhBloodGroup rhBloodGroup) {
         this.rhBloodGroup = rhBloodGroup;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BloodRequest that = (BloodRequest) o;
+
+        return that.getID() == ID;
+    }
+
+    @Override
+    public int hashCode() {
+        return ID;
     }
 }

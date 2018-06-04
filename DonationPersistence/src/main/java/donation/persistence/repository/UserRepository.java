@@ -17,23 +17,24 @@ public class UserRepository implements IRepository<User> {
     }
 
     public void save(User entity) throws RepositoryException {
-        if (Repository.exists(User.class,entity))
+        if (Repository.exists(User.class, entity))
             throw new RepositoryException("There cannot be two instances of an object.");
         Repository.add(User.class, entity);
     }
 
     public void delete(User entity) throws RepositoryException {
-        if (!Repository.exists(User.class,entity))
+        if (!Repository.exists(User.class, entity))
             throw new RepositoryException("You cannot delete an object that doesn't exist.");
         Repository.delete(User.class, entity);
     }
 
     public User findById(int entityId) {
-        Optional<User> findResult = Repository.get(User.class,entityId);
+        Optional<User> findResult = Repository.get(User.class, entityId);
         return findResult.orElse(null);
     }
 
     public void update(int oldId, User newEntity) throws RepositoryException {
+        newEntity.setId(oldId);
         Optional<User> user = Repository.get(User.class, oldId);
         if (user.isPresent())
             Repository.update(User.class, user.get(), newEntity);
@@ -46,11 +47,11 @@ public class UserRepository implements IRepository<User> {
     }
 
     public User find(Predicate<User> filterCondition) {
-        Optional<User> findResult = Repository.findObj(User.class,filterCondition);
+        Optional<User> findResult = Repository.findObj(User.class, filterCondition);
         return findResult.orElse(null);
     }
 
     public List<User> getAllFiltered(Predicate<User> predicate) {
-        return Repository.filterAll(User.class,predicate);
+        return Repository.filterAll(User.class, predicate);
     }
 }

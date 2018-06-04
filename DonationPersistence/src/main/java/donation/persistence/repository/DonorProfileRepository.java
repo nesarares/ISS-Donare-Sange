@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class DonorProfileRepository implements IRepository<DonorProfile> {
+    
     public DonorProfileRepository() {
     }
 
@@ -15,23 +16,24 @@ public class DonorProfileRepository implements IRepository<DonorProfile> {
     }
 
     public void save(DonorProfile entity) throws RepositoryException {
-        if (Repository.exists(DonorProfile.class,entity))
+        if (Repository.exists(DonorProfile.class, entity))
             throw new RepositoryException("There cannot be two instances of an object.");
         Repository.add(DonorProfile.class, entity);
     }
 
     public void delete(DonorProfile entity) throws RepositoryException {
-        if (!Repository.exists(DonorProfile.class,entity))
+        if (!Repository.exists(DonorProfile.class, entity))
             throw new RepositoryException("You cannot delete an object that doesn't exist.");
         Repository.delete(DonorProfile.class, entity);
     }
 
     public DonorProfile findById(int entityId) {
-        Optional<DonorProfile> findResult = Repository.get(DonorProfile.class,entityId);
+        Optional<DonorProfile> findResult = Repository.get(DonorProfile.class, entityId);
         return findResult.orElse(null);
     }
 
     public void update(int oldId, DonorProfile newEntity) throws RepositoryException {
+        newEntity.setID(oldId);
         Optional<DonorProfile> donorProfile = Repository.get(DonorProfile.class, oldId);
         if (donorProfile.isPresent())
             Repository.update(DonorProfile.class, donorProfile.get(), newEntity);
@@ -44,11 +46,11 @@ public class DonorProfileRepository implements IRepository<DonorProfile> {
     }
 
     public DonorProfile find(Predicate<DonorProfile> filterCondition) {
-        Optional<DonorProfile> findResult = Repository.findObj(DonorProfile.class,filterCondition);
+        Optional<DonorProfile> findResult = Repository.findObj(DonorProfile.class, filterCondition);
         return findResult.orElse(null);
     }
 
     public List<DonorProfile> getAllFiltered(Predicate<DonorProfile> predicate) {
-        return Repository.filterAll(DonorProfile.class,predicate);
+        return Repository.filterAll(DonorProfile.class, predicate);
     }
 }
