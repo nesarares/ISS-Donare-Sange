@@ -47,7 +47,7 @@ public class MainServiceImpl implements IMainService {
     private final int BLOOD_BAG_QUANTITY = 450;
     private final int BLOOD_COMPONENT_QUANTITY = BLOOD_BAG_QUANTITY / 3;
 //    private final int BACKUP_TIME = 3600 * 24 * 1000;//seconds * hours * milliseconds
-    private final int BACKUP_TIME = 7 * 1000;//seconds * hours * milliseconds
+    private final int BACKUP_TIME = 5 * 1000;//seconds * hours * milliseconds
 
 
     private void backupAction() {
@@ -376,7 +376,7 @@ public class MainServiceImpl implements IMainService {
 
         addCenterLocations();
 
-        new Thread(this::backupAction).start();
+//        new Thread(this::backupAction).start();
 
     }
 
