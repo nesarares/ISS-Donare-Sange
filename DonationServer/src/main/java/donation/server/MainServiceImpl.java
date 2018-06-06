@@ -376,7 +376,7 @@ public class MainServiceImpl implements IMainService {
 
         addCenterLocations();
 
-        new Thread(this::backupAction).start();
+//        new Thread(this::backupAction).start();
 
     }
 
