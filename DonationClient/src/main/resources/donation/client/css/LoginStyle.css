@@ -1,6 +1,6 @@
 .jfx-button.btn {
     -fx-font-size: 23px;
-    -fx-background-color: rgba(0, 0, 0, 0.3);
+    -fx-background-color: #e42e33;
     -fx-background-radius: 5px;
     -fx-font-family: 'Roboto Light';
     -fx-padding: 10px;
@@ -8,7 +8,7 @@
 }
 
 .jfx-button.btn:hover {
-    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-background-color: #bf2d30;
 }
 
 .root {
@@ -69,7 +69,7 @@
 
 .jfx-button.btn-back {
     -fx-font-size: 15px;
-    -fx-background-color: rgba(0, 0, 0, 0.2);
+    -fx-background-color: -fx-accent;
     -fx-background-radius: 5px;
     -fx-font-family: 'Roboto Light';
     -fx-padding: 3px;

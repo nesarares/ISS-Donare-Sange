@@ -231,7 +231,7 @@ public class LoginController implements Initializable {
     public void loadLoginWindow(Parent show, Stage primaryStage) {
         mainStage = primaryStage;
         mainWindowView = show;
-        Scene scene = new Scene(mainWindowView);
+        Scene scene = new Scene(mainWindowView, 473, 655);
         mainStage.setScene(scene);
         mainStage.show();
     }

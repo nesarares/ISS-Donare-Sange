@@ -109,7 +109,6 @@ public class Backup {
                 System.out.println(path);
                 System.out.println(cmd);
                 int error = Runtime.getRuntime().exec(cmd).waitFor();
-                System.out.println("M-am terminat " + error);
                 if (error == 0) {
                     System.out.println("Backup complete!");
                     return;

@@ -1,13 +1,10 @@
 package donation.client;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import donation.client.controllers.LoginController;
 import donation.services.IMainService;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
@@ -33,6 +30,7 @@ public class StartClient extends Application {
             ctrl.loadLoginWindow(root, primaryStage);
 
         }catch (Exception e){
+            e.printStackTrace();
             System.out.println("You must start the server first!");
             System.exit(0);
         }
