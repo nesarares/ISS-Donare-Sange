@@ -282,6 +282,27 @@ public class CenterController extends AbstractController {
 
         try {
             buildMedicalQuestionnaire(questionnaire, donorProfile);
+
+            if (
+                    questionnaire.isInexplicableFever() ||
+                            questionnaire.isSexualPartnerHIVHepatitis() ||
+                            questionnaire.isSexualPartnerSexWorker() ||
+                            questionnaire.isIntravenousDrugs() ||
+                            questionnaire.isTattoos() ||
+                            questionnaire.isStroke() ||
+                            questionnaire.isConvulsionsNervousDisease() ||
+                            questionnaire.isSTD() ||
+                            questionnaire.isSexualPartnerIntravenousDrug() ||
+                            questionnaire.isSexWorker() ||
+                            questionnaire.isSurgery() ||
+                            questionnaire.isHepatitis() ||
+                            questionnaire.isIcterusTuberculosisReumaticFeverMalaria() ||
+                            questionnaire.isHeartDiseaseHLBloodPressure() ||
+                            questionnaire.isDiabetisUlcerCancer()
+                    ) {
+                throw new Exception("Based on questionnaire, the person is not eligible for donation.");
+            }
+
             mainService.addMedicalQuestionnaire(questionnaire);
             GUIUtils.showDialogMessage(Alert.AlertType.INFORMATION, "Success", "Questionnaire was added successfully", stackPane);
         } catch (Exception e) {
